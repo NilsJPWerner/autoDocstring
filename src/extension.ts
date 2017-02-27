@@ -24,11 +24,10 @@ export function activate(context: vscode.ExtensionContext) {
         let position = editor.selection.active;
 
         let autoDocstring = new AutoDocstring;
-        let docstring: string = autoDocstring.getDocstring(document, position)
-        console.log('Docstring generated: ' + docstring);
+        let docstring_snippet = autoDocstring.getDocstring(document, position)
+        // console.log('Docstring generated: ' + docstring);
 
-        let snippet = new vscode.SnippetString(docstring)
-        editor.insertSnippet(snippet, position)
+        editor.insertSnippet(docstring_snippet, position)
         console.log('Docstring inserted');
 
         // vscode.window.activeTextEditor.insertSnippet()

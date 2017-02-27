@@ -1,9 +1,15 @@
 import * as vscode from 'vscode';
+import { FunctionParser } from './parse';
+import { FormatDocstringDocblockr } from './format'
 
 export class AutoDocstring {
 
     public getDocstring(document: vscode.TextDocument, position: vscode.Position) {
         let definition_lines: string[] = this.getDefinitionLines(document, position)
+        let function_parser = new FunctionParser();
+        let docstring_parts = function_parser.parseDefinitionLines(definition_lines);
+        let formatter = new FormatDocstringDocblockr();
+        return formatter.formatDocstring(docstring_parts);
     }
 
     private getDefinitionLines(document: vscode.TextDocument, position: vscode.Position) {
