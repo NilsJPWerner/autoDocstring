@@ -1,19 +1,27 @@
-import { Argument, KeywordArgument, Decorator, DocstringParts } from './interfaces';
+import { Argument, KeywordArgument, Decorator, Returns, DocstringParts } from './interfaces';
 
 export class FunctionParser {
 
-    parseDefinitionLines(lines: string[]) {
-        if (lines.length == 0 || !/^\s*def /.test(lines[0])) {
+    // Need to work on:
+    //      regex for tuple input & strings with commas
+    //      Guess type
+    //      Move the regex def test higher in the call stack
+
+    parseLines(def_lines: string[], content_lines: string[]) {
+        if (def_lines.length == 0 || !/^\s*def /.test(def_lines[0])) {
             // if no lines were found in definition or
             // first line does not start with def
             return null
         }
-        let parsedDefinition: DocstringParts = {
-            args: this.parseArguments(lines[0]),
-            kwargs: this.parseKeywordArguments(lines[0]),
-            decorators: this.parseDecorators(lines.slice(1)),
+        let parsedLines: DocstringParts = {
+            args: this.parseArguments(def_lines[0]),
+            kwargs: this.parseKeywordArguments(def_lines[0]),
+            decorators: this.parseDecorators(def_lines.slice(1)),
+            returns: this.parseReturns(content_lines)
         }
-        return parsedDefinition;
+
+        return parsedLines
+
     }
 
     parseArguments(line: string) {
@@ -55,5 +63,19 @@ export class FunctionParser {
             decorators.push({name: match[1]});
         }
         return decorators
+    }
+
+    parseReturns(lines: string[]) {
+        for (let line of lines) {
+            let match = /\s*(return|yield)\s+([\w"]+)/.exec(line);
+            if (match != null) {
+                let v: Returns = {
+                    return_type: (match[1] == "return") ? "Returns" : "Yields",
+                    value_type: match[2]
+                };
+                return v;
+            }
+            return null;
+        }
     }
 }

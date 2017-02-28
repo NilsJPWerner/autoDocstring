@@ -1,22 +1,35 @@
 import * as interfaces from './interfaces'
 import * as vscode from 'vscode';
 
-export abstract class DocstringFormatter {
+export abstract class BaseFormatter {
+
     protected _snippet = new vscode.SnippetString();
 
     formatDocstring(docstring: interfaces.DocstringParts): vscode.SnippetString {
 
         this.generateSummaryAndDescription();
-        this.formatDecorators(docstring.decorators);
-        this.formatArguments(docstring.args);
-        this.formatKeywordArguments(docstring.kwargs);
+
+        if (docstring != null) {
+            if (docstring.decorators.length > 0) {
+                this.formatDecorators(docstring.decorators);
+            }
+            if (docstring.args.length > 0) {
+                this.formatArguments(docstring.args);
+            }
+            if (docstring.kwargs.length > 0) {
+                this.formatKeywordArguments(docstring.kwargs);
+            }
+            if (docstring.returns != null) {
+                this.formatReturns(docstring.returns);
+            }
+        }
 
         this.commentText();
         return this._snippet;
     }
 
     commentText(): void {
-        this._snippet.value = '"""' + this._snippet.value + '\n"""';
+        this._snippet.value = '"""' + this._snippet.value + '"""';
     }
 
     appendText(text: string): void {
@@ -35,6 +48,7 @@ export abstract class DocstringFormatter {
     abstract formatDecorators(decorators: interfaces.Decorator[]): void;
     abstract formatArguments(args: interfaces.Argument[]): void;
     abstract formatKeywordArguments(kwargs: interfaces.KeywordArgument[]): void;
+    abstract formatReturns(kwargs: interfaces.Returns): void;
 
 }
 
