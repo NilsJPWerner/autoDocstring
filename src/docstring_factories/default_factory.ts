@@ -1,12 +1,16 @@
 // import { Docstring } from "./parse";
-import * as interfaces from './interfaces';
-import { BaseFormatter } from './formatter'
+import * as interfaces from '../interfaces';
+import { BaseFactory } from './base_factory'
 import * as vscode from 'vscode';
 
-export class DocblockrFormatter extends BaseFormatter {
+export class DefaultFactory extends BaseFactory {
 
-    generateSummaryAndDescription(){
-        this._snippet.appendPlaceholder("[summary]\n\n");
+    generateSummary(){
+        this._snippet.appendPlaceholder("[summary]\n");
+    }
+
+    generateDescription() {
+        this.appendNewLine();
         this._snippet.appendPlaceholder("[description]\n");
     }
 
@@ -36,6 +40,14 @@ export class DocblockrFormatter extends BaseFormatter {
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
             this.appendText(" (default: {" + kwarg.default + "})\n");
+        }
+    }
+
+    formatRaises(raises: interfaces.Raises[]) {
+        this.appendText("\nRaises:\n");
+        for (let raise of raises) {
+            this.appendText("\t" + raise.error + " -- ");
+            this.appendPlaceholder("[description]\n");
         }
     }
 

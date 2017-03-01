@@ -1,13 +1,25 @@
-import * as interfaces from './interfaces'
+import * as interfaces from '../interfaces'
 import * as vscode from 'vscode';
 
-export abstract class BaseFormatter {
+export abstract class BaseFactory {
 
-    protected _snippet = new vscode.SnippetString();
+    protected _snippet: vscode.SnippetString;
+    protected _includeDescription: boolean;
+    protected _includeTypes : boolean;
 
-    formatDocstring(docstring: interfaces.DocstringParts): vscode.SnippetString {
+    constructor() {
+        this._snippet = new vscode.SnippetString();
+        let config = vscode.workspace.getConfiguration("autoDocstring")
+        this._includeDescription = config.get("includeDescription") === true;
+        this._includeTypes = config.get("includeTypes") === true;
+    }
 
-        this.generateSummaryAndDescription();
+    createDocstring(docstring: interfaces.DocstringParts): vscode.SnippetString {
+
+        this.generateSummary();
+        if (this._includeDescription) {
+            this.generateDescription();
+        }
 
         if (docstring != null) {
             if (docstring.decorators.length > 0) {
@@ -18,6 +30,9 @@ export abstract class BaseFormatter {
             }
             if (docstring.kwargs.length > 0) {
                 this.formatKeywordArguments(docstring.kwargs);
+            }
+            if (docstring.raises.length > 0) {
+                this.formatRaises(docstring.raises);
             }
             if (docstring.returns != null) {
                 this.formatReturns(docstring.returns);
@@ -44,10 +59,12 @@ export abstract class BaseFormatter {
         this._snippet.appendText("\n");
     }
 
-    abstract generateSummaryAndDescription(): void;
+    abstract generateSummary(): void;
+    abstract generateDescription(): void;
     abstract formatDecorators(decorators: interfaces.Decorator[]): void;
     abstract formatArguments(args: interfaces.Argument[]): void;
     abstract formatKeywordArguments(kwargs: interfaces.KeywordArgument[]): void;
+    abstract formatRaises(kwargs: interfaces.Raises[]): void;
     abstract formatReturns(kwargs: interfaces.Returns): void;
 
 }

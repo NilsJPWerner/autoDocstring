@@ -1,6 +1,6 @@
 {
     "name": "autodocstring",
-    "displayName": "autoDocstring",
+    "displayName": "AutoDocstring",
     "description": "Generates python docstrings",
     "version": "0.0.1",
     "publisher": "njpwerner",
@@ -23,7 +23,33 @@
             "command": "extension.generateDocstring",
             "key": "cmd+shift+2",
             "when": "editorTextFocus"
-        }]
+        }],
+        "configuration": {
+            "type": "object",
+            "title": "AutoDocstring configuration",
+            "properties": {
+                "autoDocstring.docstringFormat": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Which docstring format to use. Options are: 'default', TODO"
+                },
+                "autoDocstring.includeDescription": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include description tag"
+                },
+                "autoDocstring.includeTypes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include types of parameters and return values"
+                },
+                "autoDocstring.guessTypes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Guess the type of parameters and return values"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
