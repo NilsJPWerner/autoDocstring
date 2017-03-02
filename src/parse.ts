@@ -75,7 +75,7 @@ export class FunctionParser {
 
     private parseDecorators(lines: string[]) {
         let decorators: Decorator[] = [];
-        let regex: RegExp = /\s*\@(\w+)/;
+        let regex: RegExp = /\s*\@(\w+)/;  // White space, @(chararcters)
         let excluded_decorators = ['classmethod', 'staticmethod', 'property'];
 
         for (let line of lines) {

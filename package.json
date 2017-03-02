@@ -11,7 +11,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.generateDocstring"
+        "onLanguage:python"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -32,6 +32,11 @@
                     "type": "string",
                     "default": "default",
                     "description": "Which docstring format to use. Options are: 'default', TODO"
+                },
+                "autoDocstring.generateDocstringOnEnter": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Generate docstring on pressing enter after opening a docstring (\"\"\")"
                 },
                 "autoDocstring.includeDescription": {
                     "type": "boolean",
