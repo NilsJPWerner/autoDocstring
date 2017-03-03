@@ -1,54 +1,62 @@
 'use strict';
-import * as vscode from 'vscode';
+import * as vs from 'vscode';
 import { AutoDocstring } from "./autodocstring";
 
-export function activate(context: vscode.ExtensionContext): void {
+let auto_docstring: AutoDocstring;
+
+export function activate(context: vs.ExtensionContext): void {
     console.log('autoDocstring has been activated');
 
-    context.subscriptions.push(vscode.commands.registerCommand('extension.generateDocstring', () => {
-        generate_docstring();
+    context.subscriptions.push(vs.commands.registerCommand('extension.generateDocstring', () => {
+        generateDocstring();
     }));
 
-    context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(change_event => {
-        if (!vscode.workspace.getConfiguration("autoDocstring").get('generateDocstringOnEnter')) return;
-        // languaage is unsupported
+    if (vs.workspace.getConfiguration("autoDocstring").get('generateDocstringOnEnter')) {
+        context.subscriptions.push(vs.workspace.onDidChangeTextDocument(change_event => {
 
-        const editor = vscode.window.activeTextEditor;
-        if (editor.document !== change_event.document) {
-            return;
-        }
+            const editor = vs.window.activeTextEditor;
+            if (editor.document !== change_event.document) return;
 
-        if (change_event.contentChanges[0].text.indexOf("\n") > -1) {
-            const position: vscode.Position = change_event.contentChanges[0].range.start;
-            const range: vscode.Range = new vscode.Range(position.translate(0, -3), position);
-            if (editor.document.getText(range) === '"""') {
-                generate_docstring();
+            if (change_event.contentChanges[0].text.indexOf("\n") > -1) {
+                const position: vs.Position = change_event.contentChanges[0].range.start;
+                const range: vs.Range = new vs.Range(position, position.translate(0, -3));
+
+                if (editor.document.getText(range) === '"""') {
+                    deleteRange(range);
+                    console.log("String: " + encodeURI(change_event.contentChanges[0].text));
+
+
+                    deleteRange(change_event.contentChanges[0].range);
+                    generateDocstring();
+                }
             }
-        }
-    }));
+        }));
+    }
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {
 }
 
-function remove_docstring_opener() {
-
+function deleteRange(range: vs.Range) {
+    const editor = vs.window.activeTextEditor;
+    const ws_edit = new vs.WorkspaceEdit();
+    ws_edit.delete(editor.document.uri, range)
+    vs.workspace.applyEdit(ws_edit);
 }
 
-function generate_docstring() {
-    var editor = vscode.window.activeTextEditor;
+function generateDocstring() {
+    var editor = vs.window.activeTextEditor;
     if (!editor) {
         return; // No open text editor
     }
 
-    vscode.workspace.onDidChangeTextDocument
-
     let document = editor.document;
     let position = editor.selection.active;
 
-    let auto_docstring = new AutoDocstring();
-    let docstring_snippet: vscode.SnippetString = auto_docstring.getDocstring(document, position);
+    if (!auto_docstring) {
+        auto_docstring = new AutoDocstring();
+    }
+    let docstring_snippet: vs.SnippetString = auto_docstring.getDocstring(document, position);
 
 
     editor.insertSnippet(docstring_snippet, position)

@@ -17,7 +17,6 @@ export class FunctionParser {
             // first line does not start with def
             return null
         }
-        console.log(this.parseRaises(content_lines));
 
         let docstring_parts: DocstringParts = {
             decorators: this.parseDecorators(definition_lines.slice(1)),

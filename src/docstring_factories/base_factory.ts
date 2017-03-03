@@ -9,12 +9,14 @@ export abstract class BaseFactory {
 
     constructor() {
         this._snippet = new vscode.SnippetString();
-        let config = vscode.workspace.getConfiguration("autoDocstring")
+        let config = vscode.workspace.getConfiguration("autoDocstring");
         this._includeDescription = config.get("includeDescription") === true;
         this._includeTypes = config.get("includeTypes") === true;
     }
 
     createDocstring(docstring: interfaces.DocstringParts): vscode.SnippetString {
+        // Wipe snippet incase it is dirty
+        this._snippet.value = "";
 
         this.generateSummary();
         if (this._includeDescription) {

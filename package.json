@@ -2,14 +2,31 @@
     "name": "autodocstring",
     "displayName": "AutoDocstring",
     "description": "Generates python docstrings",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "njpwerner",
+    "license": "SEE LICENSE IN LICENSE",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/NilsJPWerner/autoDocstring"
+    },
+    "bugs": {
+        "url": "https://github.com/NilsJPWerner/autoDocstring/issues"
+    },
+    "categories": [
+        "Snippets",
+        "Formatters"
+    ],
+    "keywords": [
+        "python",
+        "docstring",
+        "autodocstring",
+        "docblockr",
+        "docblockr_python"
+    ],
+
     "engines": {
         "vscode": "^1.9.0"
     },
-    "categories": [
-        "Other"
-    ],
     "activationEvents": [
         "onLanguage:python"
     ],
@@ -24,6 +41,13 @@
             "key": "cmd+shift+2",
             "when": "editorTextFocus"
         }],
+        "menus": {
+            "editor/context": [{
+                "when": "resourceLangId == python",
+                "command": "extension.generateDocstring",
+                "group": "1_modification"
+            }]
+        },
         "configuration": {
             "type": "object",
             "title": "AutoDocstring configuration",
