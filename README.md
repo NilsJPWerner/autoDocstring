@@ -1,65 +1,57 @@
-# autodocstring README
+# autoDocstring
 
-This is the README for your extension "autodocstring". After writing up a brief description, we recommend including the following sections.
+Visual Studio Code extension to quickly generate docstrings for python functions. [Currently in beta]
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* Quickly generate a docstring snippet that can be tabbed through.
+* Choose between several different types of docstring formats.
+* Support for args, kwargs, decorators, errors, and paramter types
+* Will attempt to infer parameter and return types
+* More to come!
 
-For example if there is an image subfolder under your extension project workspace:
+## Docstring Formats
 
-\!\[feature X\]\(images/feature-x.png\)
+* Default (typed PEP0257)
+* PEP0257
+* Google
+* Numpy
+* Sphinx
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
+Cursor must be on the line directly below the definition to generate full auto-populated docstring
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+* Press enter after opening docstring with triple quotes (""")
+* Keyboard shortcut: `cmd+shift+2`
+* Command: `Generate Docstring`
+* Right click menu: `Generate Docstring`
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `autoDocstring.docstringFormat`: Switch between different docstring formats
+* `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
+* `autoDocstring.includeDescription`: Include dscription section in docstring
+<!--* `autoDocstring.includeTypes`: Include types in docstring
+* `autoDocstring.guessTypes`: Infer types for parameters and return values-->
 
-## Known Issues
+<!--## Known Issues
+-->
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Roadmap
+
+* Add support for classes and modules
+* Add unit tests
+* Add ability to infer types
+* Document code better
+* Add more docstring formats
+
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.1.0
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+* Initial release
+* Support for python functions
+* Several activation methods

@@ -21,8 +21,12 @@
         "docstring",
         "autodocstring",
         "docblockr",
-        "docblockr_python"
+        "docblockr_python",
+        "pydocstring"
     ],
+    "galleryBanner": {
+
+    },
 
     "engines": {
         "vscode": "^1.9.0"
