@@ -2,8 +2,6 @@
 import * as vs from 'vscode';
 import { AutoDocstring } from "./autodocstring";
 
-let auto_docstring: AutoDocstring;
-
 export function activate(context: vs.ExtensionContext): void {
     console.log('autoDocstring has been activated');
 
@@ -54,16 +52,11 @@ function deleteLine(line_num: number) {
 
 function generateDocstring() {
     var editor = vs.window.activeTextEditor;
-    if (!editor) {
-        return; // No open text editor
-    }
 
     let document = editor.document;
     let position = editor.selection.active;
 
-    if (!auto_docstring) {
-        auto_docstring = new AutoDocstring();
-    }
+    let auto_docstring = new AutoDocstring();
     let docstring_snippet: vs.SnippetString = auto_docstring.getDocstring(document, position);
 
 

@@ -36,8 +36,8 @@ This extension contributes the following settings:
 <!--* `autoDocstring.includeTypes`: Include types in docstring
 * `autoDocstring.guessTypes`: Infer types for parameters and return values-->
 
-<!--## Known Issues
--->
+## Known Issues
+* Definition parser does not take into account commas in kwarg string or tuple defaults
 
 ## Roadmap
 

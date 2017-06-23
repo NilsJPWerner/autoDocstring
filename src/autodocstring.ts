@@ -13,8 +13,8 @@ export class AutoDocstring {
     constructor() {
         this._function_parser = new FunctionParser();
         let format_config = vscode.workspace.getConfiguration("autoDocstring").get('docstringFormat');
-        if (format_config === 'default') {
-            this._docstring_factory = new factories.DefaultFactory();
+        if (format_config === 'google') {
+            this._docstring_factory = new factories.GoogleFactory();
         } else {
             this._docstring_factory = new factories.DefaultFactory();
         }
@@ -24,6 +24,12 @@ export class AutoDocstring {
         let docstring_parts = this._function_parser.parseLines(document, position);
         return this._docstring_factory.createDocstring(docstring_parts);
     }
+
+    // public validDocstringOpener(document: vscode.TextDocument, position: vscode.Position) {
+
+
+    //     let regex: RegExp =
+    // }
 
 }
 

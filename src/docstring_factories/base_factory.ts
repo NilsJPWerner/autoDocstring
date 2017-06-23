@@ -28,10 +28,10 @@ export abstract class BaseFactory {
                 this.formatDecorators(docstring.decorators);
             }
             if (docstring.args.length > 0) {
-                this.formatArguments(docstring.args);
+                this.formatArguments(docstring);
             }
             if (docstring.kwargs.length > 0) {
-                this.formatKeywordArguments(docstring.kwargs);
+                this.formatKeywordArguments(docstring);
             }
             if (docstring.raises.length > 0) {
                 this.formatRaises(docstring.raises);
@@ -64,8 +64,8 @@ export abstract class BaseFactory {
     abstract generateSummary(): void;
     abstract generateDescription(): void;
     abstract formatDecorators(decorators: interfaces.Decorator[]): void;
-    abstract formatArguments(args: interfaces.Argument[]): void;
-    abstract formatKeywordArguments(kwargs: interfaces.KeywordArgument[]): void;
+    abstract formatArguments(args: interfaces.DocstringParts): void;
+    abstract formatKeywordArguments(kwargs: interfaces.DocstringParts): void;
     abstract formatRaises(kwargs: interfaces.Raises[]): void;
     abstract formatReturns(kwargs: interfaces.Returns): void;
 

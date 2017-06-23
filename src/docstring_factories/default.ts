@@ -1,4 +1,3 @@
-// import { Docstring } from "./parse";
 import * as interfaces from '../interfaces';
 import { BaseFactory } from './base_factory'
 import * as vscode from 'vscode';
@@ -21,9 +20,9 @@ export class DefaultFactory extends BaseFactory {
         }
     }
 
-    formatArguments(args: interfaces.Argument[]) {
+    formatArguments(docstring: interfaces.DocstringParts) {
         this.appendText("\nArguments:\n");
-        for (let arg of args) {
+        for (let arg of docstring.args) {
             this.appendText("\t" + arg.var + " {");
             this.appendPlaceholder("[type]");
             this.appendText("} -- ");
@@ -32,9 +31,9 @@ export class DefaultFactory extends BaseFactory {
         }
     }
 
-    formatKeywordArguments(kwargs: interfaces.KeywordArgument[]) {
+    formatKeywordArguments(docstring: interfaces.DocstringParts) {
         this.appendText("\nKeyword Arguments:\n");
-        for (let kwarg of kwargs) {
+        for (let kwarg of docstring.kwargs) {
             this.appendText("\t" + kwarg.var + " {");
             this.appendPlaceholder("[type]");
             this.appendText("} -- ");
