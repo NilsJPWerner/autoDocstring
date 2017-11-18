@@ -134,6 +134,7 @@ export class FunctionParser {
     }
 
     private parseReturns(lines: string[]) {
+        console.log(lines)
         for (let line of lines) {
             let match = /\s*(return|yield)\s+([\w."]+)/.exec(line);
             if (match != null) {
@@ -143,7 +144,7 @@ export class FunctionParser {
                 };
                 return v;
             }
-            return null;
         }
+        return null;
     }
 }

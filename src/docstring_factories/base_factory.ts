@@ -1,5 +1,6 @@
 import * as interfaces from '../interfaces'
 import * as vscode from 'vscode';
+import { print } from 'util';
 
 export abstract class BaseFactory {
 
@@ -34,6 +35,7 @@ export abstract class BaseFactory {
                 this.formatKeywordArguments(docstring);
             }
             if (docstring.raises.length > 0) {
+
                 this.formatRaises(docstring.raises);
             }
             if (docstring.returns != null) {

@@ -5,12 +5,14 @@ import * as vscode from 'vscode';
 export class DefaultFactory extends BaseFactory {
 
     generateSummary(){
-        this._snippet.appendPlaceholder("[summary]\n");
+        this._snippet.appendPlaceholder("[summary]");
+        this.appendNewLine()
     }
 
     generateDescription() {
         this.appendNewLine();
-        this._snippet.appendPlaceholder("[description]\n");
+        this._snippet.appendPlaceholder("[description]");
+        this.appendNewLine();
     }
 
     formatDecorators(decorators: interfaces.Decorator[]) {
@@ -46,7 +48,8 @@ export class DefaultFactory extends BaseFactory {
         this.appendText("\nRaises:\n");
         for (let raise of raises) {
             this.appendText("\t" + raise.error + " -- ");
-            this.appendPlaceholder("[description]\n");
+            this.appendPlaceholder("[description]");
+            this.appendNewLine()
         }
     }
 
@@ -55,7 +58,8 @@ export class DefaultFactory extends BaseFactory {
         this.appendText("\t");
         this.appendPlaceholder("[type]");
         this.appendText(" -- ");
-        this.appendPlaceholder("[description]\n");
+        this.appendPlaceholder("[description]");
+        this.appendNewLine()
     }
 
 }

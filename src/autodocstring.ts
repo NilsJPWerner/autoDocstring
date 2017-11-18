@@ -24,15 +24,4 @@ export class AutoDocstring {
         let docstring_parts = this._function_parser.parseLines(document, position);
         return this._docstring_factory.createDocstring(docstring_parts);
     }
-
-    // public validDocstringOpener(document: vscode.TextDocument, position: vscode.Position) {
-
-
-    //     let regex: RegExp =
-    // }
-
 }
-
-// ToDO
-// "docthis.includeTypes"
-// "includeDescription"
