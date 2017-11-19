@@ -1,10 +1,11 @@
 {
     "name": "autodocstring",
-    "displayName": "AutoDocstring",
+    "displayName": "Python Docstring",
     "description": "Generates python docstrings",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
+    "icon": "images/icon.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/NilsJPWerner/autoDocstring"
@@ -24,10 +25,7 @@
         "docblockr_python",
         "pydocstring"
     ],
-    "galleryBanner": {
-
-    },
-
+    "galleryBanner": {},
     "engines": {
         "vscode": "^1.9.0"
     },
@@ -36,21 +34,27 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.generateDocstring",
-            "title": "Generate Docstring"
-        }],
-        "keybindings": [{
-            "command": "extension.generateDocstring",
-            "key": "cmd+shift+2",
-            "when": "editorTextFocus"
-        }],
-        "menus": {
-            "editor/context": [{
-                "when": "resourceLangId == python",
+        "commands": [
+            {
                 "command": "extension.generateDocstring",
-                "group": "1_modification"
-            }]
+                "title": "Generate Docstring"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.generateDocstring",
+                "key": "cmd+shift+2",
+                "when": "editorTextFocus"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "resourceLangId == python",
+                    "command": "extension.generateDocstring",
+                    "group": "1_modification"
+                }
+            ]
         },
         "configuration": {
             "type": "object",

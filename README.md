@@ -2,7 +2,7 @@
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
-![Auto Generate Docstrings](generate_docstring.gif)
+![Auto Generate Docstrings](images/demo.gif)
 
 ## Features
 
