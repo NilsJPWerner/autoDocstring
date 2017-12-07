@@ -63,6 +63,10 @@
                 "autoDocstring.docstringFormat": {
                     "type": "string",
                     "default": "default",
+                    "enum": [
+                        "default",
+                        "google"
+                    ],
                     "description": "Which docstring format to use. Options are: 'default', TODO"
                 },
                 "autoDocstring.generateDocstringOnEnter": {
