@@ -1,0 +1,19 @@
+// import * as interfaces from '../interfaces';
+// import { BaseFactory } from './base_factory'
+// import * as vscode from 'vscode';
+
+// export class SphinxFactory extends BaseFactory {
+
+//     generateSummary(){
+//         this._snippet.appendPlaceholder("[summary]");
+//         this.appendNewLine()
+//     }
+
+//     generateDescription() {
+//         this.appendNewLine();
+//         this._snippet.appendPlaceholder("[description]");
+//         this.appendNewLine();
+//     }
+
+
+// }
