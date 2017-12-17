@@ -24,8 +24,8 @@ export function activate(context: vs.ExtensionContext): void {
                     if (editor.document.getText(range) === '"""') {
                         // Delete the opening quotes and the new line
                         deleteRange(range);
-                        deleteLine(position.line + 1);
-                        generateDocstring();
+                        // deleteLine(position.line + 1);
+                        // generateDocstring();
                     }
                 }
         }));
@@ -38,6 +38,7 @@ export function deactivate() {
 function deleteRange(range: vs.Range) {
     const editor = vs.window.activeTextEditor;
     const ws_edit = new vs.WorkspaceEdit();
+    console.log(range)
     ws_edit.delete(editor.document.uri, range)
     vs.workspace.applyEdit(ws_edit);
 }

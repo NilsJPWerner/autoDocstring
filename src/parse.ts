@@ -45,6 +45,16 @@ export class FunctionParser {
         return definition_lines
     }
 
+    private getDefinitionLines2(document: vscode.TextDocument, position: vscode.Position) {
+        let line_num: number = position.line - 1
+
+        let line: vscode.TextLine = document.lineAt(line_num)
+        if line.text
+
+
+
+    }
+
     private getContentLines(document: vscode.TextDocument, position: vscode.Position) {
         let content_lines: string[] = [];
         let line_num: number = position.line;
@@ -108,7 +118,7 @@ export class FunctionParser {
     private parseKeywordArguments(line: string) {
         let kwargs: KeywordArgument[] = [];
         let match: RegExpExecArray;
-        let regex: RegExp = /(\w+) *= *("\w+"|\w+)/g;
+        let regex: RegExp = /(\w+) *= *("\w*"|\w+)/g;
 
         while ((match = regex.exec(line)) != null) {
             kwargs.push({
@@ -134,7 +144,6 @@ export class FunctionParser {
     }
 
     private parseReturns(lines: string[]) {
-        console.log(lines)
         for (let line of lines) {
             let match = /\s*(return|yield)\s+([\w."]+)/.exec(line);
             if (match != null) {

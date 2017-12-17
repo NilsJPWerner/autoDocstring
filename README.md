@@ -36,11 +36,11 @@ This extension contributes the following settings:
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
 * `autoDocstring.includeDescription`: Include dscription section in docstring
-<!--* `autoDocstring.includeTypes`: Include types in docstring
-* `autoDocstring.guessTypes`: Infer types for parameters and return values-->
 
 ## Known Issues
 * Definition parser does not take into account commas in kwarg string or tuple defaults
+* Parser does not handle multiline function defintions
+* Parse cannot handle PEP484 type hinting
 
 ## Roadmap
 

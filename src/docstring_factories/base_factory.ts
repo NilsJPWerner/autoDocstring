@@ -44,6 +44,9 @@ export abstract class BaseFactory {
         }
 
         this.commentText();
+
+        console.log(this._snippet)
+
         return this._snippet;
     }
 
