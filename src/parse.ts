@@ -46,13 +46,22 @@ export class FunctionParser {
     }
 
     private getDefinitionLines2(document: vscode.TextDocument, position: vscode.Position) {
+        let definition_lines: string[] = []
         let line_num: number = position.line - 1
+        let original_indentation: number = this.getIndentation(document.lineAt(line_num))
 
-        let line: vscode.TextLine = document.lineAt(line_num)
-        if line.text
+        while (line_num > -1) {
+            let line: vscode.TextLine = document.lineAt(line_num)
 
+            if (line.isEmptyOrWhitespace || this.getIndentation(line) < original_indentation) {
+                break;
+            }
 
+            definition_lines.push(line.text)
+            line_num -= 1
+        }
 
+        return definition_lines
     }
 
     private getContentLines(document: vscode.TextDocument, position: vscode.Position) {
