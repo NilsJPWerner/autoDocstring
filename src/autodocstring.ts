@@ -12,11 +12,22 @@ export class AutoDocstring {
         this.editor = editor;
         this.pythonParser = new parser.PythonParser();
 
-        let format_config = vs.workspace.getConfiguration('autoDocstring').get('docstringFormat');
-        if (format_config === 'google') {
-            this.docstringFactory = new factories.GoogleFactory();
-        } else {
-            this.docstringFactory = new factories.DefaultFactory();
+        let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
+        switch (docstringFormat) {
+            case "google":
+                this.docstringFactory = new factories.GoogleFactory();
+                break;
+
+            case "sphinx":
+                this.docstringFactory = new factories.SphinxFactory();
+                break;
+
+            case "numpy":
+                this.docstringFactory = new factories.NumpyFactory();
+                break;
+
+            default:
+                this.docstringFactory = new factories.DefaultFactory();
         }
     }
 

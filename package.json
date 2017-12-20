@@ -65,8 +65,10 @@
                     "type": "string",
                     "default": "pep0257",
                     "enum": [
-                        "pep0257",
-                        "google"
+                        "default",
+                        "google",
+                        "sphinx",
+                        "numpy"
                     ],
                     "description": "Which docstring format to use. Options are: 'pep0257', 'google'"
                 },
