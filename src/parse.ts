@@ -12,7 +12,7 @@ export class FunctionParser {
         let definition_lines: string[] = this.getDefinitionLines(document, position);
         let content_lines: string[] = this.getContentLines(document, position);
 
-        if (definition_lines.length == 0 || !/^\s*def /.test(definition_lines[0])) {
+        if (definition_lines.length == 0 || !/^\s*(?:async )?def /.test(definition_lines[0])) {
             // if no lines were found in definition or
             // first line does not start with def
             return null
