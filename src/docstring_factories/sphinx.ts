@@ -7,6 +7,7 @@ export class SphinxFactory extends BaseFactory {
     generateSummary(){
         this._snippet.appendPlaceholder("[summary]");
         this.appendNewLine()
+        this.appendNewLine()
     }
 
     generateDescription() {
@@ -16,10 +17,7 @@ export class SphinxFactory extends BaseFactory {
     }
 
     formatDecorators(decorators: interfaces.Decorator[]) {
-        this.appendText("\nDecorators:\n");
-        for (let decorator of decorators) {
-            this.appendText("\t" + decorator.name + "\n");
-        }
+        // TODO
     }
 
     formatArguments(docstring: interfaces.DocstringParts) {
