@@ -10,12 +10,13 @@ export abstract class BaseFactory {
 
     constructor() {
         this._snippet = new vscode.SnippetString();
+
         let config = vscode.workspace.getConfiguration("autoDocstring");
         this._includeDescription = config.get("includeDescription") === true;
         this._includeTypes = config.get("includeTypes") === true;
     }
 
-    createDocstring(docstring: interfaces.DocstringParts): vscode.SnippetString {
+    createDocstring(docstring: interfaces.DocstringParts, openingQuotes: boolean): vscode.SnippetString {
         // Wipe snippet incase it is dirty
         this._snippet.value = "";
 
@@ -43,12 +44,16 @@ export abstract class BaseFactory {
             }
         }
 
-        this.commentText();
+        this.commentText(openingQuotes);
         return this._snippet;
     }
 
-    commentText(): void {
-        this._snippet.value = '"""' + this._snippet.value + '"""';
+    commentText(openingQuotes: boolean): void {
+        if (openingQuotes) {
+            this._snippet.value = '"""' + this._snippet.value + '"""';
+        } else {
+            this._snippet.value = this._snippet.value + '"""';
+        }
     }
 
     appendText(text: string): void {

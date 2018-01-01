@@ -1,27 +1,36 @@
-import * as vscode from 'vscode';
-import { FunctionParser } from './parse';
+import * as vs from 'vscode';
+import * as parser from './parse';
 import * as factories from './docstring_factories/factories'
 
+
 export class AutoDocstring {
-    // docstringFactory: factories.BaseFactory;
-    // why is this not working????
-    private _docstring_factory: any;
+    private docstringFactory: factories.BaseFactory;
+    private pythonParser: parser.PythonParser;
+    private editor: vs.TextEditor;
 
-    // Need to rename this to include classes
-    private _function_parser: any;
+    constructor(editor: vs.TextEditor) {
+        this.editor = editor;
+        this.pythonParser = new parser.PythonParser();
 
-    constructor() {
-        this._function_parser = new FunctionParser();
-        let format_config = vscode.workspace.getConfiguration("autoDocstring").get('docstringFormat');
+        let format_config = vs.workspace.getConfiguration('autoDocstring').get('docstringFormat');
         if (format_config === 'google') {
-            this._docstring_factory = new factories.GoogleFactory();
+            this.docstringFactory = new factories.GoogleFactory();
         } else {
-            this._docstring_factory = new factories.DefaultFactory();
+            this.docstringFactory = new factories.DefaultFactory();
         }
     }
 
-    public getDocstring(document: vscode.TextDocument, position: vscode.Position) {
-        let docstring_parts = this._function_parser.parseLines(document, position);
-        return this._docstring_factory.createDocstring(docstring_parts);
+    public generateDocstring(onEnter: boolean) {
+        let document = this.editor.document;
+        let position = this.editor.selection.active;
+
+        // Check whether the docstring is already closed for enter activation
+        if (!onEnter || !this.pythonParser.closedDocstringExists(document, position)) {
+
+            let docstringParts = this.pythonParser.parseLines(document, position);
+            let docstringSnippet = this.docstringFactory.createDocstring(docstringParts, !onEnter);
+
+            this.editor.insertSnippet(docstringSnippet, position)
+        }
     }
 }
