@@ -1,4 +1,4 @@
-# autoDocstring
+# Python autoDocstring
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
@@ -25,7 +25,8 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 Cursor must be on the line directly below the definition to generate full auto-populated docstring
 
 * Press enter after opening docstring with triple quotes (""")
-* Keyboard shortcut: `cmd+shift+2`
+* Keyboard shortcut: `ctrl+shift+2` or `cmd+shift+2` for mac
+    - Can be changed in Preferences -> Keyboard Shortcuts -> extension.generateDocstring
 * Command: `Generate Docstring`
 * Right click menu: `Generate Docstring`
 
@@ -36,8 +37,6 @@ This extension contributes the following settings:
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
 * `autoDocstring.includeDescription`: Include dscription section in docstring
-<!--* `autoDocstring.includeTypes`: Include types in docstring
-* `autoDocstring.guessTypes`: Infer types for parameters and return values-->
 
 ## Known Issues
 * Definition parser does not take into account commas in kwarg string or tuple defaults
@@ -50,11 +49,18 @@ This extension contributes the following settings:
 * Document code better
 * Add more docstring formats
 
+## Changelog
 
-## Release Notes
+Check the [CHANGELOG.md](CHANGELOG.md) for any version changes.
 
-### 0.1.0
+## Contributing
 
-* Initial release
-* Support for python functions
-* Several activation methods
+The source code for this extension is hosted on [GitHub](https://github.com/NilsJPWerner/autoDocstring). Contributions, pull requests, suggestions, and bug reports are greatly appreciated.
+
+* Post any issues and suggestions to the github [issues page](https://github.com/NilsJPWerner/autoDocstring/issues). Add the `feature request` tage to any feature requests or suggestions.
+* To contribute, fork the project and then create a pull request back to master. Please update the README if you make any noticeable feature changes.
+* There is no official contribution guide or code of conduct yet, but please follow the standard open source norms and be respectful in any comments you make.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

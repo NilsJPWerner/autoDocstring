@@ -43,7 +43,8 @@
         "keybindings": [
             {
                 "command": "extension.generateDocstring",
-                "key": "cmd+shift+2",
+                "key": "ctrl+shift+2",
+                "mac": "cmd+shift+2",
                 "when": "editorTextFocus"
             }
         ],
@@ -76,7 +77,7 @@
                 },
                 "autoDocstring.includeDescription": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "description": "Include description tag"
                 },
                 "autoDocstring.includeTypes": {

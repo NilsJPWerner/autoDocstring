@@ -18,14 +18,14 @@ export class DefaultFactory extends BaseFactory {
     formatDecorators(decorators: interfaces.Decorator[]) {
         this.appendText("\nDecorators:\n");
         for (let decorator of decorators) {
-            this.appendText("\t" + decorator.name + "\n");
+            this.appendText(`\t${decorator.name}\n`);
         }
     }
 
     formatArguments(docstring: interfaces.DocstringParts) {
         this.appendText("\nArguments:\n");
         for (let arg of docstring.args) {
-            this.appendText("\t" + arg.var + " {");
+            this.appendText(`\t${arg.var} {`);
             this.appendPlaceholder("[type]");
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
@@ -36,25 +36,25 @@ export class DefaultFactory extends BaseFactory {
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         this.appendText("\nKeyword Arguments:\n");
         for (let kwarg of docstring.kwargs) {
-            this.appendText("\t" + kwarg.var + " {");
+            this.appendText(`\t${kwarg.var} {`);
             this.appendPlaceholder("[type]");
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
-            this.appendText(" (default: {" + kwarg.default + "})\n");
+            this.appendText(` (default: {${kwarg.default}})\n`);
         }
     }
 
     formatRaises(raises: interfaces.Raises[]) {
         this.appendText("\nRaises:\n");
         for (let raise of raises) {
-            this.appendText("\t" + raise.error + " -- ");
+            this.appendText(`\t${raise.error} -- `);
             this.appendPlaceholder("[description]");
             this.appendNewLine()
         }
     }
 
     formatReturns(returns: interfaces.Returns) {
-        this.appendText("\n" + returns.return_type + ":\n");
+        this.appendText(`\n${returns.return_type}:\n`);
         this.appendText("\t");
         this.appendPlaceholder("[type]");
         this.appendText(" -- ");
