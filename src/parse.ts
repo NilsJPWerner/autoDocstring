@@ -2,13 +2,34 @@ import * as vscode from 'vscode';
 import { Argument, KeywordArgument, Decorator, Raises, Returns, DocstringParts } from './interfaces';
 import { includesFromArray, inArray } from './utils'
 
-export class FunctionParser {
+export class PythonParser {
 
     // Need to work on:
     //      regex for tuple input & strings with commas
     //      Guess type
 
-    parseLines(document: vscode.TextDocument, position: vscode.Position) {
+    public closedDocstringExists(document: vscode.TextDocument, position: vscode.Position): boolean {
+        let lines = [];
+        let lineNum = position.line;
+        let indentation = this.getIndentation(document.lineAt(position));
+
+        while (lineNum > -1) {
+            let line: vscode.TextLine = document.lineAt(lineNum);
+            if (line.text.includes("def ")) {
+                break;
+            }
+            lines.push(line.text);
+            lineNum -= 1;
+        }
+
+        // Count the niumber of triple quotes
+        let linesString = lines.join(" ");
+        let numberOfTripleQuotes = linesString.match(/\"\"\"/g).length;
+
+        return (numberOfTripleQuotes === 2);
+    }
+
+    public parseLines(document: vscode.TextDocument, position: vscode.Position) {
         let definition_lines: string[] = this.getDefinitionLines(document, position);
         let content_lines: string[] = this.getContentLines(document, position);
 
