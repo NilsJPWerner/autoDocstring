@@ -36,7 +36,6 @@ export abstract class BaseFactory {
                 this.formatKeywordArguments(docstring);
             }
             if (docstring.raises.length > 0) {
-
                 this.formatRaises(docstring.raises);
             }
             if (docstring.returns != null) {
@@ -73,8 +72,8 @@ export abstract class BaseFactory {
     abstract formatDecorators(decorators: interfaces.Decorator[]): void;
     abstract formatArguments(args: interfaces.DocstringParts): void;
     abstract formatKeywordArguments(kwargs: interfaces.DocstringParts): void;
-    abstract formatRaises(kwargs: interfaces.Raises[]): void;
-    abstract formatReturns(kwargs: interfaces.Returns): void;
+    abstract formatRaises(raises: interfaces.Raises[]): void;
+    abstract formatReturns(returns: interfaces.Returns): void;
 
 }
 

@@ -1,6 +1,9 @@
 # Change Log
 
-## [0.1.3] - 2018-01-31
+## [0.1.4] - 2018-01-17
+- Add Sphinx and Numpy formatters
+
+## [0.1.3] - 2018-01-01
 - Bugfixes
 - Better documentation
 - Fixed parsers

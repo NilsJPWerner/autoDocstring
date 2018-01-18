@@ -2,7 +2,7 @@
     "name": "autodocstring",
     "displayName": "Python Docstring",
     "description": "Generates python docstrings",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
@@ -63,12 +63,14 @@
             "properties": {
                 "autoDocstring.docstringFormat": {
                     "type": "string",
-                    "default": "pep0257",
+                    "default": "default",
                     "enum": [
-                        "pep0257",
-                        "google"
+                        "default",
+                        "google",
+                        "sphinx",
+                        "numpy"
                     ],
-                    "description": "Which docstring format to use. Options are: 'pep0257', 'google'"
+                    "description": "Which docstring format to use."
                 },
                 "autoDocstring.generateDocstringOnEnter": {
                     "type": "boolean",
