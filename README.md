@@ -13,13 +13,11 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 ## Docstring Formats
 
-* Default (typed PEP0257)
-* PEP0257
+* Default (docBlockr)
 * Google
-
-### Coming Soon
 * Numpy
 * Sphinx
+* PEP0257 (coming soon)
 
 ## Usage
 Cursor must be on the line directly below the definition to generate full auto-populated docstring

@@ -18,10 +18,6 @@ export class NumpyFactory extends BaseFactory {
 
     formatDecorators(decorators: interfaces.Decorator[]) {
         // I need to find an example of decorators in numpy format
-        // this.appendText("\nDecorators:\n");
-        // for (let decorator of decorators) {
-        //     this.appendText("\t" + decorator.name + "\n");
-        // }
     }
 
     formatArguments(docstring: interfaces.DocstringParts) {
