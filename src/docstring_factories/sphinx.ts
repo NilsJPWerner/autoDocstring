@@ -11,13 +11,13 @@ export class SphinxFactory extends BaseFactory {
     }
 
     generateDescription() {
-        this.appendNewLine();
         this._snippet.appendPlaceholder("[description]");
+        this.appendNewLine();
         this.appendNewLine();
     }
 
     formatDecorators(decorators: interfaces.Decorator[]) {
-        // TODO
+         // I need to find an example of decorators in sphinx format
     }
 
     formatArguments(docstring: interfaces.DocstringParts) {
@@ -41,7 +41,7 @@ export class SphinxFactory extends BaseFactory {
 
             this.appendText(":param " + kwarg.var + ": ")
             this.appendPlaceholder("[type]")
-            this.appendPlaceholder(", optional")
+            this.appendText(", optional")
             this.appendNewLine()
         }
     }

@@ -7,19 +7,21 @@ export class NumpyFactory extends BaseFactory {
     generateSummary(){
         this._snippet.appendPlaceholder("[summary]");
         this.appendNewLine()
+        this.appendNewLine()
     }
 
     generateDescription() {
-        this.appendNewLine();
         this._snippet.appendPlaceholder("[description]");
+        this.appendNewLine();
         this.appendNewLine();
     }
 
     formatDecorators(decorators: interfaces.Decorator[]) {
-        this.appendText("\nDecorators:\n");
-        for (let decorator of decorators) {
-            this.appendText("\t" + decorator.name + "\n");
-        }
+        // I need to find an example of decorators in numpy format
+        // this.appendText("\nDecorators:\n");
+        // for (let decorator of decorators) {
+        //     this.appendText("\t" + decorator.name + "\n");
+        // }
     }
 
     formatArguments(docstring: interfaces.DocstringParts) {
@@ -50,6 +52,7 @@ export class NumpyFactory extends BaseFactory {
             this.appendPlaceholder("[default_description]")
             this.appendText(")\n")
         }
+        this.appendNewLine()
     }
 
     formatRaises(raises: interfaces.Raises[]) {
@@ -60,6 +63,7 @@ export class NumpyFactory extends BaseFactory {
             this.appendPlaceholder("[description]");
             this.appendNewLine()
         }
+        this.appendNewLine()
     }
 
     formatReturns(returns: interfaces.Returns) {
