@@ -38,6 +38,8 @@ This extension contributes the following settings:
 
 ## Known Issues
 * Definition parser does not take into account commas in kwarg string or tuple defaults
+* Parser does not handle multiline function defintions
+* Parse cannot handle PEP484 type hinting
 
 ## Roadmap
 
