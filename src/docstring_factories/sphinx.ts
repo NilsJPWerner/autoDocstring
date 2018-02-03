@@ -27,7 +27,8 @@ export class SphinxFactory extends BaseFactory {
             this.appendNewLine()
 
             this.appendText(":type " + arg.var + ": ")
-            this.appendPlaceholder("[type]")
+            if (arg.type) {this.appendText(`${arg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendNewLine()
         }
     }
@@ -60,7 +61,8 @@ export class SphinxFactory extends BaseFactory {
         this.appendNewLine()
 
         this.appendText(":rtype: ");
-        this.appendPlaceholder("[type]");
+        if (returns.value_type) {this.appendText(`${returns.value_type}`);}
+        else {this.appendPlaceholder("[type]");}
         this.appendNewLine()
     }
 }

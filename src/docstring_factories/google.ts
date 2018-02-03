@@ -28,7 +28,8 @@ export class GoogleFactory extends BaseFactory {
         }
         for (let arg of docstring.args) {
             this.appendText(`\t${arg.var} (`);
-            this.appendPlaceholder("[type]");
+            if (arg.type) {this.appendText(`${arg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("): ");
             this.appendPlaceholder("[description]");
             this.appendNewLine();
@@ -57,7 +58,8 @@ export class GoogleFactory extends BaseFactory {
     formatReturns(returns: interfaces.Returns) {
         this.appendText("\nReturns:\n");
         this.appendText("\t");
-        this.appendPlaceholder("[type]");
+        if (returns.value_type) {this.appendText(`${returns.value_type}`);}
+        else {this.appendPlaceholder("[type]");}
         this.appendText(": ");
         this.appendPlaceholder("[description]");
         this.appendNewLine();
