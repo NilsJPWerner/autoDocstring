@@ -152,12 +152,7 @@ export class PythonParser {
         let match: RegExpExecArray;
         let regex: RegExp = / *(\w+) *(?:: *(\w+) *)?= *([^),]+)\s*/g;
 
-        console.log("line")
-        console.log(line)
-
         while ((match = regex.exec(line)) != null) {
-            console.log("match")
-            console.log(match)
             kwargs.push({
                 var: match[1],
                 default: match[3],

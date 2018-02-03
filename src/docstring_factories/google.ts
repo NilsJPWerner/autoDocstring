@@ -37,8 +37,6 @@ export class GoogleFactory extends BaseFactory {
     }
 
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
-        console.log("kwargs")
-        console.log(docstring.kwargs)
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} (`);
             if (kwarg.type) {this.appendText(`${kwarg.type}`);}
