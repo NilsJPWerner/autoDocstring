@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { Argument, KeywordArgument, Decorator, Raises, Returns, DocstringParts } from './interfaces';
 import { includesFromArray, inArray } from './utils'
+import { connect } from 'tls';
 
 export class PythonParser {
 
@@ -32,6 +33,7 @@ export class PythonParser {
     public parseLines(document: vscode.TextDocument, position: vscode.Position) {
         let definition_lines: string[] = this.getDefinitionLines(document, position);
         let content_lines: string[] = this.getContentLines(document, position);
+        let function_lines: string[] = this.getFunctionLines(document, position);
 
         if (definition_lines.length == 0 || !/^\s*def /.test(definition_lines[0])) {
             // if no lines were found in definition or
@@ -44,7 +46,7 @@ export class PythonParser {
             args: this.parseArguments(definition_lines[0]),
             kwargs: this.parseKeywordArguments(definition_lines[0]),
             raises: this.parseRaises(content_lines),
-            returns: this.parseReturns(content_lines)
+            returns: this.parseReturns(function_lines)
         }
         return docstring_parts
     }
@@ -71,7 +73,7 @@ export class PythonParser {
         let line_num: number = position.line;
         let def_indentation: number = this.getIndentation(document.lineAt(line_num - 1));
 
-        while (line_num < document.lineCount - 1) {
+        while (line_num < document.lineCount) {
             let line: vscode.TextLine = document.lineAt(line_num);
             if (!line.isEmptyOrWhitespace) {
                 if (this.getIndentation(line) <= def_indentation) {
@@ -83,7 +85,19 @@ export class PythonParser {
             }
             line_num += 1;
         }
-        return content_lines;
+        return content_lines
+    }
+
+    private getFunctionLines(document: vscode.TextDocument, position: vscode.Position) {
+        let function_lines: string[] = [];
+
+        let definition_lines = this.getDefinitionLines(document, position);
+        let content_lines = this.getContentLines(document, position);
+
+        function_lines = function_lines.concat(definition_lines);
+        function_lines = function_lines.concat(content_lines);
+        
+        return function_lines
     }
 
     private getIndentation(line: vscode.TextLine) {
@@ -117,9 +131,16 @@ export class PythonParser {
 
         for (let param of param_list[1].split(/\s*,\s*/)) {
             if (!param.includes('=') && !inArray(param, excluded_args)) {
+
+                // regex looks for pep-484 type annotations
+                // example: 'def foo(bar : str)' would match `bar`
+                // as variable name, and `str` as type.
+                regex = /([\w]*)(?:\s*:\s*([\w]*))?/;
+                let semantic_list = param.match(regex);
+
                 args.push({
-                    var: param,
-                    type: null
+                    var: semantic_list[1],
+                    type: semantic_list[2]
                 });
             }
         }
@@ -129,13 +150,13 @@ export class PythonParser {
     private parseKeywordArguments(line: string) {
         let kwargs: KeywordArgument[] = [];
         let match: RegExpExecArray;
-        let regex: RegExp = /(\w+) *= *("\w+"|\w+)/g;
+        let regex: RegExp = / *(\w+) *(?:: *(\w+) *)?= *([^),]+)\s*/g;
 
         while ((match = regex.exec(line)) != null) {
             kwargs.push({
                 var: match[1],
-                default: match[2],
-                type: null
+                default: match[3],
+                type: match[2]
             });
         }
         return kwargs
@@ -156,10 +177,21 @@ export class PythonParser {
 
     private parseReturns(lines: string[]) {
         for (let line of lines) {
-            let match = /\s*(return|yield)\s+([\w."]+)/.exec(line);
-            if (match != null) {
+            // matches return type annotation
+            let annotation_match = /->\s*([^:]+?)\s*:/.exec(line);
+            if (annotation_match != null) {
                 let v: Returns = {
-                    return_type: (match[1] == "return") ? "Returns" : "Yields",
+                    return_type: "Returns",
+                    value_type: annotation_match[1]
+                };
+                return v;
+            }
+
+            // if no type annotations are given
+            let return_match = /\s*(return|yield)\s+([\w."]+)/.exec(line);
+            if (return_match != null) {
+                let v: Returns = {
+                    return_type: (return_match[1] == "return") ? "Returns" : "Yields",
                     value_type: null
                 };
                 return v;

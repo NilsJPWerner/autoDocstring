@@ -28,10 +28,12 @@ export function activate(context: vs.ExtensionContext): void {
 
 function activateOnEnter(changeEvent: vs.TextDocumentChangeEvent) {
     if (vs.window.activeTextEditor.document !== changeEvent.document) return;
-    if (changeEvent.contentChanges[0].rangeLength !== 0) return;
+    // if (changeEvent.contentChanges[0].rangeLength !== 0) return;
 
-    if (changeEvent.contentChanges[0].text.replace(/ |\t|\r/g, "") === "\n") {
-        processEnter(changeEvent);
+    if (changeEvent.contentChanges[0]){
+        if (changeEvent.contentChanges[0].text.replace(/ |\t|\r/g, "") === "\n") {
+            processEnter(changeEvent);
+        }
     }
 }
 
