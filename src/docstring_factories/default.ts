@@ -38,7 +38,8 @@ export class DefaultFactory extends BaseFactory {
         this.appendText("\nKeyword Arguments:\n");
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} {`);
-            this.appendPlaceholder("[type]");
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
             this.appendText(` (default: {${kwarg.default}})\n`);

@@ -37,9 +37,12 @@ export class GoogleFactory extends BaseFactory {
     }
 
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
+        console.log("kwargs")
+        console.log(docstring.kwargs)
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} (`);
-            this.appendPlaceholder("[type]");
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText(`, optional): Defaults to ${kwarg.default}. `);
             this.appendPlaceholder("[description]");
             this.appendNewLine();

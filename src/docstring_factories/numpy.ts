@@ -40,7 +40,8 @@ export class NumpyFactory extends BaseFactory {
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         for (let kwarg of docstring.kwargs) {
             this.appendText(kwarg.var + " : {")
-            this.appendPlaceholder("[type]")
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("}, optional\n")
 
             this.appendText("\t")
