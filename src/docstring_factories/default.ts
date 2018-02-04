@@ -26,7 +26,8 @@ export class DefaultFactory extends BaseFactory {
         this.appendText("\nArguments:\n");
         for (let arg of docstring.args) {
             this.appendText(`\t${arg.var} {`);
-            this.appendPlaceholder("[type]");
+            if (arg.type) {this.appendText(`${arg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
             this.appendNewLine();
@@ -37,7 +38,8 @@ export class DefaultFactory extends BaseFactory {
         this.appendText("\nKeyword Arguments:\n");
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} {`);
-            this.appendPlaceholder("[type]");
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("} -- ");
             this.appendPlaceholder("[description]");
             this.appendText(` (default: {${kwarg.default}})\n`);
@@ -56,7 +58,8 @@ export class DefaultFactory extends BaseFactory {
     formatReturns(returns: interfaces.Returns) {
         this.appendText(`\n${returns.return_type}:\n`);
         this.appendText("\t");
-        this.appendPlaceholder("[type]");
+        if (returns.value_type) {this.appendText(`${returns.value_type}`);}
+        else {this.appendPlaceholder("[type]");}
         this.appendText(" -- ");
         this.appendPlaceholder("[description]");
         this.appendNewLine()

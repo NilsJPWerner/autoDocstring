@@ -27,7 +27,8 @@ export class NumpyFactory extends BaseFactory {
 
         for (let arg of docstring.args) {
             this.appendText(arg.var + " : {")
-            this.appendPlaceholder("[type]")
+            if (arg.type) {this.appendText(`${arg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("}\n")
 
             this.appendText("\t")
@@ -39,7 +40,8 @@ export class NumpyFactory extends BaseFactory {
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         for (let kwarg of docstring.kwargs) {
             this.appendText(kwarg.var + " : {")
-            this.appendPlaceholder("[type]")
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("}, optional\n")
 
             this.appendText("\t")
@@ -64,7 +66,8 @@ export class NumpyFactory extends BaseFactory {
 
     formatReturns(returns: interfaces.Returns) {
         this.appendText("Returns\n-------\n");
-        this.appendPlaceholder("[type]");
+        if (returns.value_type) {this.appendText(`${returns.value_type}`);}
+        else {this.appendPlaceholder("[type]");}
 
         this.appendText("\n\t");
         this.appendPlaceholder("[description]");
