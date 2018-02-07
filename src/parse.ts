@@ -135,7 +135,7 @@ export class PythonParser {
                 // regex looks for pep-484 type annotations
                 // example: 'def foo(bar : str)' would match `bar`
                 // as variable name, and `str` as type.
-                regex = /([\w]*)(?:\s*:\s*([\w]*))?/;
+                regex = /([\w]*)(?:\s*:\s*([\w\[\]]*))?/;
                 let semantic_list = param.match(regex);
 
                 args.push({
@@ -150,7 +150,7 @@ export class PythonParser {
     private parseKeywordArguments(line: string) {
         let kwargs: KeywordArgument[] = [];
         let match: RegExpExecArray;
-        let regex: RegExp = / *(\w+) *(?:: *(\w+) *)?= *([^),]+)\s*/g;
+        let regex: RegExp = / *(\w+) *(?:: *([\w\[\]]+) *)?= *([^),]+)\s*/g;
 
         while ((match = regex.exec(line)) != null) {
             kwargs.push({
