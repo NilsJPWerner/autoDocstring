@@ -28,7 +28,8 @@ export class GoogleFactory extends BaseFactory {
         }
         for (let arg of docstring.args) {
             this.appendText(`\t${arg.var} (`);
-            this.appendPlaceholder("[type]");
+            if (arg.type) {this.appendText(`${arg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText("): ");
             this.appendPlaceholder("[description]");
             this.appendNewLine();
@@ -38,7 +39,8 @@ export class GoogleFactory extends BaseFactory {
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} (`);
-            this.appendPlaceholder("[type]");
+            if (kwarg.type) {this.appendText(`${kwarg.type}`);}
+            else {this.appendPlaceholder("[type]");}
             this.appendText(`, optional): Defaults to ${kwarg.default}. `);
             this.appendPlaceholder("[description]");
             this.appendNewLine();
@@ -57,7 +59,8 @@ export class GoogleFactory extends BaseFactory {
     formatReturns(returns: interfaces.Returns) {
         this.appendText("\nReturns:\n");
         this.appendText("\t");
-        this.appendPlaceholder("[type]");
+        if (returns.value_type) {this.appendText(`${returns.value_type}`);}
+        else {this.appendPlaceholder("[type]");}
         this.appendText(": ");
         this.appendPlaceholder("[description]");
         this.appendNewLine();
