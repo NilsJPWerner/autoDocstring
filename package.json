@@ -99,13 +99,18 @@
         "vscode:prepublish": "tsc -p ./",
         "compile": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+        "test": "node ./node_modules/vscode/bin/test",
+        "unit_test": "mocha -r ts-node/register test/**/*.spec.ts"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.3",
-        "mocha": "^2.3.3",
+        "@types/chai": "^4.1.2",
+        "@types/mocha": "^2.2.37",
         "@types/node": "^6.0.59",
-        "@types/mocha": "^2.2.37"
-    }
+        "chai": "^4.1.2",
+        "mocha": "^2.5.3",
+        "ts-node": "^4.1.0",
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.3"
+    },
+    "dependencies": {}
 }

@@ -3,3 +3,4 @@ node_modules
 test.py
 .vscode/
 test_python.py
+.vscode-test/
