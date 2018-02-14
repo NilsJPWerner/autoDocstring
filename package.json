@@ -103,14 +103,14 @@
         "unit_test": "mocha -r ts-node/register test/**/*.spec.ts"
     },
     "devDependencies": {
+        "vscode": "^1.1.10",
         "@types/chai": "^4.1.2",
         "@types/mocha": "^2.2.37",
         "@types/node": "^6.0.59",
         "chai": "^4.1.2",
         "mocha": "^2.5.3",
         "ts-node": "^4.1.0",
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.3"
+        "typescript": "^2.0.3"
     },
     "dependencies": {}
 }

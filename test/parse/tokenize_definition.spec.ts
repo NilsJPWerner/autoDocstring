@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import { expect } from 'chai';
 import 'mocha';
 
@@ -7,6 +6,7 @@ import { tokenizeDefinition } from '../../src/parse/tokenize_definition';
 describe('tokenizeDefinition', () => {
 
     it("Should tokenize a simple function definition string into its parameters", () => {
+
         var functionDefinition = 'def func(argument, kwarg="abc"):';
 
         var result = tokenizeDefinition(functionDefinition);
@@ -87,13 +87,25 @@ describe('tokenizeDefinition', () => {
     });
 
     it("Should tokenize pep484 parameter and return types", () => {
-        var functionDefinition = 'def func(arg: string, arg2: Callable[[], str]):';
+        var functionDefinition = 'def func(arg: string, arg2: Callable[[], str]) -> str:';
 
         var result = tokenizeDefinition(functionDefinition);
 
         expect(result).to.have.ordered.members([
             'arg:string',
             'arg2:Callable[[], str]',
+        ]);
+    });
+
+    it("Should tokenize pep484 parameter and return types", () => {
+        var functionDefinition = 'def func(arg: string, arg2: Callable[[], str], my_float: float = 3.5) -> str:';
+
+        var result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members([
+            'arg:string',
+            'arg2:Callable[[], str]',
+            'my_float:float=3.5',
         ]);
     });
 

@@ -2,10 +2,9 @@ import * as vscode from 'vscode';
 
 export function parseFunction(document: vscode.TextDocument, position: vscode.Position) {
     let definition = this.getDefinition(document, position);
-    console.log()
 }
 
-function getDefinition(document: vscode.TextDocument, position: vscode.Position): string {
+export function getDefinition(document: vscode.TextDocument, position: vscode.Position): string {
     let definitionLines = []
     let lineNum = position.line - 1
     let originalIndentation = this.getIndentation(document.lineAt(lineNum))
