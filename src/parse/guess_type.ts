@@ -1,5 +1,3 @@
-import { inArray } from '../utils'
-
 
 export function guessType(parameter: string): string {
     if (hasTypeHint(parameter)) {
@@ -14,14 +12,14 @@ export function guessType(parameter: string): string {
 }
 
 function getTypeFromTyping(parameter: string): string {
-    let pattern = /\w+:( ?\w[\w\[\], \.]*)/
+    let pattern = /\w+:\s*(\w[\w\[\], \.]*)/
     let typeHint = pattern.exec(parameter);
 
     if (typeHint == null || typeHint.length != 2) {
         return 'type'
     }
 
-    return typeHint[1]
+    return typeHint[1].trim()
 }
 
 function guessTypeFromDefaultValue(parameter: string): string {
@@ -88,11 +86,11 @@ function isFloat(value: string): boolean {
 }
 
 function isString(value: string): boolean {
-    return (value.match(/^(\".*\"|\'.*\')$/) != null)
+    return (value.match(/^\".*\"$|^\'.*\'$/) != null)
 }
 
 function isBool(value: string): boolean {
-    return (value.match(/^(True|False)$/) != null)
+    return (value.match(/^True$|^False$/) != null)
 }
 
 function isList(value: string): boolean {
@@ -108,17 +106,21 @@ function isDict(value: string): boolean {
 }
 
 function isRegexp(value: string): boolean {
-    return (value.match(/^(r|R)$/) != null  && isString(value.substr(1)))
+    return (value.match(/^[rR]/) != null && isString(value.substr(1)))
 }
 
 function isUnicode(value: string): boolean {
-    return (value.match(/^(u|U)$/) != null  && isString(value.substr(1)))
+    return (value.match(/^[uU]/) != null && isString(value.substr(1)))
 }
 
 function isBytes(value: string): boolean {
-    return (value.match(/^(b|B)$/) != null  && isString(value.substr(1)))
+    return (value.match(/^[bB]/) != null && isString(value.substr(1)))
 }
 
 function isFunction(value: string): boolean {
     return (value.match(/^lambda /) != null)
+}
+
+export function inArray<type>(item: type, array: type[]) {
+    return array.some(x => item == x);
 }

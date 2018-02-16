@@ -82,7 +82,7 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
 }
 
 function getParameterString(functionDefinition: string): string {
-    let pattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*->\s*\w+\s*:\s*$/;
+    let pattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(?:->\s*\w+\s*)?:\s*$/; //todo - capture return type
 
     let parameterString = pattern.exec(functionDefinition);
     if (parameterString == null || parameterString.length != 2) throw error; //todo
