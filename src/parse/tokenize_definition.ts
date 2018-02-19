@@ -5,7 +5,7 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
     let parameterString = getParameterString(functionDefinition)
 
     let stack = [];
-    let args = [];
+    let parameters = [];
     let arg = "";
 
     let position = parameterString.length - 1;
@@ -22,7 +22,7 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
         switch (true) {
             // 1. Check for top level comma and push arg to array
             case char == ',' && stack.length == 0:
-                args.unshift(arg);
+                parameters.unshift(arg);
                 arg = "";
                 position -= 1;
                 continue;
@@ -76,9 +76,9 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
         position -= 1;
     }
 
-    args.unshift(arg);
+    parameters.unshift(arg);
 
-    return args;
+    return parameters;
 }
 
 function getParameterString(functionDefinition: string): string {

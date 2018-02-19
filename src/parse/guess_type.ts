@@ -1,5 +1,7 @@
 
 export function guessType(parameter: string): string {
+    parameter = parameter.trim()
+
     if (hasTypeHint(parameter)) {
         return getTypeFromTyping(parameter);
     }
@@ -12,7 +14,7 @@ export function guessType(parameter: string): string {
 }
 
 function getTypeFromTyping(parameter: string): string {
-    let pattern = /\w+:\s*(\w[\w\[\], \.]*)/
+    let pattern = /\w+\s*:\s*(\w[\w\[\], \.]*)/
     let typeHint = pattern.exec(parameter);
 
     if (typeHint == null || typeHint.length != 2) {
@@ -70,11 +72,11 @@ function guessTypeFromName(parameter: string): string {
 }
 
 function hasTypeHint(parameter: string): boolean {
-    return (parameter.match(/^\w+:[\w\[\], \.]+/) != null)
+    return (parameter.match(/^\w+\s*:/) != null)
 }
 
 function isKwarg(parameter: string): boolean {
-    return (parameter.match(/^\w+\s*(:[\w\[\], \.]+)?=.+$/) != null)
+    return parameter.includes("=")
 }
 
 function isInteger(value: string): boolean {
