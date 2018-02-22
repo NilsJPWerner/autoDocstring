@@ -1,9 +1,24 @@
 import { error } from "util";
 
+
 export function tokenizeDefinition(functionDefinition: string): string[] {
+    let definitionPattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(->\s*[\w\[\], \.]*)?:\s*$/;
 
-    let parameterString = getParameterString(functionDefinition)
+    let match = definitionPattern.exec(functionDefinition);
+    if (match == undefined || match[1] == undefined) {
+        return [];
+    };
 
+    let tokens = tokenizeParameterString(match[1])
+
+    if (match[2] !== undefined) {
+        tokens.push(match[2])
+    }
+
+    return tokens
+}
+
+function tokenizeParameterString(parameterString: string): string[] {
     let stack = [];
     let parameters = [];
     let arg = "";
@@ -76,16 +91,7 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
         position -= 1;
     }
 
-    parameters.unshift(arg);
+    if (arg.length > 0) { parameters.unshift(arg) };
 
     return parameters;
-}
-
-function getParameterString(functionDefinition: string): string {
-    let pattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(?:->\s*\w+\s*)?:\s*$/; //todo - capture return type
-
-    let parameterString = pattern.exec(functionDefinition);
-    if (parameterString == null || parameterString.length != 2) throw error; //todo
-
-    return parameterString[1]
 }

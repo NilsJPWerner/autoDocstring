@@ -1,7 +1,7 @@
 import chai = require('chai');
 import 'mocha';
 
-import { guessType } from '../../src/parse/guess_type';
+import { guessType } from '../../src/parse/guess_types';
 
 chai.config.truncateThreshold = 0;
 let expect = chai.expect;

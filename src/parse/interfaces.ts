@@ -20,11 +20,10 @@ export interface KeywordArgument extends Argument {
 }
 
 export interface Raises {
-    error: string;
+    exception: string;
 }
 
 export interface Returns {
-    return_type: string;
-    value_type: string;
+    type: string;
 }
 

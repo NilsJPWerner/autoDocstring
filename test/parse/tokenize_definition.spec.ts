@@ -88,17 +88,16 @@ describe('tokenizeDefinition()', () => {
         expect(result).to.have.ordered.members([
             'arg:string',
             'arg2:Callable[[], str]',
+            '-> str',
         ]);
     });
 
-    it("should tokenize pep484 parameter and return types", () => {
-        var functionDefinition = 'def func(arg: string, arg2: Callable[[], str], my_float: float = 3.5) -> str:';
+    it("should tokenize pep484 return types", () => {
+        var functionDefinition = 'def func() -> str:';
         var result = tokenizeDefinition(functionDefinition);
 
         expect(result).to.have.ordered.members([
-            'arg:string',
-            'arg2:Callable[[], str]',
-            'my_float:float=3.5',
+            '-> str',
         ]);
     });
 
@@ -110,6 +109,13 @@ describe('tokenizeDefinition()', () => {
             'arg',
             'arg_2',
         ]);
+    });
+
+    it("should return an empty array if no definition is found", () => {
+        var functionDefinition = 'garbage';
+        var result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.be.empty;
     });
 
 });
