@@ -1,50 +1,65 @@
-import * as vscode from 'vscode';
 
-export function getDefinition(document: vscode.TextDocument, position: vscode.Position): string {
-    let definition = ""
-    let lineNum = position.line - 1
-    let originalIndentation = this.getIndentation(document.lineAt(lineNum))
+export function getDefinition(document: string, linePosition: number): string {
+    let lines = document.split('\n');
+    let definition = "";
 
-    while (lineNum > -1) {
-        let line = document.lineAt(lineNum)
-        let indentation = this.getIndentation(line)
-
-        if (indentation < originalIndentation ||
-            indentation == 0
-        ) {
-            break;
-        }
-
-        definition = line + definition;
-        lineNum -= 1;
+    if (linePosition == 0) {
+        return definition;
     }
 
-    return definition;
+    let currentLineNum = linePosition - 1
+    let originalIndentation = indentationOf(lines[currentLineNum]);
+
+    while (currentLineNum >= 0) {
+        let line = lines[currentLineNum];
+        definition = line.trim() + definition;
+
+        if (indentationOf(line) < originalIndentation || blankLine(line)) {
+            break
+        };
+
+        currentLineNum -= 1;
+    }
+
+    return definition
 }
 
-export function getBody(document: vscode.TextDocument, position: vscode.Position): string {
-    let body = "";
-    let line_num = position.line;
-    let def_indentation = this.getIndentation(document.lineAt(line_num - 1));
+export function getBody(document: string, linePosition: number): string[] {
+    let lines = document.split('\n');
+    let body = [];
 
-    while (line_num < document.lineCount - 1) {
-        let line: vscode.TextLine = document.lineAt(line_num);
-        if (!line.isEmptyOrWhitespace) {
-            if (this.getIndentation(line) <= def_indentation) {
-                // If indentation is equal to or less than the definition indentation
-                // AND the line is not black end the line scan
-                break;
-            }
-            body += line.text;
-        }
-        line_num += 1;
+    let currentLineNum = linePosition;
+    let originalIndentation = indentationOf(lines[currentLineNum]);
+
+    while (currentLineNum < lines.length) {
+        let line = lines[currentLineNum];
+
+        if (blankLine(line)) {
+            currentLineNum++;
+            continue
+        };
+
+        if (indentationOf(line) < originalIndentation) {
+            break
+        };
+
+        body.push(line.trim());
+        currentLineNum++;
     }
-    return body;
+
+    return body
 }
 
-function getIndentation(line: vscode.TextLine) {
-    if (line.isEmptyOrWhitespace) {
-        return 0
+function indentationOf(line: string): number {
+    let whiteSpaceMatches = line.match(/^\s+/);
+
+    if (whiteSpaceMatches == null) {
+        return 0;
     }
-    return line.firstNonWhitespaceCharacterIndex
+
+    return whiteSpaceMatches[0].length;
+}
+
+function blankLine(line: string): boolean {
+    return (line.match(/[^\s]/) == null)
 }

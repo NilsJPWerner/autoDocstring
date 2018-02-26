@@ -41,7 +41,7 @@ describe('guessType()', () => {
 
             expect(result).to.equal('str');
         });
-    })
+    });
 
 
     context('when the parameter is a kwarg', () => {
@@ -121,7 +121,7 @@ describe('guessType()', () => {
 
             expect(result).to.equal('function');
         });
-    })
+    });
 
     context('when the parameter is an arg', () => {
         it("should guess bool type from arg name", () => {
@@ -137,6 +137,6 @@ describe('guessType()', () => {
 
             expect(result).to.equal('function');
         });
-    })
+    });
 
 });

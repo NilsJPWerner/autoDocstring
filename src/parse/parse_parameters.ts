@@ -3,7 +3,7 @@ import { guessType } from "./guess_types";
 import { Decorator } from "./interfaces";
 
 
-export function parseParameters(parameterTokens: string[], body: string): DocstringParts {
+export function parseParameters(parameterTokens: string[], body: string[]): DocstringParts {
     return {
         decorators: parseDecorators(parameterTokens),
         args: parseArguments(parameterTokens),
@@ -20,7 +20,7 @@ function parseDecorators(parameters: string[]): Decorator[] {
     for (let param of parameters) {
         let match = param.trim().match(pattern);
 
-        if (match == null) {
+        if (match == undefined) {
             continue;
         }
 
@@ -40,7 +40,7 @@ function parseArguments(parameters: string[]): Argument[] {
     for (let param of parameters) {
         let match = param.trim().match(pattern);
 
-        if (match == null || param.includes('=') || inArray(param, excludedArgs)) {
+        if (match == undefined || param.includes('=') || inArray(param, excludedArgs)) {
             continue;
         }
 
@@ -60,7 +60,7 @@ function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
     for (let param of parameters) {
         let match = param.trim().match(pattern);
 
-        if (match == null) {
+        if (match == undefined) {
             continue;
         }
 
@@ -80,23 +80,28 @@ function parseReturnType(parameters: string[]): Returns {
     for (let param of parameters) {
         let match = param.trim().match(pattern);
 
-        if (match == null) {
+        if (match == undefined) {
             continue;
         }
 
         return { type: match[1] };
     }
 
-    return null
+    return undefined
 }
 
-function parseRaises(body: string): Raises[] {
+function parseRaises(body: string[]): Raises[] {
     let raises: Raises[] = [];
-    let pattern = /raise\s+([\w.]+)/g;  // The g stops an infinite loop
-    var matches
+    let pattern = /raise\s+([\w.]+)/;
 
-    while ((matches = pattern.exec(body)) !== null) {
-        raises.push({ exception: matches[1] });
+    for (let line of body) {
+        let match = line.trim().match(pattern);
+
+        if (match == undefined) {
+            continue;
+        }
+
+        raises.push({ exception: match[1] });
     }
 
     return raises;
