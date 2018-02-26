@@ -8,7 +8,7 @@ export function parseParameters(parameterTokens: string[], body: string[]): Docs
         decorators: parseDecorators(parameterTokens),
         args: parseArguments(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),
-        returns: parseReturnType(parameterTokens),
+        returns: parseReturn(parameterTokens, body),
         raises: parseRaises(body),
     }
 }
@@ -74,7 +74,17 @@ function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
     return kwargs;
 }
 
-function parseReturnType(parameters: string[]): Returns {
+function parseReturn(parameters: string[], body: string[]): Returns {
+    let returnType = parseReturnFromDefinition(parameters);
+
+    if (returnType == undefined) {
+        return parseReturnFromBody(body);
+    }
+
+    return returnType;
+}
+
+function parseReturnFromDefinition(parameters: string[]): Returns {
     let pattern = /^->\s*([\w\[\], \.]*)/;
 
     for (let param of parameters) {
@@ -90,12 +100,28 @@ function parseReturnType(parameters: string[]): Returns {
     return undefined
 }
 
+function parseReturnFromBody(body: string[]): Returns {
+    let pattern = /return /
+
+    for (let line of body) {
+        let match = line.match(pattern);
+
+        if (match == undefined) {
+            continue;
+        }
+
+        return { type: undefined };
+    }
+
+    return undefined
+}
+
 function parseRaises(body: string[]): Raises[] {
     let raises: Raises[] = [];
     let pattern = /raise\s+([\w.]+)/;
 
     for (let line of body) {
-        let match = line.trim().match(pattern);
+        let match = line.match(pattern);
 
         if (match == undefined) {
             continue;

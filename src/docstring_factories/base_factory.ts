@@ -25,7 +25,7 @@ export abstract class BaseFactory {
             this.generateDescription();
         }
 
-        if (docstring != null) {
+        if (docstring != undefined) {
             if (docstring.decorators.length > 0) {
                 this.formatDecorators(docstring.decorators);
             }
@@ -38,7 +38,7 @@ export abstract class BaseFactory {
             if (docstring.raises.length > 0) {
                 this.formatRaises(docstring.raises);
             }
-            if (docstring.returns != null) {
+            if (docstring.returns != undefined) {
                 this.formatReturns(docstring.returns);
             }
         }

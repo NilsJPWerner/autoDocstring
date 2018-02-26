@@ -9,27 +9,46 @@ let expect = chai.expect;
 describe('parseParameters()', () => {
 
     it("should parse an array of strings into a docstring struct", () => {
-        var parameterTokens = ["@decorator1", "@decorator2", "param1", "param2: int", "param3 = 1"];
-        var result = parseParameters(parameterTokens, []);
+        let parameterTokens = [
+            "@decorator1",
+            "@decorator2",
+            "param1",
+            "param2: int",
+            "param3 = 1",
+            "param4: str = 'abc'",
+            "-> int"
+        ];
+        let body = [
+            "   raise Exception",
+            "raise Exception2"
+        ]
 
-        expect(result.decorators).to.have.deep.members([
-            { name: "decorator1" },
-            { name: "decorator2" },
-        ]);
+        let result = parseParameters(parameterTokens, body);
 
-        expect(result.args).to.have.deep.members([
-            { var: "param1", type: "type" },
-            { var: "param2", type: "int" },
-        ]);
-
-        expect(result.kwargs).to.have.deep.members([
-            { var: "param3", default: "1", type: "int"},
-        ])
+        expect(result).to.eql({
+            decorators: [
+                { name: "decorator1" },
+                { name: "decorator2" },
+            ],
+            args: [
+                { var: "param1", type: "type" },
+                { var: "param2", type: "int" },
+            ],
+            kwargs: [
+                { var: "param3", default: "1", type: "int"},
+                { var: "param4", default: "'abc'", type: "str"},
+            ],
+            returns: { type: "int" },
+            raises: [
+                { exception: "Exception" },
+                { exception: "Exception2" },
+            ],
+        });
     });
 
     it("should parse args with and without type hints", () => {
-        var parameterTokens = ["param1: List[string]", "param2"];
-        var result = parseParameters(parameterTokens, []);
+        let parameterTokens = ["param1: List[string]", "param2"];
+        let result = parseParameters(parameterTokens, []);
 
         expect(result.args).to.have.deep.members([
             { var: "param1", type: "List[string]"},
@@ -37,20 +56,9 @@ describe('parseParameters()', () => {
         ])
     });
 
-    it("should parse args with strange spacing", () => {
-        var parameterTokens = [" param1 :    int ", "  param2 ", "param3:List[int]"];
-        var result = parseParameters(parameterTokens, []);
-
-        expect(result.args).to.have.deep.members([
-            { var: "param1", type: "int"},
-            { var: "param2", type: "type"},
-            { var: "param3", type: "List[int]"},
-        ])
-    });
-
     it("should parse kwargs with and without type hints", () => {
-        var parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
-        var result = parseParameters(parameterTokens, []);
+        let parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
+        let result = parseParameters(parameterTokens, []);
 
         expect(result.kwargs).to.have.deep.members([
             { var: "param1", default: "[1,2]", type: "List[int]"},
@@ -58,38 +66,34 @@ describe('parseParameters()', () => {
         ])
     });
 
-    it("should parse kwargs with strange spacing", () => {
-        var parameterTokens = [" param1 : str\t=\t'abc'", " param2    =  1", "param3:int=2"];
-        var result = parseParameters(parameterTokens, []);
-
-        expect(result.kwargs).to.have.deep.members([
-            { var: "param1", default: "'abc'", type: "str"},
-            { var: "param2", default: "1", type: "int"},
-            { var: "param3", default: "2", type: "int"},
-        ])
-    });
-
     it("should parse return types", () => {
-        var parameterTokens = ["-> List[int]"];
-        var result = parseParameters(parameterTokens, []);
+        let parameterTokens = ["-> List[int]"];
+        let result = parseParameters(parameterTokens, []);
 
         expect(result.returns).to.deep.equal({
             type: "List[int]",
         })
     });
 
-    it("should parse return types with strange spacing", () => {
-        var parameterTokens = ["\t -> \tint  \t"];
-        var result = parseParameters(parameterTokens, []);
+    it("should parse the return from the body if there is no return type in the definition", () => {
+        let parameterTokens = ["param1"];
+        let body = ["return 3"]
+        let result = parseParameters(parameterTokens, body);
 
-        expect(result.returns).to.deep.equal({
-            type: "int",
+        expect(result.returns).to.eql({
+            type: undefined,
         })
-    });
+    })
+
+    it("should result in no return if there is no return type or return in body", () => {
+        let result = parseParameters([], []);
+
+        expect(result.returns).to.eql(undefined);
+    })
 
     it("should parse simple exception", () => {
-        var functionContent = ["raise Exception"];
-        var result = parseParameters([], functionContent);
+        let functionContent = ["raise Exception"];
+        let result = parseParameters([], functionContent);
 
         expect(result.raises).to.have.deep.members([
             { exception: "Exception" }
@@ -97,9 +101,9 @@ describe('parseParameters()', () => {
     });
 
     it("should find all exceptions in a function body", () => {
-        var functionContent = [
-            "var = func()",
-            "if var == 'bad':",
+        let functionContent = [
+            "let = func()",
+            "if let == 'bad':",
             "    raise BadVar",
             "try:",
             "    somethingRisky()",
@@ -108,12 +112,45 @@ describe('parseParameters()', () => {
             "raise AlwaysCrapsOut",
 
         ];
-        var result = parseParameters([], functionContent);
+        let result = parseParameters([], functionContent);
 
         expect(result.raises).to.have.deep.members([
             { exception: "BadVar" },
             { exception: "RiskyException" },
             { exception: "AlwaysCrapsOut" },
         ])
+    });
+
+    context("when the parameters have strange spacing", () => {
+        it("should parse args with strange spacing", () => {
+            let parameterTokens = [" param1 :    int ", "  param2 ", "param3:List[int]"];
+            let result = parseParameters(parameterTokens, []);
+
+            expect(result.args).to.have.deep.members([
+                { var: "param1", type: "int"},
+                { var: "param2", type: "type"},
+                { var: "param3", type: "List[int]"},
+            ])
+        });
+
+        it("should parse kwargs with strange spacing", () => {
+            let parameterTokens = [" param1 : str\t=\t'abc'", " param2    =  1", "param3:int=2"];
+            let result = parseParameters(parameterTokens, []);
+
+            expect(result.kwargs).to.have.deep.members([
+                { var: "param1", default: "'abc'", type: "str"},
+                { var: "param2", default: "1", type: "int"},
+                { var: "param3", default: "2", type: "int"},
+            ])
+        });
+
+        it("should parse return types with strange spacing", () => {
+            let parameterTokens = ["\t -> \tint  \t"];
+            let result = parseParameters(parameterTokens, []);
+
+            expect(result.returns).to.deep.equal({
+                type: "int",
+            })
+        });
     });
 })

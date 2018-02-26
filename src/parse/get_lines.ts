@@ -53,7 +53,7 @@ export function getBody(document: string, linePosition: number): string[] {
 function indentationOf(line: string): number {
     let whiteSpaceMatches = line.match(/^\s+/);
 
-    if (whiteSpaceMatches == null) {
+    if (whiteSpaceMatches == undefined) {
         return 0;
     }
 
@@ -61,5 +61,5 @@ function indentationOf(line: string): number {
 }
 
 function blankLine(line: string): boolean {
-    return (line.match(/[^\s]/) == null)
+    return (line.match(/[^\s]/) == undefined)
 }
