@@ -1,14 +1,13 @@
 language: node_js
+cache:
+  directories:
+  - node_modules
+  - .vscode-test
 
 sudo: false
 
 node_js:
   - "node"
-
-cache:
-  directories:
-  - node_modules
-  - .vscode-test
 
 os:
   - osx
@@ -23,7 +22,7 @@ before_install:
 
 install:
   - npm install
-#   - npm run vscode:prepublish
+  - npm run vscode:prepublish
 
 script:
   - npm run unit_test
