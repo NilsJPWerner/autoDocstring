@@ -1,4 +1,4 @@
-import * as interfaces from '../interfaces'
+import { DocstringParts, Decorator, Raises, Returns, removeTypes, addTypePlaceholders } from '../docstring_parts'
 import * as vscode from 'vscode';
 import { print } from 'util';
 
@@ -16,14 +16,19 @@ export abstract class BaseFactory {
         this._includeTypes = config.get("includeTypes") === true;
     }
 
-    createDocstring(docstring: interfaces.DocstringParts, openingQuotes: boolean): vscode.SnippetString {
-        // Wipe snippet incase it is dirty
+    createDocstring(docstring: DocstringParts, openingQuotes: boolean): vscode.SnippetString {
         this._snippet.value = "";
-
         this.generateSummary();
+
         if (this._includeDescription) {
             this.generateDescription();
         }
+
+        if (!this._includeTypes) {
+            removeTypes(docstring)
+        }
+
+        addTypePlaceholders(docstring, '[type]')
 
         if (docstring != undefined) {
             if (docstring.decorators.length > 0) {
@@ -69,11 +74,11 @@ export abstract class BaseFactory {
 
     abstract generateSummary(): void;
     abstract generateDescription(): void;
-    abstract formatDecorators(decorators: interfaces.Decorator[]): void;
-    abstract formatArguments(args: interfaces.DocstringParts): void;
-    abstract formatKeywordArguments(kwargs: interfaces.DocstringParts): void;
-    abstract formatRaises(raises: interfaces.Raises[]): void;
-    abstract formatReturns(returns: interfaces.Returns): void;
+    abstract formatDecorators(decorators: Decorator[]): void;
+    abstract formatArguments(args: DocstringParts): void;
+    abstract formatKeywordArguments(kwargs: DocstringParts): void;
+    abstract formatRaises(raises: Raises[]): void;
+    abstract formatReturns(returns: Returns): void;
 
 }
 

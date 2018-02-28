@@ -31,7 +31,7 @@ describe('parseParameters()', () => {
                 { name: "decorator2" },
             ],
             args: [
-                { var: "param1", type: "type" },
+                { var: "param1", type: undefined },
                 { var: "param2", type: "int" },
             ],
             kwargs: [
@@ -51,8 +51,8 @@ describe('parseParameters()', () => {
         let result = parseParameters(parameterTokens, []);
 
         expect(result.args).to.have.deep.members([
-            { var: "param1", type: "List[string]"},
-            { var: "param2", type: "type"},
+            { var: "param1", type: "List[string]" },
+            { var: "param2", type: undefined },
         ])
     });
 
@@ -61,8 +61,8 @@ describe('parseParameters()', () => {
         let result = parseParameters(parameterTokens, []);
 
         expect(result.kwargs).to.have.deep.members([
-            { var: "param1", default: "[1,2]", type: "List[int]"},
-            { var: "param2", default: "'abc'", type: "str"},
+            { var: "param1", default: "[1,2]", type: "List[int]" },
+            { var: "param2", default: "'abc'", type: "str" },
         ])
     });
 
@@ -128,7 +128,7 @@ describe('parseParameters()', () => {
 
             expect(result.args).to.have.deep.members([
                 { var: "param1", type: "int"},
-                { var: "param2", type: "type"},
+                { var: "param2", type: undefined},
                 { var: "param3", type: "List[int]"},
             ])
         });

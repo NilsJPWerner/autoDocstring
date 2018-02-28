@@ -18,7 +18,7 @@ function getTypeFromTyping(parameter: string): string {
     let typeHint = pattern.exec(parameter);
 
     if (typeHint == undefined || typeHint.length != 2) {
-        return 'type'
+        return undefined
     }
 
     return typeHint[1].trim()
@@ -29,7 +29,7 @@ function guessTypeFromDefaultValue(parameter: string): string {
     let defaultValueMatch = pattern.exec(parameter);
 
     if (defaultValueMatch == undefined || defaultValueMatch.length != 2) {
-        return 'type';
+        return undefined;
     };
 
     let defaultValue = defaultValueMatch[1];
@@ -56,7 +56,7 @@ function guessTypeFromDefaultValue(parameter: string): string {
 
     if (isFunction(defaultValue)) { return 'function' }
 
-    return 'type'
+    return undefined
 }
 
 function guessTypeFromName(parameter: string): string {
@@ -68,7 +68,7 @@ function guessTypeFromName(parameter: string): string {
         return 'function'
     }
 
-    return 'type'
+    return undefined
 }
 
 function hasTypeHint(parameter: string): boolean {
