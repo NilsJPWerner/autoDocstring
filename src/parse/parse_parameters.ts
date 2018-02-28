@@ -1,6 +1,5 @@
-import { Argument, KeywordArgument, DocstringParts, Returns, Raises } from "./interfaces";
+import { Argument, KeywordArgument, DocstringParts, Returns, Raises, Decorator } from "../docstring_parts";
 import { guessType } from "./guess_types";
-import { Decorator } from "./interfaces";
 
 
 export function parseParameters(parameterTokens: string[], body: string[]): DocstringParts {

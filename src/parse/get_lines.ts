@@ -21,7 +21,7 @@ export function getDefinition(document: string, linePosition: number): string {
         currentLineNum -= 1;
     }
 
-    return definition
+    return definition;
 }
 
 export function getBody(document: string, linePosition: number): string[] {
@@ -50,7 +50,7 @@ export function getBody(document: string, linePosition: number): string[] {
     return body
 }
 
-function indentationOf(line: string): number {
+export function indentationOf(line: string): number {
     let whiteSpaceMatches = line.match(/^\s+/);
 
     if (whiteSpaceMatches == undefined) {
@@ -60,6 +60,6 @@ function indentationOf(line: string): number {
     return whiteSpaceMatches[0].length;
 }
 
-function blankLine(line: string): boolean {
+export function blankLine(line: string): boolean {
     return (line.match(/[^\s]/) == undefined)
 }
