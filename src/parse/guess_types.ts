@@ -38,6 +38,8 @@ function guessTypeFromDefaultValue(parameter: string): string {
 
     if (isFloat(defaultValue)) { return 'float' }
 
+    if (isHexadecimal(defaultValue)) { return 'hexadecimal' }
+
     if (isString(defaultValue)) { return 'str' }
 
     if (isBool(defaultValue)) { return 'bool' }
@@ -85,6 +87,10 @@ function isInteger(value: string): boolean {
 
 function isFloat(value: string): boolean {
     return (value.match(/^[-+]?[0-9]*\.[0-9]+$/) != undefined)
+}
+
+function isHexadecimal(value: string): boolean {
+    return (value.match(/^[-+]?0x[0-9abcdef]+/) != undefined)
 }
 
 function isString(value: string): boolean {
