@@ -54,7 +54,8 @@ export function addTypePlaceholders(docstringParts: DocstringParts, placeholder:
         }
     }
 
-    if (docstringParts.returns.type == undefined) {
-        docstringParts.returns.type = placeholder
+    let returns = docstringParts.returns;
+    if (returns != undefined && returns.type == undefined) {
+        returns.type = placeholder
     }
 }
