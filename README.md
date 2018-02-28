@@ -1,3 +1,5 @@
+[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
+
 # Python autoDocstring
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
