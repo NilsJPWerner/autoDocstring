@@ -6,14 +6,14 @@ export abstract class BaseFactory {
 
     protected _snippet: vscode.SnippetString;
     protected _includeDescription: boolean;
-    protected _includeTypes : boolean;
+    protected _guessTypes : boolean;
 
     constructor() {
         this._snippet = new vscode.SnippetString();
 
         let config = vscode.workspace.getConfiguration("autoDocstring");
         this._includeDescription = config.get("includeDescription") === true;
-        this._includeTypes = config.get("includeTypes") === true;
+        this._guessTypes = config.get("guessTypes") === true;
     }
 
     createDocstring(docstring: DocstringParts, openingQuotes: boolean): vscode.SnippetString {
@@ -24,7 +24,7 @@ export abstract class BaseFactory {
             this.generateDescription();
         }
 
-        if (!this._includeTypes) {
+        if (!this._guessTypes) {
             removeTypes(docstring)
         }
 

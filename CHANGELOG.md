@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.0] - 2018-02-28
+- Rewrote parser to tokenize parameters. Should deal with string and array kwargs better
+- Added type inference using type hints, kwarg defaults, and var names
+- Improved the closed docstring check
+- Added unit tests for parser
+
 ## [0.1.4] - 2018-01-17
 - Add Sphinx and Numpy formatters
 

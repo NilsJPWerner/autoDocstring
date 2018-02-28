@@ -82,11 +82,6 @@
                     "default": false,
                     "description": "Include description tag"
                 },
-                "autoDocstring.includeTypes": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Include types of parameters and return values"
-                },
                 "autoDocstring.guessTypes": {
                     "type": "boolean",
                     "default": true,

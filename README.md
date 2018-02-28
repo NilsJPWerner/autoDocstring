@@ -8,8 +8,8 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 * Quickly generate a docstring snippet that can be tabbed through.
 * Choose between several different types of docstring formats.
+* Infers parameter types through pep484 type hints, default values, and var names.
 * Support for args, kwargs, decorators, errors, and paramter types
-* More to come!
 
 ## Docstring Formats
 
@@ -35,16 +35,16 @@ This extension contributes the following settings:
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
 * `autoDocstring.includeDescription`: Include dscription section in docstring
+* `autoDocstring.guessTypes`: Infer types from type hints, default values and variable names
 
 ## Known Issues
-* Definition parser does not take into account commas in kwarg string or tuple defaults
+
+* None
 
 ## Roadmap
 
 * Add support for classes and modules
 * Add unit tests
-* Add ability to infer types
-* Document code better
 * Add more docstring formats
 
 ## Changelog
