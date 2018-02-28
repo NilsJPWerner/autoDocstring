@@ -48,6 +48,12 @@ describe('docstringIsClosed()', () => {
 
         expect(result).to.equal(false);
     })
+
+    it.only("should return false if the preceding quotes open a non closed docstring for a second function", () => {
+        let result = docstringIsClosed(openDocstringSecondFunction, 7, 7);
+
+        expect(result).to.equal(false);
+    })
 });
 
 
@@ -99,3 +105,16 @@ def function(param1):
         something()
 `
 
+let openDocstringSecondFunction = `
+def function(param1):
+    print("HELLO WORLD")
+    try:
+        something()
+
+def function2(param1):
+    """
+    print("HELLO WORLD")
+
+def function3(param1):
+    print("HELLO WORLD")
+`
