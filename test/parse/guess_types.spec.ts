@@ -59,6 +59,13 @@ describe('guessType()', () => {
             expect(result).to.equal('float');
         });
 
+        it("should guess hexadecimal type from default value", () => {
+            var parameter = 'kwarg=0xf00ff00';
+            var result = guessType(parameter);
+
+            expect(result).to.equal('hexadecimal');
+        });
+
         it("should guess string type from default value", () => {
             var parameter = 'kwarg="abc()[]"';
             var result = guessType(parameter);
