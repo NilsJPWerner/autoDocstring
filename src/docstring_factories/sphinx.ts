@@ -1,4 +1,4 @@
-import * as interfaces from '../interfaces';
+import * as interfaces from '../docstring_parts';
 import { BaseFactory } from './base_factory'
 import * as vscode from 'vscode';
 
@@ -27,7 +27,7 @@ export class SphinxFactory extends BaseFactory {
             this.appendNewLine()
 
             this.appendText(":type " + arg.var + ": ")
-            this.appendPlaceholder("[type]")
+            this.appendPlaceholder(`${arg.type}`)
             this.appendNewLine()
         }
     }
@@ -40,7 +40,7 @@ export class SphinxFactory extends BaseFactory {
             this.appendNewLine()
 
             this.appendText(":param " + kwarg.var + ": ")
-            this.appendPlaceholder("[type]")
+            this.appendPlaceholder(`${kwarg.type}`)
             this.appendText(", optional")
             this.appendNewLine()
         }
@@ -48,8 +48,8 @@ export class SphinxFactory extends BaseFactory {
 
     formatRaises(raises: interfaces.Raises[]) {
         for (let raise of raises) {
-            this.appendText(":raises " + raise.error + ": ");
-            this.appendPlaceholder("[cause]");
+            this.appendText(":raises " + raise.exception + ": ");
+            this.appendPlaceholder("[description]");
             this.appendNewLine()
         }
     }
@@ -60,7 +60,7 @@ export class SphinxFactory extends BaseFactory {
         this.appendNewLine()
 
         this.appendText(":rtype: ");
-        this.appendPlaceholder("[type]");
+        this.appendPlaceholder(`${returns.type}`);
         this.appendNewLine()
     }
 }

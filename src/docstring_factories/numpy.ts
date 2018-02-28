@@ -1,4 +1,4 @@
-import * as interfaces from '../interfaces';
+import * as interfaces from '../docstring_parts';
 import { BaseFactory } from './base_factory'
 import * as vscode from 'vscode';
 
@@ -27,7 +27,7 @@ export class NumpyFactory extends BaseFactory {
 
         for (let arg of docstring.args) {
             this.appendText(arg.var + " : {")
-            this.appendPlaceholder("[type]")
+            this.appendPlaceholder(`${arg.type}`)
             this.appendText("}\n")
 
             this.appendText("\t")
@@ -39,7 +39,7 @@ export class NumpyFactory extends BaseFactory {
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         for (let kwarg of docstring.kwargs) {
             this.appendText(kwarg.var + " : {")
-            this.appendPlaceholder("[type]")
+            this.appendPlaceholder(`${kwarg.type}`)
             this.appendText("}, optional\n")
 
             this.appendText("\t")
@@ -55,7 +55,7 @@ export class NumpyFactory extends BaseFactory {
         this.appendText("Raises\n------\n");
 
         for (let raise of raises) {
-            this.appendText(raise.error + "\n\t");
+            this.appendText(raise.exception + "\n\t");
             this.appendPlaceholder("[description]");
             this.appendNewLine()
         }
@@ -64,7 +64,7 @@ export class NumpyFactory extends BaseFactory {
 
     formatReturns(returns: interfaces.Returns) {
         this.appendText("Returns\n-------\n");
-        this.appendPlaceholder("[type]");
+        this.appendPlaceholder(`${returns.type}`);
 
         this.appendText("\n\t");
         this.appendPlaceholder("[description]");

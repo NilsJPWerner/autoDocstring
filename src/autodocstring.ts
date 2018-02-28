@@ -1,16 +1,15 @@
 import * as vs from 'vscode';
-import * as parser from './parse';
 import * as factories from './docstring_factories/factories'
+import { parse } from './parse/parse'
+import { docstringIsClosed } from './parse/closed_docstring'
 
 
 export class AutoDocstring {
     private docstringFactory: factories.BaseFactory;
-    private pythonParser: parser.PythonParser;
     private editor: vs.TextEditor;
 
     constructor(editor: vs.TextEditor) {
         this.editor = editor;
-        this.pythonParser = new parser.PythonParser();
 
         let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
         switch (docstringFormat) {
@@ -32,13 +31,15 @@ export class AutoDocstring {
     }
 
     public generateDocstring(onEnter: boolean) {
-        let document = this.editor.document;
-        let position = this.editor.selection.active;
+        let document = this.editor.document.getText();
+        let position = this.editor.selection.active
+        let linePosition = position.line;
+        let charPosition = position.character;
 
         // Check whether the docstring is already closed for enter activation
-        if (!onEnter || !this.pythonParser.closedDocstringExists(document, position)) {
+        if (!onEnter || !docstringIsClosed(document, linePosition, charPosition)) {
 
-            let docstringParts = this.pythonParser.parseLines(document, position);
+            let docstringParts = parse(document, linePosition);
             let docstringSnippet = this.docstringFactory.createDocstring(docstringParts, !onEnter);
 
             this.editor.insertSnippet(docstringSnippet, position)
