@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/NilsJPWerner/autoDocstring.svg?branch=master)](https://travis-ci.org/NilsJPWerner/autoDocstring)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
+
 # Python autoDocstring
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
@@ -55,7 +58,7 @@ Check the [CHANGELOG.md](CHANGELOG.md) for any version changes.
 
 The source code for this extension is hosted on [GitHub](https://github.com/NilsJPWerner/autoDocstring). Contributions, pull requests, suggestions, and bug reports are greatly appreciated.
 
-* Post any issues and suggestions to the github [issues page](https://github.com/NilsJPWerner/autoDocstring/issues). Add the `feature request` tage to any feature requests or suggestions.
+* Post any issues and suggestions to the github [issues page](https://github.com/NilsJPWerner/autoDocstring/issues). Add the `feature request` tag to any feature requests or suggestions.
 * To contribute, fork the project and then create a pull request back to master. Please update the README if you make any noticeable feature changes.
 * There is no official contribution guide or code of conduct yet, but please follow the standard open source norms and be respectful in any comments you make.
 

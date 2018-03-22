@@ -49,7 +49,7 @@ describe('docstringIsClosed()', () => {
         expect(result).to.equal(false);
     })
 
-    it.only("should return false if the preceding quotes open a non closed docstring for a second function", () => {
+    it("should return false if the preceding quotes open a non closed docstring for a second function", () => {
         let result = docstringIsClosed(openDocstringSecondFunction, 7, 7);
 
         expect(result).to.equal(false);
