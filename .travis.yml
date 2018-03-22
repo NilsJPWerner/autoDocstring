@@ -25,8 +25,5 @@ install:
   - npm run vscode:prepublish
 
 script:
+  - npm test
   - npm run unit_test
-  # - npm test --silent
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
