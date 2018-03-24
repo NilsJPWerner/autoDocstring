@@ -5,6 +5,7 @@ import { print } from 'util';
 export abstract class BaseFactory {
 
     protected _snippet: vscode.SnippetString;
+    protected _newlineBeforeSummary: boolean;
     protected _includeDescription: boolean;
     protected _guessTypes : boolean;
 
@@ -12,12 +13,18 @@ export abstract class BaseFactory {
         this._snippet = new vscode.SnippetString();
 
         let config = vscode.workspace.getConfiguration("autoDocstring");
+        this._newlineBeforeSummary = config.get("newlineBeforeSummary") === true;
         this._includeDescription = config.get("includeDescription") === true;
         this._guessTypes = config.get("guessTypes") === true;
     }
 
     createDocstring(docstring: DocstringParts, openingQuotes: boolean): vscode.SnippetString {
         this._snippet.value = "";
+
+        if (this._newlineBeforeSummary) {
+            this._snippet.appendText("\n");
+        }
+
         this.generateSummary();
 
         if (this._includeDescription) {
@@ -25,7 +32,7 @@ export abstract class BaseFactory {
         }
 
         if (!this._guessTypes) {
-            removeTypes(docstring)
+            removeTypes(docstring);
         }
 
         addTypePlaceholders(docstring, '[type]')

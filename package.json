@@ -82,6 +82,11 @@
                     "default": false,
                     "description": "Include description tag"
                 },
+                "autoDocstring.newlineBeforeSummary": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "New line before summary placeholder"
+                },
                 "autoDocstring.guessTypes": {
                     "type": "boolean",
                     "default": true,
