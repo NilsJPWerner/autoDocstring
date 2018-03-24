@@ -1,6 +1,6 @@
 {
     "name": "autodocstring",
-    "displayName": "Python Docstring",
+    "displayName": "autoDocstring",
     "description": "Generates python docstrings",
     "version": "0.2.0",
     "publisher": "njpwerner",
