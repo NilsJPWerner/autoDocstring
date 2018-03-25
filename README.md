@@ -42,7 +42,9 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-* None
+* \*args & \*\*kwargs not dealt with properly
+* Extra new line at the end of inserted docstring
+* Inserted docstrings have trailing spaces (problem with how vscode deals with snippets) 
 
 ## Roadmap
 
