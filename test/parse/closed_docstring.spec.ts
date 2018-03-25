@@ -43,6 +43,18 @@ describe('docstringIsClosed()', () => {
         expect(result).to.equal(true);
     })
 
+    it("should return true if the preceding quotes open a multiline string", () => {
+        let result = docstringIsClosed(closedMultilineString, 2, 16);
+
+        expect(result).to.equal(true);
+    })
+
+    it("should return true if the preceding quotes close a multiline string", () => {
+        let result = docstringIsClosed(closedMultilineString, 6, 7);
+
+        expect(result).to.equal(true);
+    })
+
     it("should return false if the preceding quotes open a non closed docstring", () => {
         let result = docstringIsClosed(openDocstring, 2, 7);
 
@@ -117,4 +129,17 @@ def function2(param1):
 
 def function3(param1):
     print("HELLO WORLD")
+`
+
+
+let closedMultilineString = `
+def function(param1):
+    string = """ 
+    This is a string
+    Not a docstring
+        Should still work
+    """
+    print("HELLO WORLD")
+    try:
+        something()
 `
