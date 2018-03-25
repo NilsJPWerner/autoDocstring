@@ -22,13 +22,13 @@ export class NumpyFactory extends BaseFactory {
 
     formatArguments(docstring: interfaces.DocstringParts) {
         if (docstring.args.length > 0 || docstring.kwargs.length > 0) {
-            this.appendText("Parameters:\n----------\n");
+            this.appendText("Parameters\n----------\n");
         }
 
         for (let arg of docstring.args) {
-            this.appendText(arg.var + " : {")
+            this.appendText(arg.var + " : ")
             this.appendPlaceholder(`${arg.type}`)
-            this.appendText("}\n")
+            this.appendText("\n")
 
             this.appendText("\t")
             this.appendPlaceholder("[description]")
@@ -38,9 +38,9 @@ export class NumpyFactory extends BaseFactory {
 
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
         for (let kwarg of docstring.kwargs) {
-            this.appendText(kwarg.var + " : {")
+            this.appendText(kwarg.var + " : ")
             this.appendPlaceholder(`${kwarg.type}`)
-            this.appendText("}, optional\n")
+            this.appendText(", optional\n")
 
             this.appendText("\t")
             this.appendPlaceholder("[description]")
