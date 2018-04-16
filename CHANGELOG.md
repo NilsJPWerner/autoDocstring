@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.1] - 2018-04-15
+- Bugfixes
+- Added includeName option to include function name in docstring
+- Added newlineBeforeSummary option
+- Removed test functions from install script
+
 ## [0.2.0] - 2018-02-28
 - Rewrote parser to tokenize parameters. Should deal with string and array kwargs better
 - Added type inference using type hints, kwarg defaults, and var names
