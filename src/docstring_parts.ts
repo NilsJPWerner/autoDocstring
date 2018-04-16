@@ -1,4 +1,5 @@
 export type DocstringParts = {
+    name: string;
     decorators: Decorator[];
     args: Argument[];
     kwargs: KeywordArgument[];

@@ -7,6 +7,7 @@ export abstract class BaseFactory {
     protected _snippet: vscode.SnippetString;
     protected _newlineBeforeSummary: boolean;
     protected _includeDescription: boolean;
+    protected _includeName: boolean;
     protected _guessTypes : boolean;
 
     constructor() {
@@ -15,6 +16,7 @@ export abstract class BaseFactory {
         let config = vscode.workspace.getConfiguration("autoDocstring");
         this._newlineBeforeSummary = config.get("newlineBeforeSummary") === true;
         this._includeDescription = config.get("includeDescription") === true;
+        this._includeName = config.get("includeName") === true;
         this._guessTypes = config.get("guessTypes") === true;
     }
 
@@ -25,7 +27,7 @@ export abstract class BaseFactory {
             this._snippet.appendText("\n");
         }
 
-        this.generateSummary();
+        this.generateSummary(docstring);
 
         if (this._includeDescription) {
             this.generateDescription();
@@ -79,7 +81,7 @@ export abstract class BaseFactory {
         this._snippet.appendText("\n");
     }
 
-    abstract generateSummary(): void;
+    abstract generateSummary(docstring: DocstringParts): void;
     abstract generateDescription(): void;
     abstract formatDecorators(decorators: Decorator[]): void;
     abstract formatArguments(args: DocstringParts): void;
