@@ -2,8 +2,9 @@ import { Argument, KeywordArgument, DocstringParts, Returns, Raises, Decorator }
 import { guessType } from "./guess_types";
 
 
-export function parseParameters(parameterTokens: string[], body: string[]): DocstringParts {
+export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
     return {
+        name: functionName,
         decorators: parseDecorators(parameterTokens),
         args: parseArguments(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),

@@ -82,6 +82,11 @@
                     "default": false,
                     "description": "Include description tag"
                 },
+                "autoDocstring.includeName": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include function names at the start of docstrings"
+                },
                 "autoDocstring.newlineBeforeSummary": {
                     "type": "boolean",
                     "default": false,

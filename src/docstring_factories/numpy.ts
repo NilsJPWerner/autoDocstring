@@ -4,7 +4,11 @@ import * as vscode from 'vscode';
 
 export class NumpyFactory extends BaseFactory {
 
-    generateSummary(){
+    generateSummary(docstring: interfaces.DocstringParts){
+        if (this._includeName) {
+            this._snippet.appendText(`${docstring.name}\n\n`);
+        }
+
         this._snippet.appendPlaceholder("[summary]");
         this.appendNewLine()
         this.appendNewLine()

@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/NilsJPWerner/autoDocstring.svg?branch=master)](https://travis-ci.org/NilsJPWerner/autoDocstring)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
 
-# Python autoDocstring
+# VSCode autoDocstring
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
@@ -38,19 +38,21 @@ This extension contributes the following settings:
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
 * `autoDocstring.includeDescription`: Include description section in docstring
+* `autoDocstring.includeName`: Include function name at the start of docstring
+* `autoDocstring.newlineBeforeSummary`: New line before summary placeholder
 * `autoDocstring.guessTypes`: Infer types from type hints, default values and variable names
 
 ## Known Issues
 
 * \*args & \*\*kwargs not dealt with properly
 * Extra new line at the end of inserted docstring
-* Inserted docstrings have trailing spaces (problem with how vscode deals with snippets) 
+* Inserted docstrings have trailing spaces (problem with how vscode deals with snippets)
 
 ## Roadmap
 
 * Add support for classes and modules
 * Add more unit tests
-* Add more docstring formats
+* Add Epytext format
 
 ## Changelog
 
