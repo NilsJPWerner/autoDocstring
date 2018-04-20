@@ -38,9 +38,17 @@ export class NumpyFactory extends BaseFactory {
             this.appendPlaceholder("[description]")
             this.appendNewLine()
         }
+
+        if (!docstring.kwargs.length) {
+            this.appendNewLine();
+        }
     }
 
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
+        if (!docstring.args.length) {
+            this.appendText("Parameters\n----------\n");
+        }
+
         for (let kwarg of docstring.kwargs) {
             this.appendText(kwarg.var + " : ")
             this.appendPlaceholder(`${kwarg.type}`)
