@@ -9,25 +9,26 @@ export class AutoDocstring {
     private docstringFactory: factories.BaseFactory;
     private editor: vs.TextEditor;
 
-    constructor(editor: vs.TextEditor) {
+    constructor(editor: vs.TextEditor, quoteStyle: string) {
         this.editor = editor;
+        this.quoteStyle = quoteStyle;
 
         let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
         switch (docstringFormat) {
             case "google":
-                this.docstringFactory = new factories.GoogleFactory();
+                this.docstringFactory = new factories.GoogleFactory(quoteStyle);
                 break;
 
             case "sphinx":
-                this.docstringFactory = new factories.SphinxFactory();
+                this.docstringFactory = new factories.SphinxFactory(quoteStyle);
                 break;
 
             case "numpy":
-                this.docstringFactory = new factories.NumpyFactory();
+                this.docstringFactory = new factories.NumpyFactory(quoteStyle);
                 break;
 
             default:
-                this.docstringFactory = new factories.DefaultFactory();
+                this.docstringFactory = new factories.DefaultFactory(quoteStyle);
         }
     }
 
@@ -42,7 +43,7 @@ export class AutoDocstring {
         }
 
         // Check whether the docstring is already closed for enter activation
-        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition)) {
+        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition, this.quoteStyle)) {
 
             let docstringParts = parse(document, linePosition);
             let docstringSnippet = this.docstringFactory.createDocstring(docstringParts, !onEnter);
@@ -51,13 +52,13 @@ export class AutoDocstring {
         }
     }
 
-    validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
-        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition))
-        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition))
+    validEnterActivation(document: string, linePosition: number, charPosition: number, quoteStyle: string): boolean {
+        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, quoteStyle))
+        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, quoteStyle))
         
         return (
-            !isMultiLineString(document, linePosition, charPosition) && 
-            !docstringIsClosed(document, linePosition, charPosition)
+            !isMultiLineString(document, linePosition, charPosition, quoteStyle) && 
+            !docstringIsClosed(document, linePosition, charPosition, quoteStyle)
         )
     }
 }

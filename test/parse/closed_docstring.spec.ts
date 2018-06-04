@@ -8,61 +8,61 @@ let expect = chai.expect;
 
 describe('docstringIsClosed()', () => {
     it("should return true if the preceding quotes close an existing docstring", () => {
-        let result = docstringIsClosed(closedDocstring, 6, 7);
+        let result = docstringIsClosed(closedDocstring, 6, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes open an existing docstring", () => {
-        let result = docstringIsClosed(closedDocstring, 4, 7);
+        let result = docstringIsClosed(closedDocstring, 4, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes closes a one line docstring", () => {
-        let result = docstringIsClosed(closedOneLineDocstring, 4, 17);
+        let result = docstringIsClosed(closedOneLineDocstring, 4, 17, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes opens a one line docstring", () => {
-        let result = docstringIsClosed(closedOneLineDocstring, 4, 7);
+        let result = docstringIsClosed(closedOneLineDocstring, 4, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes closes a multiline docstring", () => {
-        let result = docstringIsClosed(closedMultilineDocstring, 7, 7);
+        let result = docstringIsClosed(closedMultilineDocstring, 7, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes open a multiline docstring", () => {
-        let result = docstringIsClosed(closedMultilineDocstring, 2, 7);
+        let result = docstringIsClosed(closedMultilineDocstring, 2, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes open a multiline string", () => {
-        let result = docstringIsClosed(closedMultilineString, 2, 16);
+        let result = docstringIsClosed(closedMultilineString, 2, 16, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return true if the preceding quotes close a multiline string", () => {
-        let result = docstringIsClosed(closedMultilineString, 6, 7);
+        let result = docstringIsClosed(closedMultilineString, 6, 7, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return false if the preceding quotes open a non closed docstring", () => {
-        let result = docstringIsClosed(openDocstring, 2, 7);
+        let result = docstringIsClosed(openDocstring, 2, 7, '"""');
 
         expect(result).to.equal(false);
     })
 
     it("should return false if the preceding quotes open a non closed docstring for a second function", () => {
-        let result = docstringIsClosed(openDocstringSecondFunction, 7, 7);
+        let result = docstringIsClosed(openDocstringSecondFunction, 7, 7, '"""');
 
         expect(result).to.equal(false);
     })

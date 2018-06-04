@@ -1,20 +1,20 @@
 import { indentationOf, blankLine } from './utilities'
 
-export function docstringIsClosed(document: string, linePosition: number, charPosition: number): boolean {
+export function docstringIsClosed(document: string, linePosition: number, charPosition: number, quoteStyle: string): boolean {
     let lines = document.split('\n');
 
-    if (quotesCloseExistingDocstring(lines, linePosition, charPosition)) {
+    if (quotesCloseExistingDocstring(lines, linePosition, charPosition, quoteStyle)) {
         return true;
     }
 
-    if (quotesOpenExistingDocstring(lines, linePosition, charPosition)) {
+    if (quotesOpenExistingDocstring(lines, linePosition, charPosition, quoteStyle)) {
         return true;
     }
 
     return false;
 }
 
-function quotesCloseExistingDocstring(lines: string[], linePosition: number, charPosition: number): boolean {
+function quotesCloseExistingDocstring(lines: string[], linePosition: number, charPosition: number, quoteStyle: string): boolean {
     let linesBeforePosition = sliceUpToPosition(lines, linePosition, charPosition);
     let numberOfTripleQuotes = 0;
 
@@ -23,23 +23,23 @@ function quotesCloseExistingDocstring(lines: string[], linePosition: number, cha
             break;
         };
 
-        numberOfTripleQuotes += occurrences(line, '"""');
+        numberOfTripleQuotes += occurrences(line, quoteStyle);
     }
 
     return (numberOfTripleQuotes % 2 == 0);
 }
 
-function quotesOpenExistingDocstring(lines: string[], linePosition: number, charPosition: number): boolean {
+function quotesOpenExistingDocstring(lines: string[], linePosition: number, charPosition: number, quoteStyle: string): boolean {
     let linesAfterPosition = sliceFromPosition(lines, linePosition, charPosition);
     let originalIndentation = indentationOf(lines[linePosition]);
 
     // Need to check first line separately because indentation was sliced off
-    if (linesAfterPosition[0].includes('"""')) {
+    if (linesAfterPosition[0].includes(quoteStyle)) {
         return true;
     }
 
     for (let line of linesAfterPosition.slice(1)) {
-        if (line.includes('"""')) {
+        if (line.includes(quoteStyle)) {
             return true;
         }
 
