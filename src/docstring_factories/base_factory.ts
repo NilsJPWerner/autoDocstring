@@ -10,6 +10,8 @@ export abstract class BaseFactory {
     protected _includeName: boolean;
     protected _guessTypes : boolean;
 
+    private _quoteStyle: string;
+
     constructor(quoteStyle: string) {
         this._snippet = new vscode.SnippetString();
         this._quoteStyle = quoteStyle;

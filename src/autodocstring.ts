@@ -8,6 +8,7 @@ import { isMultiLineString } from './parse/multi_line_string'
 export class AutoDocstring {
     private docstringFactory: factories.BaseFactory;
     private editor: vs.TextEditor;
+    private quoteStyle: string;
 
     constructor(editor: vs.TextEditor, quoteStyle: string) {
         this.editor = editor;
@@ -55,9 +56,9 @@ export class AutoDocstring {
     validEnterActivation(document: string, linePosition: number, charPosition: number, quoteStyle: string): boolean {
         console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, quoteStyle))
         console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, quoteStyle))
-        
+
         return (
-            !isMultiLineString(document, linePosition, charPosition, quoteStyle) && 
+            !isMultiLineString(document, linePosition, charPosition, quoteStyle) &&
             !docstringIsClosed(document, linePosition, charPosition, quoteStyle)
         )
     }
