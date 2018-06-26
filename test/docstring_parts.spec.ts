@@ -9,6 +9,7 @@ let expect = chai.expect;
 describe('removeTypes()', () => {
     it('should remove types from the docstringParts', () => {
         let docstringParts = {
+            defType: "",
             name: "",
             args: [
                 { var: "param1", type: undefined },
@@ -26,14 +27,15 @@ describe('removeTypes()', () => {
         removeTypes(docstringParts)
 
         expect(docstringParts).to.eql({
+            defType: "",
             name: "",
             args: [
                 { var: "param1", type: undefined },
                 { var: "param2", type: undefined },
             ],
             kwargs: [
-                { var: "param3", default: "1", type: undefined},
-                { var: "param4", default: "'abc'", type: undefined},
+                { var: "param3", default: "1", type: undefined },
+                { var: "param4", default: "'abc'", type: undefined },
             ],
             returns: { type: undefined },
             raises: [],
@@ -45,6 +47,7 @@ describe('removeTypes()', () => {
 describe('addTypePlaceholders()', () => {
     it('should set all undefined types to a given placeholder', () => {
         let docstringParts = {
+            defType: "",
             name: "",
             args: [
                 { var: "param1", type: undefined },
@@ -62,6 +65,7 @@ describe('addTypePlaceholders()', () => {
         addTypePlaceholders(docstringParts, '[type]');
 
         expect(docstringParts).to.eql({
+            defType: "",
             name: "",
             args: [
                 { var: "param1", type: '[type]' },

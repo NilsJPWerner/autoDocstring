@@ -11,6 +11,7 @@ export function parse(document: string, positionLine: number): DocstringParts {
     let parameterTokens = tokenizeDefinition(definition)
     let functionName = getFunctionName(definition)
 
-    return parseParameters(parameterTokens, body, functionName)
+    //change by snakeclub : add para definition for more infomation
+    return parseParameters(parameterTokens, body, functionName, definition)
 }
 

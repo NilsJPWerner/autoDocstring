@@ -13,7 +13,7 @@ export function getDefinition(document: string, linePosition: number): string {
 
     while (currentLineNum >= 0) {
         let line = lines[currentLineNum];
-        definition = line.trim() + definition;
+        definition = line.trim() + '\n' + definition;  //change by snakeclub: add '\n' to split lines
 
         if (indentationOf(line) < originalIndentation || blankLine(line)) {
             break
