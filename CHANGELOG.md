@@ -1,5 +1,19 @@
 # Change Log
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.3.0"></a>
+# 0.3.0 (2018-06-26)
+
+
+### Features
+
+* **$parse:** Fix parseDecorators bug, parseParameters add defType prop ([350e865](https://github.com/NilsJPWerner/autoDocstring/commit/350e865))
+
+
+
+# Change Log
+
 ## [0.2.1] - 2018-04-15
 - Bugfixes
 - Added includeName option to include function name in docstring
