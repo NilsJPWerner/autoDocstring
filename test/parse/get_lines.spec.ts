@@ -11,25 +11,25 @@ describe('getDefinition()', () => {
         it("should get a basic function definition", () => {
             var result = getDefinition(basicFunction, 4);
 
-            expect(result).to.equal('def basic_function(param1, param2 = abc):');
+            expect(result.replace(/\n/g, "")).to.equal('def basic_function(param1, param2 = abc):');
         });
 
         it("should get an indented function definition", () => {
             var result = getDefinition(indentedFunction, 4);
 
-            expect(result).to.equal('def indented_function(param1):');
+            expect(result.replace(/\n/g, "")).to.equal('def indented_function(param1):');
         });
 
         it("should get a multiline function definition", () => {
             var result = getDefinition(multiLineFunction, 6);
 
-            expect(result).to.equal('def multi_line_function(param1,param2 = 1):');
+            expect(result.replace(/\n/g, "")).to.equal('def multi_line_function(param1,param2 = 1):');
         });
 
         it("should return an empty string if there is a gap above position", () => {
             var result = getDefinition(gapFunction, 5);
 
-            expect(result).to.equal('');
+            expect(result.replace(/\n/g, "")).to.equal('');
         });
     });
 
@@ -37,7 +37,7 @@ describe('getDefinition()', () => {
         it("should get the class definition", () => {
             var result = getDefinition(basicClass, 4);
 
-            expect(result).to.equal('class BasicClass(object):');
+            expect(result.replace(/\n/g, "")).to.equal('class BasicClass(object):');
         });
     });
 });

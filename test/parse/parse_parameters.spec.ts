@@ -29,6 +29,7 @@ describe('parseParameters()', () => {
         let result = parseParameters(parameterTokens, body, functionName, "");
 
         expect(result).to.eql({
+            defType: "",
             name: "function",
             decorators: [
                 { name: "decorator1" },
