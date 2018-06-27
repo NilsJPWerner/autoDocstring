@@ -1,4 +1,5 @@
 export type DocstringParts = {
+    defType: string,  // add by snakeclub
     name: string;
     decorators: Decorator[];
     args: Argument[];

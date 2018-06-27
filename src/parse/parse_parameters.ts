@@ -1,18 +1,33 @@
 import { Argument, KeywordArgument, DocstringParts, Returns, Raises, Decorator } from "../docstring_parts";
 import { guessType } from "./guess_types";
 
-
-export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
+//change by snakeclub: add para definition, fix parseDecorators bug, and add defType return
+export function parseParameters(parameterTokens: string[], body: string[], functionName: string, definition: string): DocstringParts {
     return {
+        defType: parseDefType(definition),
         name: functionName,
-        decorators: parseDecorators(parameterTokens),
+        decorators: parseDecorators(definition.split("\n")),
         args: parseArguments(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
         raises: parseRaises(body),
     }
 }
+//add by snakeclub: get defType
+function parseDefType(definition) {
+    let lines: string[] = definition.split("\n");
+    let pattern = /^(def|class)(?= \w+)/;
+    for (let line of lines) {
+        let match = line.trim().match(pattern);
 
+        if (match == undefined) {
+            continue;
+        }
+
+        return match[0];
+    }
+    return "";
+}
 function parseDecorators(parameters: string[]): Decorator[] {
     let decorators: Decorator[] = [];
     let pattern = /^@(\w+)/;

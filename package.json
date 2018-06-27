@@ -1,121 +1,122 @@
 {
-    "name": "autodocstring",
-    "displayName": "autoDocstring",
-    "description": "Generates python docstrings",
-    "version": "0.2.1",
-    "publisher": "njpwerner",
-    "license": "SEE LICENSE IN LICENSE",
-    "icon": "images/icon.png",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/NilsJPWerner/autoDocstring"
-    },
-    "bugs": {
-        "url": "https://github.com/NilsJPWerner/autoDocstring/issues"
-    },
-    "categories": [
-        "Snippets",
-        "Formatters"
+  "name": "autodocstring",
+  "displayName": "autoDocstring",
+  "description": "Generates python docstrings",
+  "version": "0.3.0",
+  "publisher": "njpwerner",
+  "license": "SEE LICENSE IN LICENSE",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NilsJPWerner/autoDocstring"
+  },
+  "bugs": {
+    "url": "https://github.com/NilsJPWerner/autoDocstring/issues"
+  },
+  "categories": [
+    "Snippets",
+    "Formatters"
+  ],
+  "keywords": [
+    "python",
+    "docstring",
+    "autodocstring",
+    "docblockr",
+    "docblockr_python",
+    "pydocstring"
+  ],
+  "galleryBanner": {},
+  "engines": {
+    "vscode": "^1.9.0"
+  },
+  "activationEvents": [
+    "onLanguage:python"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.generateDocstring",
+        "title": "Generate Docstring"
+      }
     ],
-    "keywords": [
-        "python",
-        "docstring",
-        "autodocstring",
-        "docblockr",
-        "docblockr_python",
-        "pydocstring"
+    "keybindings": [
+      {
+        "command": "extension.generateDocstring",
+        "key": "ctrl+shift+2",
+        "mac": "cmd+shift+2",
+        "when": "editorTextFocus"
+      }
     ],
-    "galleryBanner": {},
-    "engines": {
-        "vscode": "^1.9.0"
-    },
-    "activationEvents": [
-        "onLanguage:python"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.generateDocstring",
-                "title": "Generate Docstring"
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "extension.generateDocstring",
-                "key": "ctrl+shift+2",
-                "mac": "cmd+shift+2",
-                "when": "editorTextFocus"
-            }
-        ],
-        "menus": {
-            "editor/context": [
-                {
-                    "when": "resourceLangId == python",
-                    "command": "extension.generateDocstring",
-                    "group": "1_modification"
-                }
-            ]
-        },
-        "configuration": {
-            "type": "object",
-            "title": "AutoDocstring configuration",
-            "properties": {
-                "autoDocstring.docstringFormat": {
-                    "type": "string",
-                    "default": "default",
-                    "enum": [
-                        "default",
-                        "google",
-                        "sphinx",
-                        "numpy"
-                    ],
-                    "description": "Which docstring format to use."
-                },
-                "autoDocstring.generateDocstringOnEnter": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Generate docstring on pressing enter after opening a docstring (\"\"\")"
-                },
-                "autoDocstring.includeDescription": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Include description tag"
-                },
-                "autoDocstring.includeName": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Include function names at the start of docstrings"
-                },
-                "autoDocstring.newlineBeforeSummary": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "New line before summary placeholder"
-                },
-                "autoDocstring.guessTypes": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Guess the type of parameters and return values"
-                }
-            }
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == python",
+          "command": "extension.generateDocstring",
+          "group": "1_modification"
         }
+      ]
     },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test",
-        "unit_test": "mocha -r ts-node/register 'test/**/*.spec.ts'"
-    },
-    "devDependencies": {
-        "vscode": "^1.1.10",
-        "@types/chai": "^4.1.2",
-        "@types/mocha": "^2.2.37",
-        "@types/node": "^6.0.59",
-        "chai": "^4.1.2",
-        "mocha": "^2.5.3",
-        "ts-node": "^4.1.0",
-        "typescript": "^2.0.3"
-    },
-    "dependencies": {}
+    "configuration": {
+      "type": "object",
+      "title": "AutoDocstring configuration",
+      "properties": {
+        "autoDocstring.docstringFormat": {
+          "type": "string",
+          "default": "default",
+          "enum": [
+            "default",
+            "google",
+            "sphinx",
+            "numpy"
+          ],
+          "description": "Which docstring format to use."
+        },
+        "autoDocstring.generateDocstringOnEnter": {
+          "type": "boolean",
+          "default": true,
+          "description": "Generate docstring on pressing enter after opening a docstring (\"\"\")"
+        },
+        "autoDocstring.includeDescription": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include description tag"
+        },
+        "autoDocstring.includeName": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include function names at the start of docstrings"
+        },
+        "autoDocstring.newlineBeforeSummary": {
+          "type": "boolean",
+          "default": false,
+          "description": "New line before summary placeholder"
+        },
+        "autoDocstring.guessTypes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Guess the type of parameters and return values"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test",
+    "unit_test": "mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "release": "standard-version"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.10",
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^2.2.37",
+    "@types/node": "^6.0.59",
+    "chai": "^4.1.2",
+    "mocha": "^2.5.3",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.0.3"
+  },
+  "dependencies": {}
 }
