@@ -17,19 +17,19 @@ export class AutoDocstring {
         let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
         switch (docstringFormat) {
             case "google":
-                this.docstringFactory = new factories.GoogleFactory(quoteStyle);
+                this.docstringFactory = new factories.GoogleFactory(this.quoteStyle);
                 break;
 
             case "sphinx":
-                this.docstringFactory = new factories.SphinxFactory(quoteStyle);
+                this.docstringFactory = new factories.SphinxFactory(this.quoteStyle);
                 break;
 
             case "numpy":
-                this.docstringFactory = new factories.NumpyFactory(quoteStyle);
+                this.docstringFactory = new factories.NumpyFactory(this.quoteStyle);
                 break;
 
             default:
-                this.docstringFactory = new factories.DefaultFactory(quoteStyle);
+                this.docstringFactory = new factories.DefaultFactory(this.quoteStyle);
         }
     }
 
