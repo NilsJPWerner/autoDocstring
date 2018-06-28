@@ -9,9 +9,7 @@ export function activate(context: vs.ExtensionContext): void {
         vs.commands.registerCommand(
             'extension.generateDocstring', () => {
                 let editor = vs.window.activeTextEditor;
-                let config = vs.workspace.getConfiguration("autoDocstring");
-                let quoteStyle = config.get("quoteStyle").toString();
-                let autoDocstring = new AutoDocstring(editor, quoteStyle);
+                let autoDocstring = new AutoDocstring(editor);
                 autoDocstring.generateDocstring(false);
              }
         )

@@ -10,9 +10,9 @@ export class AutoDocstring {
     private editor: vs.TextEditor;
     private quoteStyle: string;
 
-    constructor(editor: vs.TextEditor, quoteStyle: string) {
+    constructor(editor: vs.TextEditor, quoteStyle: string = null) {
         this.editor = editor;
-        this.quoteStyle = quoteStyle;
+        this.quoteStyle = quoteStyle || vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
 
         let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
         switch (docstringFormat) {
@@ -44,7 +44,7 @@ export class AutoDocstring {
         }
 
         // Check whether the docstring is already closed for enter activation
-        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition, this.quoteStyle)) {
+        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition)) {
 
             let docstringParts = parse(document, linePosition);
             let docstringSnippet = this.docstringFactory.createDocstring(docstringParts, !onEnter);
@@ -53,13 +53,13 @@ export class AutoDocstring {
         }
     }
 
-    validEnterActivation(document: string, linePosition: number, charPosition: number, quoteStyle: string): boolean {
-        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, quoteStyle))
-        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, quoteStyle))
+    validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
+        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle))
+        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle))
 
         return (
-            !isMultiLineString(document, linePosition, charPosition, quoteStyle) &&
-            !docstringIsClosed(document, linePosition, charPosition, quoteStyle)
+            !isMultiLineString(document, linePosition, charPosition, this.quoteStyle) &&
+            !docstringIsClosed(document, linePosition, charPosition, this.quoteStyle)
         )
     }
 }
