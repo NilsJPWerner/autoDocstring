@@ -8,26 +8,28 @@ import { isMultiLineString } from './parse/multi_line_string'
 export class AutoDocstring {
     private docstringFactory: factories.BaseFactory;
     private editor: vs.TextEditor;
+    private quoteStyle: string;
 
-    constructor(editor: vs.TextEditor) {
+    constructor(editor: vs.TextEditor, quoteStyle: string = null) {
         this.editor = editor;
+        this.quoteStyle = quoteStyle || vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
 
         let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
         switch (docstringFormat) {
             case "google":
-                this.docstringFactory = new factories.GoogleFactory();
+                this.docstringFactory = new factories.GoogleFactory(this.quoteStyle);
                 break;
 
             case "sphinx":
-                this.docstringFactory = new factories.SphinxFactory();
+                this.docstringFactory = new factories.SphinxFactory(this.quoteStyle);
                 break;
 
             case "numpy":
-                this.docstringFactory = new factories.NumpyFactory();
+                this.docstringFactory = new factories.NumpyFactory(this.quoteStyle);
                 break;
 
             default:
-                this.docstringFactory = new factories.DefaultFactory();
+                this.docstringFactory = new factories.DefaultFactory(this.quoteStyle);
         }
     }
 
@@ -52,12 +54,12 @@ export class AutoDocstring {
     }
 
     validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
-        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition))
-        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition))
-        
+        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle))
+        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle))
+
         return (
-            !isMultiLineString(document, linePosition, charPosition) && 
-            !docstringIsClosed(document, linePosition, charPosition)
+            !isMultiLineString(document, linePosition, charPosition, this.quoteStyle) &&
+            !docstringIsClosed(document, linePosition, charPosition, this.quoteStyle)
         )
     }
 }

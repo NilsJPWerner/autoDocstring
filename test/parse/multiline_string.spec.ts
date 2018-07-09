@@ -8,13 +8,13 @@ let expect = chai.expect;
 
 describe('isMultiLineString()', () => {
     it("should return true if there are non whitespace characters preceding the triple quotes", () => {
-        let result = isMultiLineString(multilineString, 4, 10);
+        let result = isMultiLineString(multilineString, 4, 10, '"""');
 
         expect(result).to.equal(true);
     })
 
     it("should return false if there are only white space characters preceding the triple quotes", () => {
-        let result = isMultiLineString(notMultilineString, 4, 6);
+        let result = isMultiLineString(notMultilineString, 4, 6, '"""');
 
         expect(result).to.equal(false);
     })

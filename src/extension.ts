@@ -41,8 +41,12 @@ function processEnter(changeEvent: vs.TextDocumentChangeEvent) {
     let range = getPrecedingRange(3, changeEvent);
 
     if (editor.document.getText(range) === '"""') {
-        let autoDocstring = new AutoDocstring(editor);
+        let autoDocstring = new AutoDocstring(editor, '"""');
         autoDocstring.generateDocstring(true);
+    }
+    else if (editor.document.getText(range) === "'''") {
+        let autoDocstring = new AutoDocstring(editor, "'''")
+        autoDocstring.generateDocstring(true)
     }
 }
 

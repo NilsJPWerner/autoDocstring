@@ -10,8 +10,11 @@ export abstract class BaseFactory {
     protected _includeName: boolean;
     protected _guessTypes : boolean;
 
-    constructor() {
+    private _quoteStyle: string;
+
+    constructor(quoteStyle: string) {
         this._snippet = new vscode.SnippetString();
+        this._quoteStyle = quoteStyle;
 
         let config = vscode.workspace.getConfiguration("autoDocstring");
         this._newlineBeforeSummary = config.get("newlineBeforeSummary") === true;
@@ -63,9 +66,9 @@ export abstract class BaseFactory {
 
     commentText(openingQuotes: boolean): void {
         if (openingQuotes) {
-            this._snippet.value = '"""' + this._snippet.value + '"""';
+            this._snippet.value = this._quoteStyle + this._snippet.value + this._quoteStyle;
         } else {
-            this._snippet.value = this._snippet.value + '"""';
+            this._snippet.value = this._snippet.value + this._quoteStyle;
         }
     }
 

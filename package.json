@@ -75,7 +75,7 @@
                 "autoDocstring.generateDocstringOnEnter": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Generate docstring on pressing enter after opening a docstring (\"\"\")"
+                    "description": "Generate docstring on pressing enter after opening a docstring (use quoteStyle)"
                 },
                 "autoDocstring.includeDescription": {
                     "type": "boolean",
@@ -96,6 +96,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Guess the type of parameters and return values"
+                },
+                "autoDocstring.quoteStyle": {
+                    "type": "string",
+                    "default": "\"\"\"",
+                    "description": "Style of quote used with generate docstring command"
                 }
             }
         }
