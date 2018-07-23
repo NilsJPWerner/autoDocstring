@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.2.3] - 2018-07-23
+- Added support for single quotes (@Modelmat)
+- Bugfixes (@chirieac, @md2perpe)
+
 ## [0.2.1] - 2018-04-15
 - Bugfixes
 - Added includeName option to include function name in docstring
