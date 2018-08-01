@@ -43,7 +43,7 @@ export class SphinxFactory extends BaseFactory {
             this.appendText(", defaults to " + kwarg.default)
             this.appendNewLine()
 
-            this.appendText(":param " + kwarg.var + ": ")
+            this.appendText(":type " + kwarg.var + ": ")
             this.appendPlaceholder(`${kwarg.type}`)
             this.appendText(", optional")
             this.appendNewLine()
