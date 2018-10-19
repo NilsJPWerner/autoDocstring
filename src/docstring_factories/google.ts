@@ -40,6 +40,9 @@ export class GoogleFactory extends BaseFactory {
     }
 
     formatKeywordArguments(docstring: interfaces.DocstringParts) {
+        if (docstring.args.length === 0 && docstring.kwargs.length > 0) {
+            this.appendText("\nArgs:\n");
+        }
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} (`);
             this.appendPlaceholder(`${kwarg.type}`);
