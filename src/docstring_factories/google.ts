@@ -46,8 +46,9 @@ export class GoogleFactory extends BaseFactory {
         for (let kwarg of docstring.kwargs) {
             this.appendText(`\t${kwarg.var} (`);
             this.appendPlaceholder(`${kwarg.type}`);
-            this.appendText(`, optional): Defaults to ${kwarg.default}. `);
+            this.appendText(`, optional): `);
             this.appendPlaceholder("[description]");
+            this.appendText(`. Defaults to ${kwarg.default}.`);
             this.appendNewLine();
         }
     }
