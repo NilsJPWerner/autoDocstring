@@ -1,8 +1,6 @@
 'use strict';
 import * as vs from 'vscode';
 import { AutoDocstring } from "./autodocstring";
-import * as utils from "./utils";
-import { type } from 'os';
 
 export function activate(context: vs.ExtensionContext): void {
     context.subscriptions.push(

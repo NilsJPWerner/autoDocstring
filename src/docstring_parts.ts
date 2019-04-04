@@ -30,6 +30,7 @@ export type Returns = {
     type: string;
 }
 
+// TODO: switch to class method
 export function removeTypes(docstringParts: DocstringParts): void {
     for (let arg of docstringParts.args) {
         arg.type = undefined

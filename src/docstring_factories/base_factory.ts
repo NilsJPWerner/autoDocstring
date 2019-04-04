@@ -1,6 +1,5 @@
 import { DocstringParts, Decorator, Raises, Returns, removeTypes, addTypePlaceholders } from '../docstring_parts'
 import * as vscode from 'vscode';
-import { print } from 'util';
 
 export abstract class BaseFactory {
 
