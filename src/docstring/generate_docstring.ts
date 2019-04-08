@@ -1,14 +1,9 @@
-import { DocstringParts } from '../docstring_parts'
 import { render } from 'Mustache'
 
-export function generateDocstring(template: string, docstringComponents: DocstringParts): string {
-    let templateData = docstringComponents as any
-    templateData.placeholder = function () {
-        return function (text: string, render: (text: string) => string) {
-            return "${@@@:" + render(text) + "}";
-        }
-    }
+import { DocstringParts, Decorator, Argument, KeywordArgument, Raises, Returns, removeTypes } from '../docstring_parts'
 
+
+export function generateDocstring(template: string, docstringComponents: DocstringParts): string {
     let snippetString = render(template, templateData)
 
     var placeholderNumber = 0;
@@ -17,4 +12,13 @@ export function generateDocstring(template: string, docstringComponents: Docstri
     })
 
     return snippetString
+}
+
+function templateData(docstringComponents: DocstringParts): any {
+    let templateData = docstringComponents as any
+    templateData.placeholder = function () {
+        return snippetPlaceholder
+    }
+
+    templateData.description = "${@@@:[description]}"
 }
