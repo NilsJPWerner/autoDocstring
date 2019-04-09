@@ -1,84 +1,86 @@
-import { DocstringParts, Decorator, Argument, KeywordArgument, Raises, Returns, removeTypes } from '../docstring_parts'
+import { Argument, Decorator, DocstringParts, KeywordArgument, Raises, Returns } from "../docstring_parts";
 
 export class TemplateData {
-    name: string;
-    decorators: Decorator[];
-    args: Argument[];
-    kwargs: KeywordArgument[];
-    raises: Raises[];
-    returns: Returns;
+    public name: string;
+    public decorators: Decorator[];
+    public args: Argument[];
+    public kwargs: KeywordArgument[];
+    public raises: Raises[];
+    public returns: Returns;
 
-    includeName: boolean
-    includeDescription: boolean
+    private includeName: boolean;
+    private includeDescription: boolean;
 
-    constructor(docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeDescription: boolean) {
-        this.name = docstringParts.name
-        this.decorators = docstringParts.decorators
-        this.args = docstringParts.args
-        this.kwargs = docstringParts.kwargs
-        this.raises = docstringParts.raises
-        this.returns = docstringParts.returns
+    constructor(
+        docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeDescription: boolean,
+    ) {
+        this.name = docstringParts.name;
+        this.decorators = docstringParts.decorators;
+        this.args = docstringParts.args;
+        this.kwargs = docstringParts.kwargs;
+        this.raises = docstringParts.raises;
+        this.returns = docstringParts.returns;
 
-        this.includeName = includeName
-        this.includeDescription = includeDescription
+        this.includeName = includeName;
+        this.includeDescription = includeDescription;
 
         if (!guessTypes) {
-            this.removeTypes()
+            this.removeTypes();
         }
 
-        this.addDefaultTypePlaceholders("[type]")
+        this.addDefaultTypePlaceholders("[type]");
     }
 
-    placeholder() {
-        return function (text: string, render: (text: string) => string) {
+    public placeholder() {
+        return (text: string, render: (text: string) => string) => {
             return "${@@@:" + render(text) + "}";
-        }
+        };
     }
 
-    summary(): string {
+    public summary(): string {
         if (this.includeName) {
-            return this.name + " ${@@@:[summary]}"
+            return this.name + " ${@@@:[summary]}";
         }
 
-        return "${@@@:[summary]}"
+        return "${@@@:[summary]}";
     }
 
-    description(): string {
+    public description(): string {
         if (this.includeDescription) {
-            return "${@@@:[description]}"
+            return "${@@@:[description]}";
         }
 
-        return ""
+        return "";
     }
 
     private removeTypes(): void {
-        for (let arg of this.args) {
-            arg.type = undefined
+        for (const arg of this.args) {
+            arg.type = undefined;
         }
 
-        for (let kwarg of this.kwargs) {
-            kwarg.type = undefined
+        for (const kwarg of this.kwargs) {
+            kwarg.type = undefined;
         }
 
-        this.returns.type = undefined
+        this.returns.type = undefined;
     }
 
     private addDefaultTypePlaceholders(placeholder: string): void {
-        for (let arg of this.args) {
-            if (arg.type == undefined) {
-                arg.type = placeholder
+        for (const arg of this.args) {
+            if (arg.type === undefined) {
+                arg.type = placeholder;
             }
         }
 
-        for (let kwarg of this.kwargs) {
-            if (kwarg.type == undefined) {
-                kwarg.type = placeholder
+        for (const kwarg of this.kwargs) {
+            if (kwarg.type === undefined) {
+                kwarg.type = placeholder;
             }
         }
 
-        let returns = this.returns;
-        if (returns != undefined && returns.type == undefined) {
-            returns.type = placeholder
+        const returns = this.returns;
+        if (returns !== undefined && returns.type === undefined) {
+            returns.type = placeholder;
         }
     }
 }

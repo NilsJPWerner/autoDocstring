@@ -3,7 +3,9 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
+    "jsRules": {
+        "interface-name": false
+    },
     "rules": {},
     "rulesDirectory": []
 }
