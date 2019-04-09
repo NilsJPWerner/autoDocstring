@@ -2,44 +2,37 @@ import chai = require('chai');
 import 'mocha';
 import { DocstringFactory } from "../../src/docstring/docstring_factory";
 import { DocstringParts } from '../../src/docstring_parts';
-import { guessType } from 'parse/guess_types';
-import { docstringIsClosed } from 'parse/closed_docstring';
-
 
 chai.config.truncateThreshold = 0;
-let expect = chai.expect;
+const expect = chai.expect;
 
 describe('DocstringFactory', () => {
 
     describe('generateDocstring()', () => {
         context("when instantiated with a template with placeholder tags", () => {
             it("should add numerically increasing snippet placeholders", () => {
-                let template = "{{#placeholder}}first{{/placeholder}}\n{{#placeholder}}second{{/placeholder}}"
-                let docstringComponents = defaultDocstringComponents
+                const template = "{{#placeholder}}first{{/placeholder}}\n{{#placeholder}}second{{/placeholder}}"
+                const docstringComponents = defaultDocstringComponents
 
-                let factory = new DocstringFactory(template)
+                const factory = new DocstringFactory(template)
 
-                let result = factory.generateDocstring(docstringComponents);
+                const result = factory.generateDocstring(docstringComponents);
 
                 expect(result).to.equal("\"\"\"${1:first}\n${2:second}\"\"\"");
             });
 
             it("should use docstring components in the placeholders", () => {
-                let template = "{{#placeholder}}--{{name}}--{{/placeholder}}"
-                let docstringComponents = defaultDocstringComponents
+                const template = "{{#placeholder}}--{{name}}--{{/placeholder}}"
+                const docstringComponents = defaultDocstringComponents
                 docstringComponents.name = "Function"
 
-                let factory = new DocstringFactory(template)
+                const factory = new DocstringFactory(template)
 
-                let result = factory.generateDocstring(docstringComponents);
+                const result = factory.generateDocstring(docstringComponents);
 
                 expect(result).to.equal("\"\"\"${1:--Function--}\"\"\"");
             });
         });
-
-        //     context("when values in the docstring components are undefined", () => {
-
-        //     })
 
         context("when a non existent field is used in the template", () => {
             it("should ignore the tag", () => {
@@ -52,6 +45,16 @@ describe('DocstringFactory', () => {
 
                 expect(result).to.equal("\"\"\"Function  hello\"\"\"");
             })
+        })
+
+        it("should create a summary placeholder", () => {
+            let docstringComponents = defaultDocstringComponents
+            docstringComponents.name = "Function"
+            let factory = new DocstringFactory("{{summary}}")
+
+            let result = factory.generateDocstring(docstringComponents);
+
+            expect(result).to.equal("\"\"\"${1:[summary]}\"\"\"");
         })
 
         it("should use the docstring name if the template specifies it", () => {
@@ -135,7 +138,7 @@ describe('DocstringFactory', () => {
 
             let result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"[summary]\n\nHello\n\nAgain!\"\"\"");
+            expect(result).to.equal("\"\"\"Thing\n\nHello\n\nAgain!\"\"\"");
         })
 
         context("when guessTypes is set to false", () => {
@@ -181,27 +184,40 @@ describe('DocstringFactory', () => {
 
         context("when includeDescription is set to true", () => {
             it("should add the description placeholder to the snippet", () => {
-                let template = "{{summary}}\n\n{{description}}\n\nHello"
+                let template = "Doc\n\n{{description}}\n\nHello"
                 let docstringComponents = defaultDocstringComponents
                 docstringComponents.name = "Function"
                 let factory = new DocstringFactory(template, undefined, undefined, true)
 
                 let result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"[summary]\n\n[description]\n\nHello\"\"\"");
+                expect(result).to.equal("\"\"\"Doc\n\n${1:[description]}\n\nHello\"\"\"");
             })
         })
 
         context("when includeDescription is set to false", () => {
             it("should not add the description placeholder to the snippet and should remove extraneous newlines", () => {
-                let template = "{{summary}}\n\n{{description}}\n\nHello"
+                let template = "doc\n\n{{description}}\n\nHello"
                 let docstringComponents = defaultDocstringComponents
                 docstringComponents.name = "Function"
                 let factory = new DocstringFactory(template, undefined, undefined, false)
 
                 let result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"[summary]\n\nHello\"\"\"");
+                expect(result).to.equal("\"\"\"doc\n\nHello\"\"\"");
+            })
+        })
+
+        context("when includeName is set to true", () => {
+            it("should add the name to the summary", () => {
+                let template = "\n{{summary}}\n"
+                let docstringComponents = defaultDocstringComponents
+                docstringComponents.name = "Function"
+                let factory = new DocstringFactory(template, undefined, undefined, undefined, true)
+
+                let result = factory.generateDocstring(docstringComponents);
+
+                expect(result).to.equal("\"\"\"\nFunction ${1:[summary]}\n\"\"\"");
             })
         })
     })
@@ -237,7 +253,7 @@ let raisesTemplate = `{{#raises}}
 
 let returnsTemplate = `{{returns.type}} yay`
 
-let unusedComponentsTemplate = `{{summary}}
+let unusedComponentsTemplate = `Thing
 
 {{#kwargs}}
 {{var}} {{type}} {{default}}

@@ -17,17 +17,15 @@ export class DocstringFactory {
         this.quoteStyle = quoteStyle;
 
         this.startOnNewLine = startOnNewLine;
-        this.includeName = includeName;
         this.guessTypes = guessTypes;
+        this.includeName = includeName;
+        this.includeDescription = includeDescription;
 
-        if (!includeDescription) {
-            template = this.removeDescription(template)
-        }
         this.template = template;
     }
 
     generateDocstring(docstringParts: DocstringParts, openingQuotes = true): string {
-        let templateData = new TemplateData(docstringParts, this.guessTypes)
+        let templateData = new TemplateData(docstringParts, this.guessTypes, this.includeName, this.includeDescription)
 
         let docstring = render(this.template, templateData)
 
@@ -36,10 +34,6 @@ export class DocstringFactory {
         docstring = this.condenseNewLines(docstring)
 
         return this.commentText(docstring, openingQuotes);
-    }
-
-    private removeDescription(template: string): string {
-        return template.replace(/\s*{{description}}/gm, "")
     }
 
     private addSnippetPlaceholders(snippetString: string): string {

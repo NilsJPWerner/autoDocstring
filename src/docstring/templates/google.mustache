@@ -1,13 +1,14 @@
 {{! Google Docstring Template }}
-{{#placeholder}}[summary]{{/placeholder}}
-{{#placeholder}}[description]{{/placeholder}}
+{{summary}}
+
+{{description}}
 
 Args:
 {{#args}}
-    {{var}} ({{#placeholder}}[{{type}}]{{/placeholder}}): {{#placeholder}}[description]{{/placeholder}}
+    {{var}} ({{#placeholder}}{{type}}{{/placeholder}}): {{#placeholder}}[description]{{/placeholder}}
 {{/args}}
 {{#kwargs}}
-    {{var}} ({{#placeholder}}[{{type}}]{{/placeholder}}, optional): Defaults to {{default}}. {{#placeholder}}[description]{{/placeholder}}
+    {{var}} ({{#placeholder}}{{type}}{{/placeholder}}, optional): Defaults to {{default}}. {{#placeholder}}[description]{{/placeholder}}
 {{/kwargs}}
 
 Raises:
@@ -17,5 +18,5 @@ Raises:
 
 Returns:
 {{#returns}}
-    {{#placeholder}}[{{type}}]{{/placeholder}}: {{#placeholder}}[description]{{/placeholder}}
+    {{#placeholder}}{{type}}{{/placeholder}}: {{#placeholder}}[description]{{/placeholder}}
 {{/returns}}

@@ -8,7 +8,10 @@ export class TemplateData {
     raises: Raises[];
     returns: Returns;
 
-    constructor(docstringParts: DocstringParts, guessTypes: boolean) {
+    includeName: boolean
+    includeDescription: boolean
+
+    constructor(docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeDescription: boolean) {
         this.name = docstringParts.name
         this.decorators = docstringParts.decorators
         this.args = docstringParts.args
@@ -16,11 +19,14 @@ export class TemplateData {
         this.raises = docstringParts.raises
         this.returns = docstringParts.returns
 
+        this.includeName = includeName
+        this.includeDescription = includeDescription
+
         if (!guessTypes) {
             this.removeTypes()
         }
 
-        this.addTypePlaceholders("[type]")
+        this.addDefaultTypePlaceholders("[type]")
     }
 
     placeholder() {
@@ -30,11 +36,19 @@ export class TemplateData {
     }
 
     summary(): string {
-        return "[summary]"
+        if (this.includeName) {
+            return this.name + " ${@@@:[summary]}"
+        }
+
+        return "${@@@:[summary]}"
     }
 
     description(): string {
-        return "[description]"
+        if (this.includeDescription) {
+            return "${@@@:[description]}"
+        }
+
+        return ""
     }
 
     private removeTypes(): void {
@@ -49,7 +63,7 @@ export class TemplateData {
         this.returns.type = undefined
     }
 
-    private addTypePlaceholders(placeholder: string): void {
+    private addDefaultTypePlaceholders(placeholder: string): void {
         for (let arg of this.args) {
             if (arg.type == undefined) {
                 arg.type = placeholder
