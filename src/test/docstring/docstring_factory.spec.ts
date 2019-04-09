@@ -1,7 +1,7 @@
 import chai = require("chai");
 import "mocha";
-import { DocstringFactory } from "../../src/docstring/docstring_factory";
-import { DocstringParts } from "../../src/docstring_parts";
+import { DocstringFactory } from "../../docstring/docstring_factory";
+import { DocstringParts } from "../../docstring_parts";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
@@ -36,7 +36,7 @@ describe("DocstringFactory", () => {
 
         context("when a non existent field is used in the template", () => {
             it("should ignore the tag", () => {
-                const template = "{{name}} {{notavalidtag}} hello";
+                const template = "{{name}} {{not_a_valid_tag}} hello";
                 const docstringComponents = defaultDocstringComponents;
                 docstringComponents.name = "Function";
                 const factory = new DocstringFactory(template);
@@ -231,7 +231,7 @@ const defaultDocstringComponents: DocstringParts = {
     raises: [],
 };
 
-let nameTemplate = `{{name}} abc`;
+const nameTemplate = `{{name}} abc`;
 
 const decoratorTemplate = `{{#decorators}}
 {{name}}

@@ -1,5 +1,7 @@
-import { DocstringFactory, getTemplate } from "docstring";
+// import { DocstringFactory, getTemplate } from "./docstring";
 import * as vs from "vscode";
+import { DocstringFactory } from "./docstring/docstring_factory";
+import { getTemplate } from "./docstring/get_template";
 import { docstringIsClosed } from "./parse/closed_docstring";
 import { isMultiLineString } from "./parse/multi_line_string";
 import { parse } from "./parse/parse";
@@ -43,8 +45,8 @@ export class AutoDocstring {
     }
 
     public validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
-        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle));
-        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle));
+        // console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle))
+        // console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle))
 
         return (
             !isMultiLineString(document, linePosition, charPosition, this.quoteStyle) &&

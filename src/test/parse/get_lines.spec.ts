@@ -1,50 +1,50 @@
-import chai = require('chai');
-import 'mocha';
+import chai = require("chai");
+import "mocha";
 
-import { getDefinition, getBody } from '../../src/parse/get_lines';
+import { getBody, getDefinition } from "../../parse/get_lines";
 
 chai.config.truncateThreshold = 0;
-let expect = chai.expect;
+const expect = chai.expect;
 
-describe('getDefinition()', () => {
+describe("getDefinition()", () => {
     context("when encountering a function", () => {
         it("should get a basic function definition", () => {
-            var result = getDefinition(basicFunction, 4);
+            const result = getDefinition(basicFunction, 4);
 
-            expect(result).to.equal('def basic_function(param1, param2 = abc):');
+            expect(result).to.equal("def basic_function(param1, param2 = abc):");
         });
 
         it("should get an indented function definition", () => {
-            var result = getDefinition(indentedFunction, 4);
+            const result = getDefinition(indentedFunction, 4);
 
-            expect(result).to.equal('def indented_function(param1):');
+            expect(result).to.equal("def indented_function(param1):");
         });
 
         it("should get a multiline function definition", () => {
-            var result = getDefinition(multiLineFunction, 6);
+            const result = getDefinition(multiLineFunction, 6);
 
-            expect(result).to.equal('def multi_line_function(param1,param2 = 1):');
+            expect(result).to.equal("def multi_line_function(param1,param2 = 1):");
         });
 
         it("should return an empty string if there is a gap above position", () => {
-            var result = getDefinition(gapFunction, 5);
+            const result = getDefinition(gapFunction, 5);
 
-            expect(result).to.equal('');
+            expect(result).to.equal("");
         });
     });
 
     context("when encountering a class", () => {
         it("should get the class definition", () => {
-            var result = getDefinition(basicClass, 4);
+            const result = getDefinition(basicClass, 4);
 
-            expect(result).to.equal('class BasicClass(object):');
+            expect(result).to.equal("class BasicClass(object):");
         });
     });
 });
 
-describe('getBody()', () => {
+describe("getBody()", () => {
     it("should return the body of a function", () => {
-        var result = getBody(basicFunction, 4);
+        const result = getBody(basicFunction, 4);
 
         expect(result).to.have.deep.members([
             "\"\"\"",
@@ -58,7 +58,7 @@ describe('getBody()', () => {
     });
 
     it("should skip blank lines", () => {
-        var result = getBody(gapFunction, 5);
+        const result = getBody(gapFunction, 5);
 
         expect(result).to.have.deep.members([
             "\"\"\"",
@@ -68,8 +68,7 @@ describe('getBody()', () => {
     });
 });
 
-
-let basicFunction = `
+const basicFunction = `
     return 3
 
 def basic_function(param1, param2 = abc):
@@ -82,17 +81,17 @@ def basic_function(param1, param2 = abc):
     return 3
 
 def something_else():
-`
+`;
 
-let indentedFunction = `
+const indentedFunction = `
 Something Else
 
     def indented_function(param1):
 
         print("HELLO WORLD")
-`
+`;
 
-let multiLineFunction = `
+const multiLineFunction = `
 Something Else
 
 def multi_line_function(
@@ -100,9 +99,9 @@ def multi_line_function(
         param2 = 1):
 
     print("HELLO WORLD")
-`
+`;
 
-let gapFunction = `
+const gapFunction = `
 Something Else
 
 def gap_function():
@@ -114,9 +113,9 @@ def gap_function():
     print('HELLO AGAIN')
 
 Something Else
-`
+`;
 
-let basicClass = `
+const basicClass = `
 Something Else
 
 class BasicClass(object):
@@ -126,6 +125,6 @@ class BasicClass(object):
 
     def hello(self):
         print("Hello world")
-`
+`;
 
 // let
