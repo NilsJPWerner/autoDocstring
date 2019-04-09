@@ -1,5 +1,5 @@
 export function indentationOf(line: string): number {
-    let whiteSpaceMatches = line.match(/^\s+/);
+    const whiteSpaceMatches = line.match(/^\s+/);
 
     if (whiteSpaceMatches == undefined) {
         return 0;
@@ -9,5 +9,5 @@ export function indentationOf(line: string): number {
 }
 
 export function blankLine(line: string): boolean {
-    return (line.match(/[^\s]/) == undefined)
+    return (line.match(/[^\s]/) == undefined);
 }

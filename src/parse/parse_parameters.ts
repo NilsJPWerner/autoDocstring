@@ -1,6 +1,5 @@
-import { Argument, KeywordArgument, DocstringParts, Returns, Raises, Decorator } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, KeywordArgument, Raises, Returns } from "../docstring_parts";
 import { guessType } from "./guess_types";
-
 
 export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
     return {
@@ -10,15 +9,15 @@ export function parseParameters(parameterTokens: string[], body: string[], funct
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
         raises: parseRaises(body),
-    }
+    };
 }
 
 function parseDecorators(parameters: string[]): Decorator[] {
-    let decorators: Decorator[] = [];
-    let pattern = /^@(\w+)/;
+    const decorators: Decorator[] = [];
+    const pattern = /^@(\w+)/;
 
-    for (let param of parameters) {
-        let match = param.trim().match(pattern);
+    for (const param of parameters) {
+        const match = param.trim().match(pattern);
 
         if (match == undefined) {
             continue;
@@ -26,21 +25,21 @@ function parseDecorators(parameters: string[]): Decorator[] {
 
         decorators.push({
             name: match[1],
-        })
+        });
     }
 
     return decorators;
 }
 
 function parseArguments(parameters: string[]): Argument[] {
-    let args: Argument[] = [];
-    let excludedArgs = ['self', 'cls'];
-    let pattern = /^(\w+)/;
+    const args: Argument[] = [];
+    const excludedArgs = ["self", "cls"];
+    const pattern = /^(\w+)/;
 
-    for (let param of parameters) {
-        let match = param.trim().match(pattern);
+    for (const param of parameters) {
+        const match = param.trim().match(pattern);
 
-        if (match == undefined || param.includes('=') || inArray(param, excludedArgs)) {
+        if (match == undefined || param.includes("=") || inArray(param, excludedArgs)) {
             continue;
         }
 
@@ -54,11 +53,11 @@ function parseArguments(parameters: string[]): Argument[] {
 }
 
 function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
-    let kwargs: KeywordArgument[] = [];
-    let pattern = /^(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
+    const kwargs: KeywordArgument[] = [];
+    const pattern = /^(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
 
-    for (let param of parameters) {
-        let match = param.trim().match(pattern);
+    for (const param of parameters) {
+        const match = param.trim().match(pattern);
 
         if (match == undefined) {
             continue;
@@ -75,7 +74,7 @@ function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
 }
 
 function parseReturn(parameters: string[], body: string[]): Returns {
-    let returnType = parseReturnFromDefinition(parameters);
+    const returnType = parseReturnFromDefinition(parameters);
 
     if (returnType == undefined) {
         return parseReturnFromBody(body);
@@ -85,10 +84,10 @@ function parseReturn(parameters: string[], body: string[]): Returns {
 }
 
 function parseReturnFromDefinition(parameters: string[]): Returns {
-    let pattern = /^->\s*([\w\[\], \.]*)/;
+    const pattern = /^->\s*([\w\[\], \.]*)/;
 
-    for (let param of parameters) {
-        let match = param.trim().match(pattern);
+    for (const param of parameters) {
+        const match = param.trim().match(pattern);
 
         if (match == undefined) {
             continue;
@@ -97,14 +96,14 @@ function parseReturnFromDefinition(parameters: string[]): Returns {
         return { type: match[1] };
     }
 
-    return undefined
+    return undefined;
 }
 
 function parseReturnFromBody(body: string[]): Returns {
-    let pattern = /return /
+    const pattern = /return /;
 
-    for (let line of body) {
-        let match = line.match(pattern);
+    for (const line of body) {
+        const match = line.match(pattern);
 
         if (match == undefined) {
             continue;
@@ -113,15 +112,15 @@ function parseReturnFromBody(body: string[]): Returns {
         return { type: undefined };
     }
 
-    return undefined
+    return undefined;
 }
 
 function parseRaises(body: string[]): Raises[] {
-    let raises: Raises[] = [];
-    let pattern = /raise\s+([\w.]+)/;
+    const raises: Raises[] = [];
+    const pattern = /raise\s+([\w.]+)/;
 
-    for (let line of body) {
-        let match = line.match(pattern);
+    for (const line of body) {
+        const match = line.match(pattern);
 
         if (match == undefined) {
             continue;
@@ -133,7 +132,6 @@ function parseRaises(body: string[]): Raises[] {
     return raises;
 }
 
-
 export function inArray<type>(item: type, array: type[]) {
-    return array.some(x => item == x);
+    return array.some((x) => item === x);
 }

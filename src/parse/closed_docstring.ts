@@ -1,7 +1,8 @@
-import { indentationOf, blankLine } from './utilities'
+import { blankLine, indentationOf } from "./utilities";
 
-export function docstringIsClosed(document: string, linePosition: number, charPosition: number, quoteStyle: string): boolean {
-    let lines = document.split('\n');
+export function docstringIsClosed(document: string, linePosition: number,
+                                  charPosition: number, quoteStyle: string): boolean {
+    const lines = document.split("\n");
 
     if (quotesCloseExistingDocstring(lines, linePosition, charPosition, quoteStyle)) {
         return true;
@@ -14,46 +15,48 @@ export function docstringIsClosed(document: string, linePosition: number, charPo
     return false;
 }
 
-function quotesCloseExistingDocstring(lines: string[], linePosition: number, charPosition: number, quoteStyle: string): boolean {
-    let linesBeforePosition = sliceUpToPosition(lines, linePosition, charPosition);
+function quotesCloseExistingDocstring(lines: string[], linePosition: number,
+                                      charPosition: number, quoteStyle: string): boolean {
+    const linesBeforePosition = sliceUpToPosition(lines, linePosition, charPosition);
     let numberOfTripleQuotes = 0;
 
-    for (let line of linesBeforePosition.reverse()) {
-        if (line.includes('def ') || line.includes('class ')) {
+    for (const line of linesBeforePosition.reverse()) {
+        if (line.includes("def ") || line.includes("class ")) {
             break;
-        };
+        }
 
         numberOfTripleQuotes += occurrences(line, quoteStyle);
     }
 
-    return (numberOfTripleQuotes % 2 == 0);
+    return (numberOfTripleQuotes % 2 === 0);
 }
 
-function quotesOpenExistingDocstring(lines: string[], linePosition: number, charPosition: number, quoteStyle: string): boolean {
-    let linesAfterPosition = sliceFromPosition(lines, linePosition, charPosition);
-    let originalIndentation = indentationOf(lines[linePosition]);
+function quotesOpenExistingDocstring(lines: string[], linePosition: number,
+                                     charPosition: number, quoteStyle: string): boolean {
+    const linesAfterPosition = sliceFromPosition(lines, linePosition, charPosition);
+    const originalIndentation = indentationOf(lines[linePosition]);
 
     // Need to check first line separately because indentation was sliced off
     if (linesAfterPosition[0].includes(quoteStyle)) {
         return true;
     }
 
-    for (let line of linesAfterPosition.slice(1)) {
+    for (const line of linesAfterPosition.slice(1)) {
         if (line.includes(quoteStyle)) {
             return true;
         }
 
         if ((!blankLine(line) && indentationOf(line) < originalIndentation) ||
-           (line.includes('def ') || line.includes('class '))) {
+           (line.includes("def ") || line.includes("class "))) {
             return false;
-        };
+        }
     }
 
     return false;
 }
 
 function sliceUpToPosition(lines: string[], linePosition: number, charPosition: number): string[] {
-    let slicedDocument = lines.slice(0, linePosition);
+    const slicedDocument = lines.slice(0, linePosition);
     slicedDocument.push(lines[linePosition].slice(0, charPosition));
 
     return slicedDocument;
@@ -66,6 +69,6 @@ function sliceFromPosition(lines: string[], linePosition: number, charPosition: 
     return slicedDocument;
 }
 
-function occurrences(string: string, word: string): number {
-    return string.split(word).length - 1;
+function occurrences(str: string, word: string): number {
+    return str.split(word).length - 1;
 }

@@ -32,7 +32,7 @@
     "activationEvents": [
         "onLanguage:python"
     ],
-    "main": "./out/src/extension",
+    "main": "./out/extension.js",
     "contributes": {
         "commands": [
             {
@@ -107,8 +107,9 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
+        "copy_templates": "copyfiles -u 1 src/**/*.mustache out/",
+        "compile": "npm run copy_templates && tsc -p ./",
+        "watch": "npm run copy_templates tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test",
         "unit_test": "mocha -r ts-node/register \"test/**/*.spec.ts\""
@@ -118,6 +119,7 @@
         "@types/mocha": "^2.2.37",
         "@types/node": "^6.14.4",
         "chai": "^4.1.2",
+        "copyfiles": "^2.1.0",
         "mocha": "^6.0.2",
         "ts-node": "^4.1.0",
         "typescript": "^2.0.3",

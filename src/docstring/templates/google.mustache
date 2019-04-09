@@ -5,18 +5,18 @@
 
 Args:
 {{#args}}
-    {{var}} ({{#placeholder}}{{type}}{{/placeholder}}): {{#placeholder}}[description]{{/placeholder}}
+    {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
 {{/args}}
 {{#kwargs}}
-    {{var}} ({{#placeholder}}{{type}}{{/placeholder}}, optional): Defaults to {{default}}. {{#placeholder}}[description]{{/placeholder}}
+    {{var}} ({{typePlaceholder}}, optional): Defaults to {{default}}. {{descriptionPlaceholder}}
 {{/kwargs}}
 
 Raises:
 {{#raises}}
-    {{exception}}: {{#placeholder}}[description]{{/placeholder}}
+    {{exception}}: {{descriptionPlaceholder}}
 {{/raises}}
 
 Returns:
 {{#returns}}
-    {{#placeholder}}{{type}}{{/placeholder}}: {{#placeholder}}[description]{{/placeholder}}
+    {{typePlaceholder}}: {{descriptionPlaceholder}}
 {{/returns}}

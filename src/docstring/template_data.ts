@@ -53,6 +53,15 @@ export class TemplateData {
         return "";
     }
 
+    public typePlaceholder(): string {
+        // @ts-ignore
+        return "${@@@:" + this.type + "}";
+    }
+
+    public descriptionPlaceholder(): string {
+        return "${@@@:[description]}";
+    }
+
     private removeTypes(): void {
         for (const arg of this.args) {
             arg.type = undefined;
@@ -67,19 +76,19 @@ export class TemplateData {
 
     private addDefaultTypePlaceholders(placeholder: string): void {
         for (const arg of this.args) {
-            if (arg.type === undefined) {
+            if (arg.type == undefined) {
                 arg.type = placeholder;
             }
         }
 
         for (const kwarg of this.kwargs) {
-            if (kwarg.type === undefined) {
+            if (kwarg.type == undefined) {
                 kwarg.type = placeholder;
             }
         }
 
         const returns = this.returns;
-        if (returns !== undefined && returns.type === undefined) {
+        if (returns != undefined && returns.type == undefined) {
             returns.type = placeholder;
         }
     }

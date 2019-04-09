@@ -1,16 +1,15 @@
-import { getDefinition, getBody } from './get_lines'
-import { DocstringParts } from '../docstring_parts'
-import { parseParameters } from './parse_parameters'
-import { tokenizeDefinition } from './tokenize_definition'
-import { getFunctionName } from './get_function_name'
+import { DocstringParts } from "../docstring_parts";
+import { getFunctionName } from "./get_function_name";
+import { getBody, getDefinition } from "./get_lines";
+import { parseParameters } from "./parse_parameters";
+import { tokenizeDefinition } from "./tokenize_definition";
 
 export function parse(document: string, positionLine: number): DocstringParts {
-    let definition = getDefinition(document, positionLine);
-    let body = getBody(document, positionLine)
+    const definition = getDefinition(document, positionLine);
+    const body = getBody(document, positionLine);
 
-    let parameterTokens = tokenizeDefinition(definition)
-    let functionName = getFunctionName(definition)
+    const parameterTokens = tokenizeDefinition(definition);
+    const functionName = getFunctionName(definition);
 
-    return parseParameters(parameterTokens, body, functionName)
+    return parseParameters(parameterTokens, body, functionName);
 }
-

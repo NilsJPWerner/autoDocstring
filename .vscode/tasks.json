@@ -13,6 +13,11 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"type": "npm",
+			"script": "compile",
+			"problemMatcher": []
 		}
 	]
 }
