@@ -107,9 +107,9 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "copy_templates": "copyfiles -u 1 src/**/*.mustache out/",
-        "compile": "npm run copy_templates && tsc -p ./",
-        "watch": "npm run copy_templates tsc -watch -p ./",
+        "copy_templates": "copyfiles src/**/*.mustache out/",
+        "compile": "npm run copy_templates; tsc -p ./",
+        "watch": "npm run copy_templates; tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test",
         "unit_test": "mocha -r ts-node/register \"test/**/*.spec.ts\""

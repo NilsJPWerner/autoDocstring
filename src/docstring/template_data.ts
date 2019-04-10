@@ -9,10 +9,10 @@ export class TemplateData {
     public returns: Returns;
 
     private includeName: boolean;
-    private includeDescription: boolean;
+    private includeExtendedSummary: boolean;
 
     constructor(
-        docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeDescription: boolean,
+        docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeExtendedSummary: boolean,
     ) {
         this.name = docstringParts.name;
         this.decorators = docstringParts.decorators;
@@ -22,7 +22,7 @@ export class TemplateData {
         this.returns = docstringParts.returns;
 
         this.includeName = includeName;
-        this.includeDescription = includeDescription;
+        this.includeExtendedSummary = includeExtendedSummary;
 
         if (!guessTypes) {
             this.removeTypes();
@@ -37,7 +37,7 @@ export class TemplateData {
         };
     }
 
-    public summary(): string {
+    public summaryPlaceholder(): string {
         if (this.includeName) {
             return this.name + " ${@@@:[summary]}";
         }
@@ -45,9 +45,9 @@ export class TemplateData {
         return "${@@@:[summary]}";
     }
 
-    public description(): string {
-        if (this.includeDescription) {
-            return "${@@@:[description]}";
+    public extendedSummaryPlaceholder(): string {
+        if (this.extendedSummaryPlaceholder) {
+            return "${@@@:[extended_summary]}";
         }
 
         return "";
