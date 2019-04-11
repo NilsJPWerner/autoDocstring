@@ -1,0 +1,22 @@
+{{! Google Docstring Template }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+Args:
+{{#args}}
+    {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+    {{var}} ({{typePlaceholder}}, optional): Defaults to {{default}}. {{descriptionPlaceholder}}
+{{/kwargs}}
+
+Raises:
+{{#raises}}
+    {{exception}}: {{descriptionPlaceholder}}
+{{/raises}}
+
+Returns:
+{{#returns}}
+    {{typePlaceholder}}: {{descriptionPlaceholder}}
+{{/returns}}

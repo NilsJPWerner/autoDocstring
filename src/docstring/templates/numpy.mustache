@@ -1,0 +1,29 @@
+{{! Numpy Docstring Template }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+Parameters
+----------
+{{#args}}
+{{var}} : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+{{var}} : {{typePlaceholder}}, optional
+    {{descriptionPlaceholder}}, by default {{default}}
+{{/kwargs}}
+
+Returns
+-------
+{{#returns}}
+{{typePlaceholder}}
+    {{descriptionPlaceholder}}
+{{/returns}}
+
+Raises
+------
+{{#raises}}
+{{exception}}
+    {{descriptionPlaceholder}}
+{{/raises}}
