@@ -3,8 +3,10 @@
 
 {{extendedSummaryPlaceholder}}
 
+{{#parametersAvailable}}
 Parameters
 ----------
+{{/parametersAvailable}}
 {{#args}}
 {{var}} : {{typePlaceholder}}
     {{descriptionPlaceholder}}
@@ -14,15 +16,19 @@ Parameters
     {{descriptionPlaceholder}}, by default {{default}}
 {{/kwargs}}
 
+{{#returns}}
 Returns
 -------
+{{/returns}}
 {{#returns}}
 {{typePlaceholder}}
     {{descriptionPlaceholder}}
 {{/returns}}
 
+{{#raises}}
 Raises
 ------
+{{#raises}}
 {{#raises}}
 {{exception}}
     {{descriptionPlaceholder}}

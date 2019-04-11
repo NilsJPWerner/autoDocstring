@@ -62,6 +62,10 @@ export class TemplateData {
         return "${@@@:[description]}";
     }
 
+    public parametersAvailable(): boolean {
+        return this.args.length > 0 || this.kwargs.length > 0;
+    }
+
     private removeTypes(): void {
         for (const arg of this.args) {
             arg.type = undefined;
