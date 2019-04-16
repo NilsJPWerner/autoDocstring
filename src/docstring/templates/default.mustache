@@ -4,30 +4,30 @@
 
 <%extendedSummaryPlaceholder%>
 
-<%#args%>
+<%#argsExist%>
 Arguments:
-<%/args%>
 <%#args%>
     <%var%> {<%typePlaceholder%>} -- <%descriptionPlaceholder%>
 <%/args%>
+<%/argsExist%>
 
-<%#kwargs%>
+<%#kwargsExist%>
 Keyword Arguments:
-<%/kwargs%>
 <%#kwargs%>
     <%var%> {<%typePlaceholder%>} -- <%descriptionPlaceholder%> (default: {<%default%>})
 <%/kwargs%>
+<%/kwargsExist%>
 
-<%#raises%>
+<%#exceptionsExist%>
 Raises:
-<%/raises%>
-<%#raises%>
-    <%exception%>: <%descriptionPlaceholder%>
-<%/raises%>
+<%#exceptions%>
+    <%type%>: <%descriptionPlaceholder%>
+<%/exceptions%>
+<%/exceptionsExist%>
 
-<%#returns%>
+<%#returnsExist%>
 Returns:
-<%/returns%>
 <%#returns%>
     <%typePlaceholder%> -- <%descriptionPlaceholder%>
 <%/returns%>
+<%/returnsExist%>

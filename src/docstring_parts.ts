@@ -3,7 +3,7 @@ export interface DocstringParts {
     decorators: Decorator[];
     args: Argument[];
     kwargs: KeywordArgument[];
-    raises: Raises[];
+    exceptions: Exception[];
     returns: Returns;
 }
 
@@ -22,8 +22,8 @@ export interface KeywordArgument {
     type: string;
 }
 
-export interface Raises {
-    exception: string;
+export interface Exception {
+    type: string;
 }
 
 export interface Returns {

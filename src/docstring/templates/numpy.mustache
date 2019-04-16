@@ -3,10 +3,10 @@
 
 {{extendedSummaryPlaceholder}}
 
-{{#parametersAvailable}}
+{{#parametersExist}}
 Parameters
 ----------
-{{/parametersAvailable}}
+{{/parametersExist}}
 {{#args}}
 {{var}} : {{typePlaceholder}}
     {{descriptionPlaceholder}}
@@ -25,11 +25,11 @@ Returns
     {{descriptionPlaceholder}}
 {{/returns}}
 
-{{#raises}}
+{{#exceptions}}
 Raises
 ------
-{{#raises}}
-{{#raises}}
-{{exception}}
+{{/exceptions}}
+{{#exceptions}}
+{{type}}
     {{descriptionPlaceholder}}
-{{/raises}}
+{{/exceptions}}

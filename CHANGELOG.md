@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.0] - 2019-04-16
+- Switched to mustache.js for templating
+- Added support for custom templating
+- Fixed bug - newline after generating docstring
+
 ## [0.2.3] - 2018-07-23
 - Added support for single quotes (@Modelmat)
 - Bugfixes (@chirieac, @md2perpe)

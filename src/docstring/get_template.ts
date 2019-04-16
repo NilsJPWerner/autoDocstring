@@ -13,6 +13,7 @@ export function getTemplate(docstringFormat: string): string {
     }
 }
 
+// TODO: handle error case
 export function getCustomTemplate(templateFilePath: string): string {
     return readFileSync(templateFilePath, "utf8");
 }

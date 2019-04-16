@@ -1,11 +1,11 @@
-import { Argument, Decorator, DocstringParts, KeywordArgument, Raises, Returns } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns } from "../docstring_parts";
 
 export class TemplateData {
     public name: string;
     public decorators: Decorator[];
     public args: Argument[];
     public kwargs: KeywordArgument[];
-    public raises: Raises[];
+    public exceptions: Exception[];
     public returns: Returns;
 
     private includeName: boolean;
@@ -18,7 +18,7 @@ export class TemplateData {
         this.decorators = docstringParts.decorators;
         this.args = docstringParts.args;
         this.kwargs = docstringParts.kwargs;
-        this.raises = docstringParts.raises;
+        this.exceptions = docstringParts.exceptions;
         this.returns = docstringParts.returns;
 
         this.includeName = includeName;
@@ -46,7 +46,7 @@ export class TemplateData {
     }
 
     public extendedSummaryPlaceholder(): string {
-        if (this.extendedSummaryPlaceholder) {
+        if (this.includeExtendedSummary) {
             return "${@@@:[extended_summary]}";
         }
 
@@ -62,8 +62,24 @@ export class TemplateData {
         return "${@@@:[description]}";
     }
 
-    public parametersAvailable(): boolean {
+    public argsExist(): boolean {
+        return this.args.length > 0;
+    }
+
+    public kwargsExist(): boolean {
+        return this.kwargs.length > 0;
+    }
+
+    public paramsExist(): boolean {
         return this.args.length > 0 || this.kwargs.length > 0;
+    }
+
+    public exceptionsExist(): boolean {
+        return this.exceptions.length > 0;
+    }
+
+    public returnsExist(): boolean {
+        return this.returns != undefined;
     }
 
     private removeTypes(): void {

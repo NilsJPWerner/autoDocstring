@@ -1,12 +1,12 @@
-// import { DocstringFactory, getTemplate } from "./docstring";
 import * as vs from "vscode";
 import { DocstringFactory } from "./docstring/docstring_factory";
-import { getTemplate } from "./docstring/get_template";
+import { getCustomTemplate, getTemplate } from "./docstring/get_template";
 import { docstringIsClosed } from "./parse/closed_docstring";
 import { isMultiLineString } from "./parse/multi_line_string";
 import { parse } from "./parse/parse";
 
 export class AutoDocstring {
+
     private docstringFactory: DocstringFactory;
     private editor: vs.TextEditor;
     private quoteStyle: string;
@@ -15,42 +15,61 @@ export class AutoDocstring {
         this.editor = editor;
 
         const config = vs.workspace.getConfiguration("autoDocstring");
-        const docstringFormat = config.get("docstringFormat");
 
         this.quoteStyle = config.get("quoteStyle").toString();
         this.docstringFactory = new DocstringFactory(
-            getTemplate(docstringFormat.toString()),
+            this.getTemplate(),
             config.get("quoteStyle").toString(),
             config.get("includeName") === true,
-            config.get("includeDescription") === true,
+            config.get("includeExtendedSummary") === true,
             config.get("includeName") === true,
             config.get("guessTypes") === true,
         );
     }
 
-    public generateDocstring(onEnter: boolean) {
+    public generateDocstring() {
+        const document = this.editor.document.getText();
+        const position = this.editor.selection.active;
+        const linePosition = position.line;
+
+        const docstringParts = parse(document, linePosition);
+        const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts);
+
+        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), position);
+    }
+
+    public generateDocstringFromEnter() {
         const document = this.editor.document.getText();
         const position = this.editor.selection.active;
         const linePosition = position.line;
         const charPosition = position.character;
 
-        // Check whether the docstring is already closed for enter activation
-        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition)) {
-
+        if (this.validEnterActivation(document, linePosition, charPosition)) {
             const docstringParts = parse(document, linePosition);
-            const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts, !onEnter);
+            const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts, true);
 
-            this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), position);
+            const range = new vs.Range(position, position.with(position.line + 1));
+            this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), range);
         }
     }
 
-    public validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
-        // console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle))
-        // console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle))
-
+    // Checks whether the docstring is already closed or whether the triple quotes are part of a multiline string
+    private validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
         return (
             !isMultiLineString(document, linePosition, charPosition, this.quoteStyle) &&
             !docstringIsClosed(document, linePosition, charPosition, this.quoteStyle)
         );
+    }
+
+    private getTemplate(): string {
+        const config = vs.workspace.getConfiguration("autoDocstring");
+        const customTemplatePath = config.get("customTemplatePath");
+
+        if (customTemplatePath != null) {
+            return getCustomTemplate(customTemplatePath.toString());
+        } else {
+            const docstringFormat = config.get("docstringFormat").toString();
+            return getTemplate(docstringFormat);
+        }
     }
 }

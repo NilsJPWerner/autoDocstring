@@ -3,26 +3,26 @@
 
 {{extendedSummaryPlaceholder}}
 
-{{#parametersAvailable}}
+{{#parametersExist}}
 Args:
-{{/parametersAvailable}}
 {{#args}}
     {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
 {{/args}}
 {{#kwargs}}
     {{var}} ({{typePlaceholder}}, optional): {{descriptionPlaceholder}}. Defaults to {{default}}.
 {{/kwargs}}
+{{/parametersExist}}
 
-{{#raises}}
+{{#exceptionsExist}}
 Raises:
-{{/raises}}
-{{#raises}}
-    {{exception}}: {{descriptionPlaceholder}}
-{{/raises}}
+{{#exceptions}}
+    {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{/exceptionsExist}}
 
-{{#returns}}
+{{#returnsExist}}
 Returns:
-{{/returns}}
 {{#returns}}
     {{typePlaceholder}}: {{descriptionPlaceholder}}
 {{/returns}}
+{{/returnsExist}}

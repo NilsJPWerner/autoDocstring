@@ -72,15 +72,20 @@
                     ],
                     "description": "Which docstring format to use."
                 },
+                "autoDocstring.customTemplatePath": {
+                    "type": ["string", "null"],
+                    "default": null,
+                    "description": "Path to custom docstring template (overrides docstringFormat)"
+                },
                 "autoDocstring.generateDocstringOnEnter": {
                     "type": "boolean",
                     "default": true,
                     "description": "Generate docstring on pressing enter after opening a docstring (use quoteStyle)"
                 },
-                "autoDocstring.includeDescription": {
+                "autoDocstring.includeExtendedSummary": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Include description tag"
+                    "description": "Include [extended_summary] tag"
                 },
                 "autoDocstring.includeName": {
                     "type": "boolean",

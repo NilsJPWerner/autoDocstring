@@ -43,9 +43,9 @@ describe("parseParameters()", () => {
                 { var: "param4", default: "'abc'", type: "str"},
             ],
             returns: { type: "int" },
-            raises: [
-                { exception: "Exception" },
-                { exception: "Exception2" },
+            exceptions: [
+                { type: "Exception" },
+                { type: "Exception2" },
             ],
         });
     });
@@ -99,8 +99,8 @@ describe("parseParameters()", () => {
         const functionContent = ["raise Exception"];
         const result = parseParameters([], functionContent, "");
 
-        expect(result.raises).to.have.deep.members([
-            { exception: "Exception" },
+        expect(result.exceptions).to.have.deep.members([
+            { type: "Exception" },
         ]);
     });
 
@@ -118,10 +118,10 @@ describe("parseParameters()", () => {
         ];
         const result = parseParameters([], functionContent, "");
 
-        expect(result.raises).to.have.deep.members([
-            { exception: "BadVar" },
-            { exception: "RiskyException" },
-            { exception: "AlwaysCrapsOut" },
+        expect(result.exceptions).to.have.deep.members([
+            { type: "BadVar" },
+            { type: "RiskyException" },
+            { type: "AlwaysCrapsOut" },
         ]);
     });
 

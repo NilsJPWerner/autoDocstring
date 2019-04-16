@@ -1,4 +1,4 @@
-import { Argument, Decorator, DocstringParts, KeywordArgument, Raises, Returns } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns } from "../docstring_parts";
 import { guessType } from "./guess_types";
 
 export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
@@ -8,7 +8,7 @@ export function parseParameters(parameterTokens: string[], body: string[], funct
         args: parseArguments(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
-        raises: parseRaises(body),
+        exceptions: parseExceptions(body),
     };
 }
 
@@ -115,8 +115,8 @@ function parseReturnFromBody(body: string[]): Returns {
     return undefined;
 }
 
-function parseRaises(body: string[]): Raises[] {
-    const raises: Raises[] = [];
+function parseExceptions(body: string[]): Exception[] {
+    const exceptions: Exception[] = [];
     const pattern = /raise\s+([\w.]+)/;
 
     for (const line of body) {
@@ -126,10 +126,10 @@ function parseRaises(body: string[]): Raises[] {
             continue;
         }
 
-        raises.push({ exception: match[1] });
+        exceptions.push({ type: match[1] });
     }
 
-    return raises;
+    return exceptions;
 }
 
 export function inArray<type>(item: type, array: type[]) {
