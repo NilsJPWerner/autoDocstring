@@ -110,7 +110,7 @@
         "compile": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test",
-        "unit_test": "mocha -r ts-node/register 'test/**/*.spec.ts'"
+        "unit_test": "mocha -r ts-node/register \"test/**/*.spec.ts\""
     },
     "devDependencies": {
         "vscode": "^1.1.10",
