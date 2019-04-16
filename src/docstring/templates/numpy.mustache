@@ -6,7 +6,6 @@
 {{#parametersExist}}
 Parameters
 ----------
-{{/parametersExist}}
 {{#args}}
 {{var}} : {{typePlaceholder}}
     {{descriptionPlaceholder}}
@@ -15,21 +14,22 @@ Parameters
 {{var}} : {{typePlaceholder}}, optional
     {{descriptionPlaceholder}}, by default {{default}}
 {{/kwargs}}
+{{/parametersExist}}
 
-{{#returns}}
+{{#returnsExist}}
 Returns
 -------
-{{/returns}}
 {{#returns}}
 {{typePlaceholder}}
     {{descriptionPlaceholder}}
 {{/returns}}
+{{/returnsExist}}
 
-{{#exceptions}}
+{{#exceptionsExist}}
 Raises
 ------
-{{/exceptions}}
 {{#exceptions}}
 {{type}}
     {{descriptionPlaceholder}}
 {{/exceptions}}
+{{/exceptionsExist}}
