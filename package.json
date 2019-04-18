@@ -73,8 +73,8 @@
                     "description": "Which docstring format to use."
                 },
                 "autoDocstring.customTemplatePath": {
-                    "type": ["string", "null"],
-                    "default": null,
+                    "type": "string",
+                    "default": "",
                     "description": "Path to custom docstring template (overrides docstringFormat)"
                 },
                 "autoDocstring.generateDocstringOnEnter": {
@@ -92,10 +92,10 @@
                     "default": false,
                     "description": "Include function names at the start of docstrings"
                 },
-                "autoDocstring.newlineBeforeSummary": {
+                "autoDocstring.startOnNewLine": {
                     "type": "boolean",
                     "default": false,
-                    "description": "New line before summary placeholder"
+                    "description": "Start docstring on new line"
                 },
                 "autoDocstring.guessTypes": {
                     "type": "boolean",
@@ -112,9 +112,9 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "copy_templates": "copyfiles --up 1 src/**/*.mustache out/",
-        "compile": "npm run copy_templates; tsc -p ./",
-        "watch": "npm run copy_templates; tsc -watch -p ./",
+        "copy_templates": "copyfiles --up 1 \"src/docstring/templates/*.mustache\" out/",
+        "compile": "npm run copy_templates && tsc -p ./",
+        "watch": "npm run copy_templates && tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test",
         "unit_test": "mocha -r ts-node/register \"test/**/*.spec.ts\""
@@ -125,7 +125,7 @@
         "@types/node": "^6.14.4",
         "chai": "^4.1.2",
         "copyfiles": "^2.1.0",
-        "mocha": "^6.0.2",
+        "mocha": "^6.1.3",
         "ts-node": "^4.1.0",
         "typescript": "^2.0.3",
         "vscode": "^1.1.28"

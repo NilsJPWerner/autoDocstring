@@ -70,7 +70,7 @@ export class TemplateData {
         return this.kwargs.length > 0;
     }
 
-    public paramsExist(): boolean {
+    public parametersExist(): boolean {
         return this.args.length > 0 || this.kwargs.length > 0;
     }
 

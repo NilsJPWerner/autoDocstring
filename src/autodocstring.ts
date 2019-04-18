@@ -20,7 +20,7 @@ export class AutoDocstring {
         this.docstringFactory = new DocstringFactory(
             this.getTemplate(),
             config.get("quoteStyle").toString(),
-            config.get("includeName") === true,
+            config.get("startOnNewLine") === true,
             config.get("includeExtendedSummary") === true,
             config.get("includeName") === true,
             config.get("guessTypes") === true,
@@ -63,10 +63,16 @@ export class AutoDocstring {
 
     private getTemplate(): string {
         const config = vs.workspace.getConfiguration("autoDocstring");
-        const customTemplatePath = config.get("customTemplatePath");
+        const customTemplatePath = config.get("customTemplatePath").toString();
 
-        if (customTemplatePath != null) {
-            return getCustomTemplate(customTemplatePath.toString());
+        if (customTemplatePath !== "") {
+            try {
+                return getCustomTemplate(customTemplatePath);
+            }
+            catch (err) {
+                const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+                vs.window.showErrorMessage(errorMessage);
+            }
         } else {
             const docstringFormat = config.get("docstringFormat").toString();
             return getTemplate(docstringFormat);

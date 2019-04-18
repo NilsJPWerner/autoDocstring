@@ -5,7 +5,8 @@
     ],
     "jsRules": {
         "interface-name": false,
-        "object-literal-sort-keys": false
+        "object-literal-sort-keys": false,
+        "triple-equals": false,
     },
     "rules": {},
     "rulesDirectory": []

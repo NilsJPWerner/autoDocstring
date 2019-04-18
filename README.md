@@ -37,10 +37,11 @@ This extension contributes the following settings:
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
 * `autoDocstring.customTemplatePath`: Path to a custom docstring template
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
-* `autoDocstring.includeDescription`: Include description section in docstring
+* `autoDocstring.includeExtendedSummary`: Include extended summary section in docstring
 * `autoDocstring.includeName`: Include function name at the start of docstring
-* `autoDocstring.newlineBeforeSummary`: New line before summary placeholder
+* `autoDocstring.startOnNewLine`: New line before summary placeholder
 * `autoDocstring.guessTypes`: Infer types from type hints, default values and variable names
+* `autoDocstring.quoteStyle`: The style of quotes for docstrings
 
 ## Custom Docstring Templates
 autoDocstring now supports custom templates. The extension uses the [mustache.js](https://github.com/janl/mustache.js/) templating engine. To use a custom template create a .mustache file and specify its path using the `customTemplatePath` configuration. View the included google docstring [template](src/docstring/templates/google.mustache) for a usage example. The following tags are available for use in custom templates.
@@ -62,7 +63,7 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 {{#kwargs}}                     - iterate over function kwargs
     {{var}}                     - variable name
     {{typePlaceholder}}         - [type] or guessed type placeholder
-    {{default}}                 - default value
+    {{&default}}                 - default value (& unescapes the variable)
     {{descriptionPlaceholder}}  - [description] placeholder
 {{/kwargs}}
 
@@ -84,8 +85,8 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 {{#kwargsExist}}        - display contents if kwargs exist
 {{/kwargsExist}}
 
-{{#paramsExist}}        - display contents if args or kwargs exist
-{{/paramsExist}}
+{{#parametersExist}}    - display contents if args or kwargs exist
+{{/parametersExist}}
 
 {{#exceptionsExist}}    - display contents if exceptions exist
 {{/exceptionsExist}}
@@ -101,6 +102,7 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 
 * \*args & \*\*kwargs not dealt with properly
 * Inserted docstrings have trailing spaces (problem with how vscode deals with snippets)
+* Doesn't include yields and decorators
 
 ## Changelog
 

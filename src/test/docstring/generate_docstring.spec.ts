@@ -69,12 +69,13 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring decorators", () => {
+            const template = "{{#decorators}}\n{{name}}\n{{/decorators}}"
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.decorators = [
                 { name: "decorator_1" },
                 { name: "decorator_2" },
             ];
-            const factory = new DocstringFactory(decoratorTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
@@ -82,12 +83,13 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring args", () => {
+            const template = "{{#args}}{{var}} {{type}}\n{{/args}}"
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.args = [
                 { var: "arg_1", type: "string" },
                 { var: "arg_2", type: "number" },
             ];
-            const factory = new DocstringFactory(argTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
@@ -95,12 +97,13 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring kwargs", () => {
+            const template = "{{#kwargs}}\n{{var}} {{type}} {{default}}\n{{/kwargs}}"
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.kwargs = [
                 { var: "kwarg_1", type: "string", default: "1" },
                 { var: "kwarg_2", type: "number", default: "text" },
             ];
-            const factory = new DocstringFactory(kwargTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
@@ -108,12 +111,13 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring exceptions components", () => {
+            const template = "{{#exceptions}}\n{{type}}\n{{/exceptions}}"
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.exceptions = [
                 { type: "Error_1" },
                 { type: "Error_2" },
             ];
-            const factory = new DocstringFactory(exceptionsTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
@@ -121,24 +125,33 @@ describe("DocstringFactory", () => {
         });
 
         it("should use the docstring returns if the template specifies it", () => {
+            const template = "{{returns.type}} yay";
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.returns = { type: "Thing" };
-            const factory = new DocstringFactory(returnsTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
             expect(result).to.equal("\"\"\"Thing yay\"\"\"");
         });
 
-        it("should remove extraneous newlines if a component is unused", () => {
+        it("should condense multiple newlines to two newlines", () => {
+            const template = "Thing\n\n\nHello\n\n\n\nAgain!"
             const docstringComponents = defaultDocstringComponents;
-            docstringComponents.kwargs = [];
-            docstringComponents.args = [];
-            const factory = new DocstringFactory(unusedComponentsTemplate);
+            const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
             expect(result).to.equal("\"\"\"Thing\n\nHello\n\nAgain!\"\"\"");
+        });
+
+        it("should condense trailing newlines to a single newline", () => {
+            const template = "abc\n\nabc\n\n"
+            const factory = new DocstringFactory(template);
+
+            const result = factory.generateDocstring(defaultDocstringComponents);
+
+            expect(result).to.equal("\"\"\"abc\n\nabc\n\"\"\"");
         });
 
         context("when guessTypes is set to false", () => {
@@ -208,7 +221,7 @@ describe("DocstringFactory", () => {
         });
 
         context("when the argsExist tag is used", () => {
-            const template = "\n{{summaryPlaceholder}}\n";
+            const template = "\n{{summaryPlaceholder}}";
 
             context("and includeName is set to true", () => {
                 it("should add the name to the summary", () => {
@@ -218,7 +231,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\nFunction ${1:[summary]}\n\"\"\"");
+                    expect(result).to.equal("\"\"\"\nFunction ${1:[summary]}\"\"\"");
                 });
             });
 
@@ -230,7 +243,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\n${1:[summary]}\n\"\"\"");
+                    expect(result).to.equal("\"\"\"\n${1:[summary]}\"\"\"");
                 });
             });
         });
@@ -297,8 +310,8 @@ describe("DocstringFactory", () => {
             });
         });
 
-        context("when the paramsExist tag is used", () => {
-            const template = "{{#paramsExist}}Params Exist!{{/paramsExist}}";
+        context("when the parametersExist tag is used", () => {
+            const template = "{{#parametersExist}}Params Exist!{{/parametersExist}}";
 
             context("and there are kwargs", () => {
                 it("should include the content inside the tag", () => {
@@ -424,38 +437,6 @@ const defaultDocstringComponents: DocstringParts = {
     returns: { type: "" },
     exceptions: [],
 };
-
-const decoratorTemplate = `{{#decorators}}
-{{name}}
-{{/decorators}}`;
-
-const argTemplate = `{{#args}}
-{{var}} {{type}}
-{{/args}}`;
-
-const kwargTemplate = `{{#kwargs}}
-{{var}} {{type}} {{default}}
-{{/kwargs}}`;
-
-const exceptionsTemplate = `{{#exceptions}}
-{{type}}
-{{/exceptions}}`;
-
-const returnsTemplate = `{{returns.type}} yay`;
-
-const unusedComponentsTemplate = `Thing
-
-{{#kwargs}}
-{{var}} {{type}} {{default}}
-{{/kwargs}}
-
-Hello
-
-{{#args}}
-{{var}} {{type}}
-{{/args}}
-
-Again!`;
 
 const noTypesTemplate = `{{#args}}{{var}} {{type}}{{/args}}
 {{#kwargs}}{{var}} {{type}}{{/kwargs}}

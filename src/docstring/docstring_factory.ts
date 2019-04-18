@@ -34,10 +34,11 @@ export class DocstringFactory {
         let docstring = render(this.template, templateData);
 
         docstring = this.addSnippetPlaceholders(docstring);
-        if (this.startOnNewLine) { docstring = "\n" + docstring; }
         docstring = this.condenseNewLines(docstring);
+        docstring = this.condenseTrailingNewLines(docstring)
+        docstring = this.commentText(docstring, noOpeningQuotes)
 
-        return this.commentText(docstring, noOpeningQuotes);
+        return docstring;
     }
 
     private addSnippetPlaceholders(snippetString: string): string {
@@ -53,7 +54,15 @@ export class DocstringFactory {
         return snippet.replace(/\n{3,}/gm, "\n\n");
     }
 
+    private condenseTrailingNewLines(snippet: string): string {
+        return snippet.replace(/\n+$/g, "\n");
+    }
+
     private commentText(snippetString: string, noOpeningQuotes: boolean): string {
+        if (this.startOnNewLine) {
+            snippetString = "\n" + snippetString
+        }
+
         if (noOpeningQuotes) {
             return snippetString + this.quoteStyle;
         } else {
