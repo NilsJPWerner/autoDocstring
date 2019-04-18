@@ -1,4 +1,4 @@
-import { render } from "Mustache";
+import { render } from "mustache";
 import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
 
