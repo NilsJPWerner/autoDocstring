@@ -1,23 +1,23 @@
-import { indentationOf, blankLine } from './utilities'
+import { blankLine, indentationOf } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
-    let lines = document.split('\n');
+    const lines = document.split("\n");
     let definition = "";
 
-    if (linePosition == 0) {
+    if (linePosition === 0) {
         return definition;
     }
 
-    let currentLineNum = linePosition - 1
-    let originalIndentation = indentationOf(lines[currentLineNum]);
+    let currentLineNum = linePosition - 1;
+    const originalIndentation = indentationOf(lines[currentLineNum]);
 
     while (currentLineNum >= 0) {
-        let line = lines[currentLineNum];
+        const line = lines[currentLineNum];
         definition = line.trim() + definition;
 
         if (indentationOf(line) < originalIndentation || blankLine(line)) {
-            break
-        };
+            break;
+        }
 
         currentLineNum -= 1;
     }
@@ -26,27 +26,27 @@ export function getDefinition(document: string, linePosition: number): string {
 }
 
 export function getBody(document: string, linePosition: number): string[] {
-    let lines = document.split('\n');
-    let body = [];
+    const lines = document.split("\n");
+    const body = [];
 
     let currentLineNum = linePosition;
-    let originalIndentation = indentationOf(lines[currentLineNum]);
+    const originalIndentation = indentationOf(lines[currentLineNum]);
 
     while (currentLineNum < lines.length) {
-        let line = lines[currentLineNum];
+        const line = lines[currentLineNum];
 
         if (blankLine(line)) {
             currentLineNum++;
-            continue
-        };
+            continue;
+        }
 
         if (indentationOf(line) < originalIndentation) {
-            break
-        };
+            break;
+        }
 
         body.push(line.trim());
         currentLineNum++;
     }
 
-    return body
+    return body;
 }

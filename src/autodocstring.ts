@@ -1,65 +1,81 @@
-import * as vs from 'vscode';
-import * as factories from './docstring_factories/factories'
-import { parse } from './parse/parse'
-import { docstringIsClosed } from './parse/closed_docstring'
-import { isMultiLineString } from './parse/multi_line_string'
-
+import * as vs from "vscode";
+import { DocstringFactory } from "./docstring/docstring_factory";
+import { getCustomTemplate, getTemplate } from "./docstring/get_template";
+import { docstringIsClosed } from "./parse/closed_docstring";
+import { isMultiLineString } from "./parse/multi_line_string";
+import { parse } from "./parse/parse";
 
 export class AutoDocstring {
-    private docstringFactory: factories.BaseFactory;
+
+    private docstringFactory: DocstringFactory;
     private editor: vs.TextEditor;
     private quoteStyle: string;
 
-    constructor(editor: vs.TextEditor, quoteStyle: string = null) {
+    constructor(editor: vs.TextEditor) {
         this.editor = editor;
-        this.quoteStyle = quoteStyle || vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
 
-        let docstringFormat = vs.workspace.getConfiguration("autoDocstring").get("docstringFormat");
-        switch (docstringFormat) {
-            case "google":
-                this.docstringFactory = new factories.GoogleFactory(this.quoteStyle);
-                break;
+        const config = vs.workspace.getConfiguration("autoDocstring");
 
-            case "sphinx":
-                this.docstringFactory = new factories.SphinxFactory(this.quoteStyle);
-                break;
+        this.quoteStyle = config.get("quoteStyle").toString();
+        this.docstringFactory = new DocstringFactory(
+            this.getTemplate(),
+            config.get("quoteStyle").toString(),
+            config.get("startOnNewLine") === true,
+            config.get("includeExtendedSummary") === true,
+            config.get("includeName") === true,
+            config.get("guessTypes") === true,
+        );
+    }
 
-            case "numpy":
-                this.docstringFactory = new factories.NumpyFactory(this.quoteStyle);
-                break;
+    public generateDocstring() {
+        const document = this.editor.document.getText();
+        const position = this.editor.selection.active;
+        const linePosition = position.line;
 
-            default:
-                this.docstringFactory = new factories.DefaultFactory(this.quoteStyle);
+        const docstringParts = parse(document, linePosition);
+        const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts);
+
+        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), position);
+    }
+
+    public generateDocstringFromEnter() {
+        const document = this.editor.document.getText();
+        const position = this.editor.selection.active;
+        const linePosition = position.line;
+        const charPosition = position.character;
+
+        if (this.validEnterActivation(document, linePosition, charPosition)) {
+            const docstringParts = parse(document, linePosition);
+            const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts, true);
+
+            const range = new vs.Range(position, position.with(position.line + 1));
+            this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), range);
         }
     }
 
-    public generateDocstring(onEnter: boolean) {
-        let document = this.editor.document.getText();
-        let position = this.editor.selection.active
-        let linePosition = position.line;
-        let charPosition = position.character;
-
-        if (!onEnter) {
-
-        }
-
-        // Check whether the docstring is already closed for enter activation
-        if (!onEnter || this.validEnterActivation(document, linePosition, charPosition)) {
-
-            let docstringParts = parse(document, linePosition);
-            let docstringSnippet = this.docstringFactory.createDocstring(docstringParts, !onEnter);
-
-            this.editor.insertSnippet(docstringSnippet, position)
-        }
-    }
-
-    validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
-        console.log("multiline: ", isMultiLineString(document, linePosition, charPosition, this.quoteStyle))
-        console.log("closed: ", docstringIsClosed(document, linePosition, charPosition, this.quoteStyle))
-
+    // Checks whether the docstring is already closed or whether the triple quotes are part of a multiline string
+    private validEnterActivation(document: string, linePosition: number, charPosition: number): boolean {
         return (
             !isMultiLineString(document, linePosition, charPosition, this.quoteStyle) &&
             !docstringIsClosed(document, linePosition, charPosition, this.quoteStyle)
-        )
+        );
+    }
+
+    private getTemplate(): string {
+        const config = vs.workspace.getConfiguration("autoDocstring");
+        const customTemplatePath = config.get("customTemplatePath").toString();
+
+        if (customTemplatePath !== "") {
+            try {
+                return getCustomTemplate(customTemplatePath);
+            }
+            catch (err) {
+                const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+                vs.window.showErrorMessage(errorMessage);
+            }
+        } else {
+            const docstringFormat = config.get("docstringFormat").toString();
+            return getTemplate(docstringFormat);
+        }
     }
 }

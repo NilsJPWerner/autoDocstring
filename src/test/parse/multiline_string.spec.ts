@@ -1,27 +1,26 @@
-import chai = require('chai');
-import 'mocha';
+import chai = require("chai");
+import "mocha";
 
-import { isMultiLineString } from '../../src/parse/multi_line_string';
+import { isMultiLineString } from "../../parse/multi_line_string";
 
 chai.config.truncateThreshold = 0;
-let expect = chai.expect;
+const expect = chai.expect;
 
-describe('isMultiLineString()', () => {
+describe("isMultiLineString()", () => {
     it("should return true if there are non whitespace characters preceding the triple quotes", () => {
-        let result = isMultiLineString(multilineString, 4, 10, '"""');
+        const result = isMultiLineString(multilineString, 4, 10, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return false if there are only white space characters preceding the triple quotes", () => {
-        let result = isMultiLineString(notMultilineString, 4, 6, '"""');
+        const result = isMultiLineString(notMultilineString, 4, 6, '"""');
 
         expect(result).to.equal(false);
-    })
+    });
 });
 
-
-let multilineString = `
+const multilineString = `
     return 3
 
 def function(param1):
@@ -33,9 +32,9 @@ def function(param1):
     return 3
 
 def something_else():
-`
+`;
 
-let notMultilineString = `
+const notMultilineString = `
     return 3
 
 def function(param1):
@@ -47,4 +46,4 @@ def function(param1):
     return 3
 
 def something_else():
-`
+`;

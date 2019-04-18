@@ -1,75 +1,74 @@
-import chai = require('chai');
-import 'mocha';
+import chai = require("chai");
+import "mocha";
 
-import { docstringIsClosed } from '../../src/parse/closed_docstring';
+import { docstringIsClosed } from "../../parse/closed_docstring";
 
 chai.config.truncateThreshold = 0;
-let expect = chai.expect;
+const expect = chai.expect;
 
-describe('docstringIsClosed()', () => {
+describe("docstringIsClosed()", () => {
     it("should return true if the preceding quotes close an existing docstring", () => {
-        let result = docstringIsClosed(closedDocstring, 6, 7, '"""');
+        const result = docstringIsClosed(closedDocstring, 6, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes open an existing docstring", () => {
-        let result = docstringIsClosed(closedDocstring, 4, 7, '"""');
+        const result = docstringIsClosed(closedDocstring, 4, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes closes a one line docstring", () => {
-        let result = docstringIsClosed(closedOneLineDocstring, 4, 17, '"""');
+        const result = docstringIsClosed(closedOneLineDocstring, 4, 17, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes opens a one line docstring", () => {
-        let result = docstringIsClosed(closedOneLineDocstring, 4, 7, '"""');
+        const result = docstringIsClosed(closedOneLineDocstring, 4, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes closes a multiline docstring", () => {
-        let result = docstringIsClosed(closedMultilineDocstring, 7, 7, '"""');
+        const result = docstringIsClosed(closedMultilineDocstring, 7, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes open a multiline docstring", () => {
-        let result = docstringIsClosed(closedMultilineDocstring, 2, 7, '"""');
+        const result = docstringIsClosed(closedMultilineDocstring, 2, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes open a multiline string", () => {
-        let result = docstringIsClosed(closedMultilineString, 2, 16, '"""');
+        const result = docstringIsClosed(closedMultilineString, 2, 16, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return true if the preceding quotes close a multiline string", () => {
-        let result = docstringIsClosed(closedMultilineString, 6, 7, '"""');
+        const result = docstringIsClosed(closedMultilineString, 6, 7, '"""');
 
         expect(result).to.equal(true);
-    })
+    });
 
     it("should return false if the preceding quotes open a non closed docstring", () => {
-        let result = docstringIsClosed(openDocstring, 2, 7, '"""');
+        const result = docstringIsClosed(openDocstring, 2, 7, '"""');
 
         expect(result).to.equal(false);
-    })
+    });
 
     it("should return false if the preceding quotes open a non closed docstring for a second function", () => {
-        let result = docstringIsClosed(openDocstringSecondFunction, 7, 7, '"""');
+        const result = docstringIsClosed(openDocstringSecondFunction, 7, 7, '"""');
 
         expect(result).to.equal(false);
-    })
+    });
 });
 
-
-let closedDocstring = `
+const closedDocstring = `
     return 3
 
 def function(param1):
@@ -84,9 +83,9 @@ def function(param1):
     return 3
 
 def something_else():
-`
+`;
 
-let closedOneLineDocstring = `
+const closedOneLineDocstring = `
     return 3
 
 def function(param1):
@@ -94,9 +93,9 @@ def function(param1):
     print("HELLO WORLD")
     try:
         something()
-`
+`;
 
-let closedMultilineDocstring = `
+const closedMultilineDocstring = `
 def function(param1):
     """ summary
     Some Explanation
@@ -107,17 +106,17 @@ def function(param1):
     print("HELLO WORLD")
     try:
         something()
-`
+`;
 
-let openDocstring = `
+const openDocstring = `
 def function(param1):
     """
     print("HELLO WORLD")
     try:
         something()
-`
+`;
 
-let openDocstringSecondFunction = `
+const openDocstringSecondFunction = `
 def function(param1):
     print("HELLO WORLD")
     try:
@@ -129,12 +128,11 @@ def function2(param1):
 
 def function3(param1):
     print("HELLO WORLD")
-`
+`;
 
-
-let closedMultilineString = `
+const closedMultilineString = `
 def function(param1):
-    string = """ 
+    string = """
     This is a string
     Not a docstring
         Should still work
@@ -142,4 +140,4 @@ def function(param1):
     print("HELLO WORLD")
     try:
         something()
-`
+`;

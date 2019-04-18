@@ -1,59 +1,77 @@
-'use strict';
-import * as vs from 'vscode';
+"use strict";
+import * as vs from "vscode";
 import { AutoDocstring } from "./autodocstring";
-import * as utils from "./utils";
-import { type } from 'os';
 
 export function activate(context: vs.ExtensionContext): void {
     context.subscriptions.push(
         vs.commands.registerCommand(
-            'extension.generateDocstring', () => {
-                let editor = vs.window.activeTextEditor;
-                let autoDocstring = new AutoDocstring(editor);
-                autoDocstring.generateDocstring(false);
-             }
-        )
+            "extension.generateDocstring", () => {
+                activateFromCommand();
+             },
+        ),
     );
 
-    let config = vs.workspace.getConfiguration("autoDocstring");
+    const config = vs.workspace.getConfiguration("autoDocstring");
 
-    if (config.get('generateDocstringOnEnter')) {
+    if (config.get("generateDocstringOnEnter")) {
         context.subscriptions.push(
             vs.workspace.onDidChangeTextDocument(
-                changeEvent => { activateOnEnter(changeEvent) }
-            )
+                (changeEvent) => { activateFromEnter(changeEvent); },
+            ),
         );
-    };
-}
-
-function activateOnEnter(changeEvent: vs.TextDocumentChangeEvent) {
-    if (vs.window.activeTextEditor.document !== changeEvent.document) return;
-    if (changeEvent.contentChanges.length < 1) return;
-    if (changeEvent.contentChanges[0].rangeLength !== 0) return;
-
-    if (changeEvent.contentChanges[0].text.replace(/ |\t|\r/g, "") === "\n") {
-        processEnter(changeEvent);
     }
 }
 
-function processEnter(changeEvent: vs.TextDocumentChangeEvent) {
-    let editor = vs.window.activeTextEditor;
-    let range = getPrecedingRange(3, changeEvent);
+function activateFromCommand() {
+    const editor = vs.window.activeTextEditor;
+    const autoDocstring = new AutoDocstring(editor);
 
-    if (editor.document.getText(range) === '"""') {
-        let autoDocstring = new AutoDocstring(editor, '"""');
-        autoDocstring.generateDocstring(true);
-    }
-    else if (editor.document.getText(range) === "'''") {
-        let autoDocstring = new AutoDocstring(editor, "'''")
-        autoDocstring.generateDocstring(true)
-    }
+    autoDocstring.generateDocstring();
 }
 
-function getPrecedingRange(numberOfChars: number, changeEvent: vs.TextDocumentChangeEvent) {
-    let position = changeEvent.contentChanges[0].range.end;
-    let range = new vs.Range(position.translate(0, -1 * numberOfChars), position);
-    return range
+function activateFromEnter(changeEvent: vs.TextDocumentChangeEvent) {
+    // If the edited document is not the same as the active document return
+    if (vs.window.activeTextEditor.document !== changeEvent.document) {
+        return;
+    } else if (!changeWasNewLineCharacter(changeEvent)) {
+        return;
+    } else if (!changeFollowsRequiredChars(changeEvent)) {
+        return;
+    }
+
+    const editor = vs.window.activeTextEditor;
+    const autoDocstring = new AutoDocstring(editor);
+    autoDocstring.generateDocstringFromEnter();
 }
 
-export function deactivate() {}
+function changeWasNewLineCharacter(changeEvent: vs.TextDocumentChangeEvent): boolean {
+    if (changeEvent.contentChanges.length !== 1) {
+        return false;
+    }
+
+    const contentChangeText = changeEvent.contentChanges[0].text;
+    const strippedText = contentChangeText.replace(/ |\t|\r/g, "");
+
+    return strippedText === "\n";
+}
+
+function changeFollowsRequiredChars(changeEvent: vs.TextDocumentChangeEvent): boolean {
+    const precedingText = getPrecedingText(3, changeEvent);
+    const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
+
+    return precedingText === quoteStyle;
+}
+
+function getPrecedingText(numberOfChars: number, changeEvent: vs.TextDocumentChangeEvent): string {
+    const editor = vs.window.activeTextEditor;
+    const position = changeEvent.contentChanges[0].range.end;
+
+    const range = new vs.Range(
+        position.translate(0, numberOfChars * -1),
+        position,
+    );
+
+    return editor.document.getText(range);
+}
+
+export function deactivate() { return; }

@@ -32,27 +32,77 @@ Cursor must be on the line directly below the definition to generate full auto-p
 * Right click menu: `Generate Docstring`
 
 ## Extension Settings
-
 This extension contributes the following settings:
 
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
+* `autoDocstring.customTemplatePath`: Path to a custom docstring template
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
-* `autoDocstring.includeDescription`: Include description section in docstring
+* `autoDocstring.includeExtendedSummary`: Include extended summary section in docstring
 * `autoDocstring.includeName`: Include function name at the start of docstring
-* `autoDocstring.newlineBeforeSummary`: New line before summary placeholder
+* `autoDocstring.startOnNewLine`: New line before summary placeholder
 * `autoDocstring.guessTypes`: Infer types from type hints, default values and variable names
+* `autoDocstring.quoteStyle`: The style of quotes for docstrings
+
+## Custom Docstring Templates
+autoDocstring now supports custom templates. The extension uses the [mustache.js](https://github.com/janl/mustache.js/) templating engine. To use a custom template create a .mustache file and specify its path using the `customTemplatePath` configuration. View the included google docstring [template](src/docstring/templates/google.mustache) for a usage example. The following tags are available for use in custom templates.
+
+### Variables
+```
+{{name}}                        - name of the function
+{{summaryPlaceholder}}          - [summary] placeholder
+{{extendedSummaryPlaceholder}}  - [extended_summary] placeholder
+```
+### Sections
+```
+{{#args}}                       - iterate over function arguments
+    {{var}}                     - variable name
+    {{typePlaceholder}}         - [type] or guessed type  placeholder
+    {{descriptionPlaceholder}}  - [description] placeholder
+{{/args}}
+
+{{#kwargs}}                     - iterate over function kwargs
+    {{var}}                     - variable name
+    {{typePlaceholder}}         - [type] or guessed type placeholder
+    {{&default}}                 - default value (& unescapes the variable)
+    {{descriptionPlaceholder}}  - [description] placeholder
+{{/kwargs}}
+
+{{#exceptions}}                 - iterate over exceptions
+    {{type}}                    - exception type
+    {{descriptionPlaceholder}}  - [description] placeholder
+{{/exceptions}}
+
+{{#returns}}                    - iterate over returns
+    {{typePlaceholder}}         - [type] placeholder
+    {{descriptionPlaceholder}}  - [description] placeholder
+{{/returns}}
+```
+### Additional Sections
+```
+{{#argsExist}}          - display contents if args exist
+{{/argsExist}}
+
+{{#kwargsExist}}        - display contents if kwargs exist
+{{/kwargsExist}}
+
+{{#parametersExist}}    - display contents if args or kwargs exist
+{{/parametersExist}}
+
+{{#exceptionsExist}}    - display contents if exceptions exist
+{{/exceptionsExist}}
+
+{{#returnsExist}}       - display contents if returns exist
+{{/returnsExist}}
+
+{{#placeholder}}        - makes contents a placeholder
+{{/placeholder}}
+```
 
 ## Known Issues
 
 * \*args & \*\*kwargs not dealt with properly
-* Extra new line at the end of inserted docstring
 * Inserted docstrings have trailing spaces (problem with how vscode deals with snippets)
-
-## Roadmap
-
-* Add support for classes and modules
-* Add more unit tests
-* Add Epytext format
+* Doesn't include yields and decorators
 
 ## Changelog
 

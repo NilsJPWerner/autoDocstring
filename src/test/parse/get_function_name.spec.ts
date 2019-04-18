@@ -1,7 +1,7 @@
 import chai = require('chai');
 import 'mocha';
 
-import { getFunctionName } from '../../src/parse/get_function_name';
+import { getFunctionName } from '../../parse/get_function_name';
 
 chai.config.truncateThreshold = 0;
 let expect = chai.expect;
