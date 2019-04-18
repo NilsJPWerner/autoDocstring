@@ -1,7 +1,6 @@
 "use strict";
 import * as vs from "vscode";
 import { AutoDocstring } from "./autodocstring";
-import { deleteLine, deleteRange } from "./utils";
 
 export function activate(context: vs.ExtensionContext): void {
     context.subscriptions.push(

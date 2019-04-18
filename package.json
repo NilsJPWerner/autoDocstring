@@ -117,7 +117,7 @@
         "watch": "npm run copy_templates && tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "node ./node_modules/vscode/bin/test",
-        "unit_test": "mocha -r ts-node/register \"test/**/*.spec.ts\""
+        "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\""
     },
     "devDependencies": {
         "@types/chai": "^4.1.2",
