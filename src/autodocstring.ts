@@ -67,22 +67,21 @@ export class AutoDocstring {
         const config = vs.workspace.getConfiguration("autoDocstring");
         let customTemplatePath = config.get("customTemplatePath").toString();
 
-        if (customTemplatePath !== "") {
-
-            if (!path.isAbsolute(customTemplatePath)) {
-                customTemplatePath = path.join(vs.workspace.rootPath, customTemplatePath);
-            }
-
-            try {
-                return getCustomTemplate(customTemplatePath);
-            }
-            catch (err) {
-                const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
-                vs.window.showErrorMessage(errorMessage);
-            }
-        } else {
+        if (customTemplatePath === "") {
             const docstringFormat = config.get("docstringFormat").toString();
             return getTemplate(docstringFormat);
+        }
+
+        if (!path.isAbsolute(customTemplatePath)) {
+            customTemplatePath = path.join(vs.workspace.rootPath, customTemplatePath);
+        }
+
+        try {
+            return getCustomTemplate(customTemplatePath);
+        }
+        catch (err) {
+            const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+            vs.window.showErrorMessage(errorMessage);
         }
     }
 }
