@@ -75,7 +75,7 @@
                 "autoDocstring.customTemplatePath": {
                     "type": "string",
                     "default": "",
-                    "description": "Path to custom docstring template (overrides docstringFormat)"
+                    "description": "Path to custom docstring template (overrides docstringFormat). Path can be absolute or relative to the project root."
                 },
                 "autoDocstring.generateDocstringOnEnter": {
                     "type": "boolean",

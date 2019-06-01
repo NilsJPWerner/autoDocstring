@@ -4,6 +4,8 @@ import { getCustomTemplate, getTemplate } from "./docstring/get_template";
 import { docstringIsClosed } from "./parse/closed_docstring";
 import { isMultiLineString } from "./parse/multi_line_string";
 import { parse } from "./parse/parse";
+import * as path from "path";
+
 
 export class AutoDocstring {
 
@@ -63,9 +65,14 @@ export class AutoDocstring {
 
     private getTemplate(): string {
         const config = vs.workspace.getConfiguration("autoDocstring");
-        const customTemplatePath = config.get("customTemplatePath").toString();
+        let customTemplatePath = config.get("customTemplatePath").toString();
 
         if (customTemplatePath !== "") {
+
+            if (!path.isAbsolute(customTemplatePath)) {
+                customTemplatePath = path.join(vs.workspace.rootPath, customTemplatePath);
+            }
+
             try {
                 return getCustomTemplate(customTemplatePath);
             }
