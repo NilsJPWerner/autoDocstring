@@ -36,7 +36,7 @@ Cursor must be on the line directly below the definition to generate full auto-p
 This extension contributes the following settings:
 
 * `autoDocstring.docstringFormat`: Switch between different docstring formats
-* `autoDocstring.customTemplatePath`: Path to a custom docstring template
+* `autoDocstring.customTemplatePath`: Path to a custom docstring template (absolute or relative to the project root)
 * `autoDocstring.generateDocstringOnEnter`: Generate the docstring on pressing enter after opening docstring
 * `autoDocstring.includeExtendedSummary`: Include extended summary section in docstring
 * `autoDocstring.includeName`: Include function name at the start of docstring
