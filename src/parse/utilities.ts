@@ -1,15 +1,15 @@
 export function getIndentation(line: string): string {
-    const whiteSpaceMatches = line.match(/^\s+/);
+    const whiteSpaceMatches = line.match(/^[^\S\r]+/);
 
     if (whiteSpaceMatches == undefined) {
-        return '';
+        return "";
     }
 
     return whiteSpaceMatches[0];
 }
 
 export function indentationOf(line: string): number {
-    return getIndentation(line).length
+    return getIndentation(line).length;
 }
 
 export function blankLine(line: string): boolean {
