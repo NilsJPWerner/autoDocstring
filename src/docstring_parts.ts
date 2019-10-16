@@ -5,6 +5,7 @@ export interface DocstringParts {
     kwargs: KeywordArgument[];
     exceptions: Exception[];
     returns: Returns;
+    yields: Yields;
 }
 
 export interface Decorator {
@@ -27,5 +28,9 @@ export interface Exception {
 }
 
 export interface Returns {
+    type: string;
+}
+
+export interface Yields {
     type: string;
 }

@@ -43,6 +43,7 @@ describe("parseParameters()", () => {
                 { var: "param4", default: "'abc'", type: "str"},
             ],
             returns: { type: "int" },
+            yields: undefined,
             exceptions: [
                 { type: "Exception" },
                 { type: "Exception2" },

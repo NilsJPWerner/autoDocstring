@@ -1,4 +1,4 @@
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
 
 export class TemplateData {
     public name: string;
@@ -7,6 +7,7 @@ export class TemplateData {
     public kwargs: KeywordArgument[];
     public exceptions: Exception[];
     public returns: Returns;
+    public yields: Yields;
 
     private includeName: boolean;
     private includeExtendedSummary: boolean;
@@ -20,6 +21,7 @@ export class TemplateData {
         this.kwargs = docstringParts.kwargs;
         this.exceptions = docstringParts.exceptions;
         this.returns = docstringParts.returns;
+        this.yields = docstringParts.yields;
 
         this.includeName = includeName;
         this.includeExtendedSummary = includeExtendedSummary;
@@ -82,6 +84,10 @@ export class TemplateData {
         return this.returns !== undefined;
     }
 
+    public yieldsExist(): boolean {
+        return this.yields != undefined;
+    }
+
     private removeTypes(): void {
         for (const arg of this.args) {
             arg.type = undefined;
@@ -89,6 +95,10 @@ export class TemplateData {
 
         for (const kwarg of this.kwargs) {
             kwarg.type = undefined;
+        }
+
+        if (this.yieldsExist()) {
+            this.yields.type = undefined;
         }
 
         if (this.returnsExist()) {
@@ -112,6 +122,11 @@ export class TemplateData {
         const returns = this.returns;
         if (returns !== undefined && returns.type === undefined) {
             returns.type = placeholder;
+        }
+
+        const yields = this.yields;
+        if (yields != undefined && yields.type == undefined) {
+            yields.type = placeholder;
         }
     }
 }
