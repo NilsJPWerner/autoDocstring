@@ -39,8 +39,8 @@ describe("parseParameters()", () => {
                 { var: "param2", type: "int" },
             ],
             kwargs: [
-                { var: "param3", default: "1", type: "int"},
-                { var: "param4", default: "'abc'", type: "str"},
+                { var: "param3", default: "1", type: "int" },
+                { var: "param4", default: "'abc'", type: "str" },
             ],
             returns: { type: "int" },
             yields: undefined,
@@ -87,6 +87,30 @@ describe("parseParameters()", () => {
         expect(result.returns).to.deep.equal(undefined);
     });
 
+    it("should parse yield types", () => {
+        const parameterTokens = ["-> List[int]"];
+        const body = ["yield foo"];
+        const result = parseParameters(parameterTokens, body, "name");
+
+        expect(result.yields).to.deep.equal({
+            type: "List[int]",
+        });
+    });
+
+    it("should not parse yield types without actual yield statement", () => {
+        const parameterTokens = ["-> List[int]"];
+        const body = [];
+        const result = parseParameters(parameterTokens, body, "name");
+
+        expect(result.yields).to.eql(undefined);
+    });
+
+    it("should result in no yield if there is no yield type or yield in body", () => {
+        const result = parseParameters([], [], "name");
+
+        expect(result.returns).to.eql(undefined);
+    });
+
     it("should parse the return from the body if there is no return type in the definition", () => {
         const parameterTokens = ["param1"];
         const body = ["return 3"];
@@ -102,6 +126,7 @@ describe("parseParameters()", () => {
 
         expect(result.returns).to.eql(undefined);
     });
+
 
     it("should parse simple exception", () => {
         const functionContent = ["raise Exception"];
@@ -139,9 +164,9 @@ describe("parseParameters()", () => {
             const result = parseParameters(parameterTokens, [], "name");
 
             expect(result.args).to.have.deep.members([
-                { var: "param1", type: "int"},
-                { var: "param2", type: undefined},
-                { var: "param3", type: "List[int]"},
+                { var: "param1", type: "int" },
+                { var: "param2", type: undefined },
+                { var: "param3", type: "List[int]" },
             ]);
         });
 
@@ -150,9 +175,9 @@ describe("parseParameters()", () => {
             const result = parseParameters(parameterTokens, [], "name");
 
             expect(result.kwargs).to.have.deep.members([
-                { var: "param1", default: "'abc'", type: "str"},
-                { var: "param2", default: "1", type: "int"},
-                { var: "param3", default: "2", type: "int"},
+                { var: "param1", default: "'abc'", type: "str" },
+                { var: "param2", default: "1", type: "int" },
+                { var: "param3", default: "2", type: "int" },
             ]);
         });
 
