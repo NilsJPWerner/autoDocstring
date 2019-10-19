@@ -79,6 +79,13 @@ describe("parseParameters()", () => {
         });
     });
 
+    it("should not parse '-> None' return types", () => {
+        const parameterTokens = ["-> None"];
+        const result = parseParameters(parameterTokens, [], "name");
+
+        expect(result.returns).to.deep.equal(undefined);
+    });
+
     it("should parse the return from the body if there is no return type in the definition", () => {
         const parameterTokens = ["param1"];
         const body = ["return 3"];
