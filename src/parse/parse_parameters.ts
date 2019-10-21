@@ -83,7 +83,7 @@ function parseReturn(parameters: string[], body: string[]): Returns {
     return returnType;
 }
 
-function parseReturnFromDefinition(parameters: string[]): Returns {
+function parseReturnFromDefinition(parameters: string[]): Returns | undefined {
     const pattern = /^->\s*([\w\[\], \.]*)/;
 
     for (const param of parameters) {
@@ -93,7 +93,8 @@ function parseReturnFromDefinition(parameters: string[]): Returns {
             continue;
         }
 
-        return { type: match[1] };
+        // Skip "-> None" annotations
+        return match[1] === "None" ? undefined : { type: match[1] };
     }
 
     return undefined;
