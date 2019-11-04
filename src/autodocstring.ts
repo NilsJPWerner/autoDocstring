@@ -3,7 +3,7 @@ import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
 import { docstringIsClosed } from "./parse/closed_docstring";
 import { isMultiLineString } from "./parse/multi_line_string";
-import { parse } from "./parse/parse";
+import { parse, getDocstringIndentation } from "./parse";
 import * as path from "path";
 
 
@@ -37,7 +37,11 @@ export class AutoDocstring {
         const docstringParts = parse(document, linePosition);
         const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts);
 
-        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), position);
+        const indentation = getDocstringIndentation(document, linePosition);
+        this.editor.insertSnippet(new vs.SnippetString(indentation), position);
+
+        const insertPosition = position.with(undefined, indentation.length);
+        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), insertPosition);
     }
 
     public generateDocstringFromEnter() {
