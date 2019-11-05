@@ -1,7 +1,7 @@
 import chai = require("chai");
 import "mocha";
 
-import { isMultiLineString } from "../../parse/multi_line_string";
+import { isMultiLineString } from "../../parse";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;

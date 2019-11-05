@@ -4,9 +4,10 @@
         "tslint:recommended"
     ],
     "jsRules": {
+        "semicolon": true,
         "interface-name": false,
         "object-literal-sort-keys": false,
-        "triple-equals": false,
+        "triple-equals": false
     },
     "rules": {},
     "rulesDirectory": []

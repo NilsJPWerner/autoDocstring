@@ -1,11 +1,10 @@
+import * as path from "path";
 import * as vs from "vscode";
 import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
-import { docstringIsClosed } from "./parse/closed_docstring";
-import { isMultiLineString } from "./parse/multi_line_string";
-import { parse } from "./parse/parse";
-import * as path from "path";
-
+import { getDocstringIndentation, parse } from "./parse";
+import { docstringIsClosed } from "./parse/docstring_is_closed";
+import { isMultiLineString } from "./parse/is_multi_line_string";
 
 export class AutoDocstring {
 
@@ -37,7 +36,11 @@ export class AutoDocstring {
         const docstringParts = parse(document, linePosition);
         const docstringSnippet = this.docstringFactory.generateDocstring(docstringParts);
 
-        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), position);
+        const indentation = getDocstringIndentation(document, linePosition);
+        this.editor.insertSnippet(new vs.SnippetString(indentation), position);
+
+        const insertPosition = position.with(undefined, indentation.length);
+        this.editor.insertSnippet(new vs.SnippetString(docstringSnippet), insertPosition);
     }
 
     public generateDocstringFromEnter() {
@@ -78,8 +81,7 @@ export class AutoDocstring {
 
         try {
             return getCustomTemplate(customTemplatePath);
-        }
-        catch (err) {
+        } catch (err) {
             const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
             vs.window.showErrorMessage(errorMessage);
         }

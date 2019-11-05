@@ -1,7 +1,7 @@
 import chai = require("chai");
 import "mocha";
 
-import { getBody, getDefinition } from "../../parse/get_lines";
+import { getDefinition } from "../../parse";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
@@ -39,32 +39,6 @@ describe("getDefinition()", () => {
 
             expect(result).to.equal("class BasicClass(object):");
         });
-    });
-});
-
-describe("getBody()", () => {
-    it("should return the body of a function", () => {
-        const result = getBody(basicFunction, 4);
-
-        expect(result).to.have.deep.members([
-            "\"\"\"",
-            "print(\"HELLO WORLD\")",
-            "try:",
-            "something()",
-            "except Error:",
-            "raise SomethingWentWrong",
-            "return 3",
-        ]);
-    });
-
-    it("should skip blank lines", () => {
-        const result = getBody(gapFunction, 5);
-
-        expect(result).to.have.deep.members([
-            "\"\"\"",
-            "print('HELLO WORLD')",
-            "print('HELLO AGAIN')",
-        ]);
     });
 });
 
@@ -126,5 +100,3 @@ class BasicClass(object):
     def hello(self):
         print("Hello world")
 `;
-
-// let
