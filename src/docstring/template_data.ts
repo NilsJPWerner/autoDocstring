@@ -79,7 +79,7 @@ export class TemplateData {
     }
 
     public returnsExist(): boolean {
-        return this.returns != undefined;
+        return this.returns !== undefined;
     }
 
     private removeTypes(): void {
@@ -91,24 +91,26 @@ export class TemplateData {
             kwarg.type = undefined;
         }
 
-        this.returns.type = undefined;
+        if (this.returnsExist()) {
+            this.returns.type = undefined;
+        }
     }
 
     private addDefaultTypePlaceholders(placeholder: string): void {
         for (const arg of this.args) {
-            if (arg.type == undefined) {
+            if (arg.type === undefined) {
                 arg.type = placeholder;
             }
         }
 
         for (const kwarg of this.kwargs) {
-            if (kwarg.type == undefined) {
+            if (kwarg.type === undefined) {
                 kwarg.type = placeholder;
             }
         }
 
         const returns = this.returns;
-        if (returns != undefined && returns.type == undefined) {
+        if (returns !== undefined && returns.type === undefined) {
             returns.type = placeholder;
         }
     }

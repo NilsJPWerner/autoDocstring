@@ -35,8 +35,8 @@ export class DocstringFactory {
 
         docstring = this.addSnippetPlaceholders(docstring);
         docstring = this.condenseNewLines(docstring);
-        docstring = this.condenseTrailingNewLines(docstring)
-        docstring = this.commentText(docstring, noOpeningQuotes)
+        docstring = this.condenseTrailingNewLines(docstring);
+        docstring = this.commentText(docstring, noOpeningQuotes);
 
         return docstring;
     }
@@ -60,7 +60,7 @@ export class DocstringFactory {
 
     private commentText(snippetString: string, noOpeningQuotes: boolean): string {
         if (this.startOnNewLine) {
-            snippetString = "\n" + snippetString
+            snippetString = "\n" + snippetString;
         }
 
         if (noOpeningQuotes) {
