@@ -435,6 +435,7 @@ const defaultDocstringComponents: DocstringParts = {
     args: [],
     kwargs: [],
     returns: { type: "" },
+    yields: { type: "" },
     exceptions: [],
 };
 

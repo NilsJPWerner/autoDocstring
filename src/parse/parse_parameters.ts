@@ -1,5 +1,5 @@
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns } from "../docstring_parts";
-import { guessType } from "./guess_type";
+import { guessType } from ".";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
 
 export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
     return {
@@ -8,6 +8,7 @@ export function parseParameters(parameterTokens: string[], body: string[], funct
         args: parseArguments(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
+        yields: parseYields(parameterTokens, body),
         exceptions: parseExceptions(body),
     };
 }
@@ -77,10 +78,18 @@ function parseReturn(parameters: string[], body: string[]): Returns {
     const returnType = parseReturnFromDefinition(parameters);
 
     if (returnType == undefined) {
-        return parseReturnFromBody(body);
+        return parseFromBody(body, /return /);
     }
 
     return returnType;
+}
+
+function parseYields(parameters: string[], body: string[]): Yields {
+    const parsedYield = parseReturnFromDefinition(parameters);
+    const yieldType = parsedYield ? parsedYield.type : undefined;
+
+    // Only return Yields if "yield" keyword was found in body.
+    return parseFromBody(body, /yield /, yieldType);
 }
 
 function parseReturnFromDefinition(parameters: string[]): Returns | undefined {
@@ -100,9 +109,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | undefined {
     return undefined;
 }
 
-function parseReturnFromBody(body: string[]): Returns {
-    const pattern = /return /;
-
+function parseFromBody(body: string[], pattern: RegExp, type: string = undefined): Returns | Yields {
     for (const line of body) {
         const match = line.match(pattern);
 
@@ -110,7 +117,7 @@ function parseReturnFromBody(body: string[]): Returns {
             continue;
         }
 
-        return { type: undefined };
+        return { type };
     }
 
     return undefined;
