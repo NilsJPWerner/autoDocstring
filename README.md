@@ -64,7 +64,7 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 {{#kwargs}}                     - iterate over function kwargs
     {{var}}                     - variable name
     {{typePlaceholder}}         - [type] or guessed type placeholder
-    {{&default}}                 - default value (& unescapes the variable)
+    {{&default}}                - default value (& unescapes the variable)
     {{descriptionPlaceholder}}  - [description] placeholder
 {{/kwargs}}
 
@@ -72,6 +72,11 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
     {{type}}                    - exception type
     {{descriptionPlaceholder}}  - [description] placeholder
 {{/exceptions}}
+
+{{#yields}}                     - iterate over yields
+    {{typePlaceholder}}         - [type] placeholder
+    {{descriptionPlaceholder}}  - [description] placeholder
+{{/yields}}
 
 {{#returns}}                    - iterate over returns
     {{typePlaceholder}}         - [type] placeholder
@@ -92,6 +97,9 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 {{#exceptionsExist}}    - display contents if exceptions exist
 {{/exceptionsExist}}
 
+{{#yieldsExist}}       - display contents if returns exist
+{{/yieldsExist}}
+
 {{#returnsExist}}       - display contents if returns exist
 {{/returnsExist}}
 
@@ -103,7 +111,7 @@ autoDocstring now supports custom templates. The extension uses the [mustache.js
 
 * \*args & \*\*kwargs not dealt with properly
 * Inserted docstrings have trailing spaces (problem with how vscode deals with snippets)
-* Doesn't include yields and decorators
+* Doesn't include decorators
 
 ## Changelog
 
