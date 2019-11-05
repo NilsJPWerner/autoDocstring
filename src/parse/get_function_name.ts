@@ -1,4 +1,3 @@
-
 export function getFunctionName(functionDefinition: string): string {
     const pattern = /(?:def|class)\s+(\w+)\s*\(/;
 

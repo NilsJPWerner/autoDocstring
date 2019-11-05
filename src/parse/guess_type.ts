@@ -1,4 +1,3 @@
-
 export function guessType(parameter: string): string {
     parameter = parameter.trim();
 

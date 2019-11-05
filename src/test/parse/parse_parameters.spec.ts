@@ -1,7 +1,7 @@
 import chai = require("chai");
 import "mocha";
 
-import { parseParameters } from "../../parse/parse_parameters";
+import { parseParameters } from "../../parse";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;

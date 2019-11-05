@@ -1,24 +1,24 @@
-import chai = require('chai');
-import 'mocha';
+import chai = require("chai");
+import "mocha";
 
-import { getFunctionName } from '../../parse/get_function_name';
+import { getFunctionName } from "../../parse";
 
 chai.config.truncateThreshold = 0;
-let expect = chai.expect;
+const expect = chai.expect;
 
-describe('getFunctionName()', () => {
+describe("getFunctionName()", () => {
     it("should get the function definition from a function", () => {
-        var functionDefinition = 'def Func1_3(argument, kwarg="abc"):';
-        var result = getFunctionName(functionDefinition);
+        const functionDefinition = 'def Func1_3(argument, kwarg="abc"):';
+        const result = getFunctionName(functionDefinition);
 
-        expect(result).to.eql('Func1_3');
+        expect(result).to.eql("Func1_3");
     });
 
     it("should get the function definition from a function with weird spacing", () => {
-        var functionDefinition = 'def  Func1  (argument, kwarg="abc"):';
-        var result = getFunctionName(functionDefinition);
+        const functionDefinition = 'def  Func1  (argument, kwarg="abc"):';
+        const result = getFunctionName(functionDefinition);
 
-        expect(result).to.eql('Func1');
+        expect(result).to.eql("Func1");
     });
 
 });

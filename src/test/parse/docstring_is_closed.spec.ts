@@ -1,7 +1,7 @@
 import chai = require("chai");
 import "mocha";
 
-import { docstringIsClosed } from "../../parse/closed_docstring";
+import { docstringIsClosed } from "../../parse";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;

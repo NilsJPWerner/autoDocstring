@@ -1,5 +1,3 @@
-import { error } from "util";
-
 export function tokenizeDefinition(functionDefinition: string): string[] {
     const definitionPattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(->\s*[\w\[\], \.]*)?:\s*$/;
 
