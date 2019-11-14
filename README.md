@@ -2,7 +2,7 @@
 [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
 [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
 
-# VSCode autoDocstring
+# VSCode Python Docstring Generator
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
@@ -45,7 +45,7 @@ This extension contributes the following settings:
 * `autoDocstring.quoteStyle`: The style of quotes for docstrings
 
 ## Custom Docstring Templates
-autoDocstring now supports custom templates. The extension uses the [mustache.js](https://github.com/janl/mustache.js/) templating engine. To use a custom template create a .mustache file and specify its path using the `customTemplatePath` configuration. View the included google docstring [template](src/docstring/templates/google.mustache) for a usage example. The following tags are available for use in custom templates.
+This extension now supports custom templates. The extension uses the [mustache.js](https://github.com/janl/mustache.js/) templating engine. To use a custom template create a .mustache file and specify its path using the `customTemplatePath` configuration. View the included google docstring [template](src/docstring/templates/google.mustache) for a usage example. The following tags are available for use in custom templates.
 
 ### Variables
 ```

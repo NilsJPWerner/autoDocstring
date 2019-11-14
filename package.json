@@ -1,6 +1,6 @@
 {
-    "name": "autodocstring",
-    "displayName": "autoDocstring",
+    "name": "python_docstring_generator",
+    "displayName": "Python Docstring Generator",
     "description": "Generates python docstrings",
     "version": "0.4.0",
     "publisher": "njpwerner",
@@ -20,9 +20,12 @@
     "keywords": [
         "python",
         "docstring",
+        "google",
+        "numpy",
+        "sphinx",
+        "generator",
         "autodocstring",
         "docblockr",
-        "docblockr_python",
         "pydocstring"
     ],
     "galleryBanner": {},
@@ -59,7 +62,7 @@
         },
         "configuration": {
             "type": "object",
-            "title": "AutoDocstring configuration",
+            "title": "Python Docstring Generator configuration",
             "properties": {
                 "autoDocstring.docstringFormat": {
                     "type": "string",
