@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.4.0] - 2019-11-13
+- Omit `-> None` return annotation (@HaaLeo)
+- Add support for yields (@HaaLeo)
+- Add support for relative paths in `customTemplatePath` configuration (@s-kovacevic)
+- Indent correctly on `> Generate Docstring` command
+
 ## [0.3.0] - 2019-04-16
 - Switched to mustache.js for templating
 - Added support for custom templating

@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/NilsJPWerner/autoDocstring.svg?branch=master)](https://travis-ci.org/NilsJPWerner/autoDocstring)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
-[![Rating](http://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
+[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
 
 # VSCode autoDocstring
 
