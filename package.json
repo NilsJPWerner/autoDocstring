@@ -1,5 +1,5 @@
 {
-    "name": "python_docstring_generator",
+    "name": "autoDocstring",
     "displayName": "Python Docstring Generator",
     "description": "Generates python docstrings",
     "version": "0.4.0",
@@ -20,8 +20,10 @@
     "keywords": [
         "python",
         "docstring",
+        "python docstring",
         "google",
         "numpy",
+        "epytext",
         "sphinx",
         "generator",
         "autodocstring",
