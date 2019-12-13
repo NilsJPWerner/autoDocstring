@@ -23,11 +23,19 @@ describe("getTemplate()", () => {
         });
     });
 
-    context("when asked for sphinx template", () => {
+    context("when asked for numpy template", () => {
         it("should return the string containing the numpy mustache template", () => {
             const result = getTemplate("numpy");
 
             expect(result).to.contain("Numpy Docstring Template");
+        });
+    });
+
+    context("when asked for epytext template", () => {
+        it("should return the string containing the epytext mustache template", () => {
+            const result = getTemplate("epytext");
+
+            expect(result).to.contain("Epytext Docstring Template");
         });
     });
 

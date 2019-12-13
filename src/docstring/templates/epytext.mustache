@@ -1,0 +1,24 @@
+{{! Epytext Docstring Template }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+{{#args}}
+@param {{var}}: {{descriptionPlaceholder}}
+@type  {{var}}: {{typePlaceholder}}
+{{/args}}
+{{#kwargs}}
+@kwarg {{var}}: {{descriptionPlaceholder}}, defaults to {{&default}}
+@type  {{var}}: {{typePlaceholder}}
+{{/kwargs}}
+{{#exceptions}}
+@raise {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{#returns}}
+@return: {{descriptionPlaceholder}}
+@rtype: {{typePlaceholder}}
+{{/returns}}
+{{#yields}}
+@yield: {{descriptionPlaceholder}}
+@rtype: {{typePlaceholder}}
+{{/yields}}

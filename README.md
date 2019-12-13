@@ -21,6 +21,7 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 * Google
 * Numpy
 * Sphinx
+* Epytext
 * PEP0257 (coming soon)
 
 ## Usage
@@ -97,7 +98,7 @@ This extension now supports custom templates. The extension uses the [mustache.j
 {{#exceptionsExist}}    - display contents if exceptions exist
 {{/exceptionsExist}}
 
-{{#yieldsExist}}       - display contents if returns exist
+{{#yieldsExist}}        - display contents if returns exist
 {{/yieldsExist}}
 
 {{#returnsExist}}       - display contents if returns exist
