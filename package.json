@@ -6,6 +6,7 @@
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
+    "extensionKind": "workspace",
     "repository": {
         "type": "git",
         "url": "https://github.com/NilsJPWerner/autoDocstring"
