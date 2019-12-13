@@ -1,7 +1,7 @@
 {
-    "name": "python_docstring_generator",
+    "name": "autodocstring",
     "displayName": "Python Docstring Generator",
-    "description": "Generates python docstrings",
+    "description": "Automatically generates detailed docstrings for python functions",
     "version": "0.4.0",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
