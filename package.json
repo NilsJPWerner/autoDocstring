@@ -71,7 +71,8 @@
                         "default",
                         "google",
                         "sphinx",
-                        "numpy"
+                        "numpy",
+                        "epytext"
                     ],
                     "description": "Which docstring format to use."
                 },
