@@ -71,38 +71,78 @@ describe("parseParameters()", () => {
         ]);
     });
 
-    it("should parse return types", () => {
-        const parameterTokens = ["-> List[int]"];
-        const result = parseParameters(parameterTokens, [], "name");
+    describe("parseReturns", () => {
 
-        expect(result.returns).to.deep.equal({
-            type: "List[int]",
+        it("should parse return types", () => {
+            const parameterTokens = ["-> List[int]"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal({
+                type: "List[int]",
+            });
+        });
+
+        it("should not parse '-> None' return types", () => {
+            const parameterTokens = ["-> None"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal(undefined);
+        });
+
+        it("should not parse '-> Generator' return types", () => {
+            const parameterTokens = ["-> Generator[int]"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal(undefined);
+        });
+
+        it("should not parse '-> Iterator' return types", () => {
+            const parameterTokens = ["-> Iterator[int]"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal(undefined);
         });
     });
 
-    it("should not parse '-> None' return types", () => {
-        const parameterTokens = ["-> None"];
-        const result = parseParameters(parameterTokens, [], "name");
+    describe("parseYields", () => {
+        it("empty body should consider Iterator", () => {
+            const parameterTokens = ["-> Iterator[int]"];
+            const body = [];
+            const result = parseParameters(parameterTokens, body, "name");
 
-        expect(result.returns).to.deep.equal(undefined);
-    });
-
-    it("should parse yield types", () => {
-        const parameterTokens = ["-> List[int]"];
-        const body = ["yield foo"];
-        const result = parseParameters(parameterTokens, body, "name");
-
-        expect(result.yields).to.deep.equal({
-            type: "List[int]",
+            expect(result.yields).to.deep.equal({
+                type: "Iterator[int]"
+            });
         });
-    });
 
-    it("should not parse yield types without actual yield statement", () => {
-        const parameterTokens = ["-> List[int]"];
-        const body = [];
-        const result = parseParameters(parameterTokens, body, "name");
+        it("empty body should consider Generator", () => {
+            const parameterTokens = ["-> Generator[int]"];
+            const body = [];
+            const result = parseParameters(parameterTokens, body, "name");
 
-        expect(result.yields).to.eql(undefined);
+            expect(result.yields).to.deep.equal({
+                type: "Generator[int]"
+            });
+        });
+
+        it("from body with default annotation 'Iterator[]'", () => {
+            const parameterTokens = ["-> int"];
+            const body = ["yield 4"];
+            const result = parseParameters(parameterTokens, body, "name");
+
+            expect(result.yields).to.eql({
+                type: "Iterator[int]"
+            });
+        });
+
+        it("not with empty body and no generator/iterator annotation", () => {
+            const parameterTokens = ["-> List[int]"];
+            const body = [];
+            const result = parseParameters(parameterTokens, body, "name");
+
+            expect(result.yields).to.eql(undefined);
+        });
+
     });
 
     it("should result in no yield if there is no yield type or yield in body", () => {
