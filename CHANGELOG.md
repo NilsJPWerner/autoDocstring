@@ -1,7 +1,7 @@
 # Change Log
 
 ## [0.4.1] - Unreleased
-- Fixed a bug that caused to create return annotations in yield only iterators (@HaaLeo)
+- Fixed a bug where yield type annotations were parsed as return annotations (@HaaLeo)
 
 ## [0.4.0] - 2019-11-13
 - Omit `-> None` return annotation (@HaaLeo)
