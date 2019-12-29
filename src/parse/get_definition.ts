@@ -24,4 +24,3 @@ export function getDefinition(document: string, linePosition: number): string {
 
     return definition;
 }
-

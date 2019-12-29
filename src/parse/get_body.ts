@@ -5,7 +5,7 @@ export function getBody(document: string, linePosition: number): string[] {
     const body = [];
 
     let currentLineNum = linePosition;
-    const originalIndentation = indentationOf(lines[currentLineNum]);
+    const originalIndentation = getBodyBaseIndentation(lines, linePosition);
 
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
@@ -24,4 +24,26 @@ export function getBody(document: string, linePosition: number): string[] {
     }
 
     return body;
+}
+
+function getBodyBaseIndentation(lines: string[], linePosition: number): number {
+    let currentLineNum = linePosition;
+    const functionDefRegex = /\s*def \w+/;
+
+    while (currentLineNum < lines.length) {
+        const line = lines[currentLineNum];
+
+        if (blankLine(line)) {
+            currentLineNum++;
+            continue;
+        }
+
+        if (functionDefRegex.test(line)) {
+            break;
+        }
+
+        return indentationOf(line);
+    }
+
+    return 10000;
 }
