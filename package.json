@@ -6,7 +6,7 @@
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
-    "extensionKind": "workspace",
+    "extensionKind": ["workspace"],
     "repository": {
         "type": "git",
         "url": "https://github.com/NilsJPWerner/autoDocstring"
@@ -40,13 +40,13 @@
     "contributes": {
         "commands": [
             {
-                "command": "extension.generateDocstring",
+                "command": "autoDocstring.generateDocstring",
                 "title": "Generate Docstring"
             }
         ],
         "keybindings": [
             {
-                "command": "extension.generateDocstring",
+                "command": "autoDocstring.generateDocstring",
                 "key": "ctrl+shift+2",
                 "mac": "cmd+shift+2",
                 "when": "editorTextFocus"
@@ -56,7 +56,7 @@
             "editor/context": [
                 {
                     "when": "resourceLangId == python",
-                    "command": "extension.generateDocstring",
+                    "command": "autoDocstring.generateDocstring",
                     "group": "1_modification"
                 }
             ]
@@ -120,7 +120,6 @@
         "compile": "npm run copy_templates && tsc -p ./",
         "watch": "npm run copy_templates && tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test",
         "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\""
     },
     "devDependencies": {
@@ -132,7 +131,8 @@
         "mocha": "^6.2.2",
         "ts-node": "^4.1.0",
         "typescript": "^3.6.3",
-        "vscode": "^1.1.36"
+        "vscode": "^1.1.36",
+        "vscode-test": "^1.3.0"
     },
     "dependencies": {
         "@types/mustache": "^0.8.32",

@@ -6,3 +6,5 @@ test_*
 .vscode-test/
 .vscode/tags
 .vscode/settings.json
+*.psd
+todo
