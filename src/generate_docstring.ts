@@ -37,7 +37,7 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
-        const docstring = docstringFactory.generateDocstring(docstringParts, false);
+        const docstring = docstringFactory.generateDocstring(docstringParts);
 
         return new vs.SnippetString(docstring);
     }

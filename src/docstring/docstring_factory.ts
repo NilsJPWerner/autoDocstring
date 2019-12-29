@@ -26,7 +26,7 @@ export class DocstringFactory {
         this.template = template;
     }
 
-    public generateDocstring(docstringParts: DocstringParts, noOpeningQuotes = false): string {
+    public generateDocstring(docstringParts: DocstringParts): string {
         const templateData = new TemplateData(
             docstringParts, this.guessTypes, this.includeName, this.includeDescription,
         );
@@ -36,7 +36,7 @@ export class DocstringFactory {
         docstring = this.addSnippetPlaceholders(docstring);
         docstring = this.condenseNewLines(docstring);
         docstring = this.condenseTrailingNewLines(docstring);
-        docstring = this.commentText(docstring, noOpeningQuotes);
+        docstring = this.commentText(docstring);
 
         return docstring;
     }
@@ -58,15 +58,11 @@ export class DocstringFactory {
         return snippet.replace(/\n+$/g, "\n");
     }
 
-    private commentText(snippetString: string, noOpeningQuotes: boolean): string {
+    private commentText(snippetString: string): string {
         if (this.startOnNewLine) {
             snippetString = "\n" + snippetString;
         }
 
-        if (noOpeningQuotes) {
-            return snippetString + this.quoteStyle;
-        } else {
-            return this.quoteStyle + snippetString + this.quoteStyle;
-        }
+        return this.quoteStyle + snippetString + this.quoteStyle;
     }
 }

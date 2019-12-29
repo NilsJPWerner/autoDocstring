@@ -69,7 +69,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring decorators", () => {
-            const template = "{{#decorators}}\n{{name}}\n{{/decorators}}"
+            const template = "{{#decorators}}\n{{name}}\n{{/decorators}}";
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.decorators = [
                 { name: "decorator_1" },
@@ -83,7 +83,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring args", () => {
-            const template = "{{#args}}{{var}} {{type}}\n{{/args}}"
+            const template = "{{#args}}{{var}} {{type}}\n{{/args}}";
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.args = [
                 { var: "arg_1", type: "string" },
@@ -97,7 +97,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring kwargs", () => {
-            const template = "{{#kwargs}}\n{{var}} {{type}} {{default}}\n{{/kwargs}}"
+            const template = "{{#kwargs}}\n{{var}} {{type}} {{default}}\n{{/kwargs}}";
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.kwargs = [
                 { var: "kwarg_1", type: "string", default: "1" },
@@ -111,7 +111,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should iterate over docstring exceptions components", () => {
-            const template = "{{#exceptions}}\n{{type}}\n{{/exceptions}}"
+            const template = "{{#exceptions}}\n{{type}}\n{{/exceptions}}";
             const docstringComponents = defaultDocstringComponents;
             docstringComponents.exceptions = [
                 { type: "Error_1" },
@@ -136,7 +136,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should condense multiple newlines to two newlines", () => {
-            const template = "Thing\n\n\nHello\n\n\n\nAgain!"
+            const template = "Thing\n\n\nHello\n\n\n\nAgain!";
             const docstringComponents = defaultDocstringComponents;
             const factory = new DocstringFactory(template);
 
@@ -146,7 +146,7 @@ describe("DocstringFactory", () => {
         });
 
         it("should condense trailing newlines to a single newline", () => {
-            const template = "abc\n\nabc\n\n"
+            const template = "abc\n\nabc\n\n";
             const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(defaultDocstringComponents);
@@ -412,18 +412,6 @@ describe("DocstringFactory", () => {
 
                     expect(result).to.equal("\"\"\"\"\"\"");
                 });
-            });
-        });
-
-        context("when the noOpeningQuotes is set to true", () => {
-            it("should not add opening quotes to snippet", () => {
-                const template = "docstring";
-                const docstringComponents = defaultDocstringComponents;
-                const factory = new DocstringFactory(template);
-
-                const result = factory.generateDocstring(docstringComponents, true);
-
-                expect(result).to.equal("docstring\"\"\"");
             });
         });
     });
