@@ -12,16 +12,13 @@ export class AutoDocstring {
         this.editor = editor;
     }
 
-    public generateDocstring() {
+    public generateDocstring(): Thenable<boolean> {
         const document = this.editor.document.getText();
         const position = this.editor.selection.active;
 
-        const indentation = getDocstringIndentation(document, position.line);
-        this.editor.insertSnippet(new vs.SnippetString(indentation), position);
-
         const docstringSnippet = this.generateDocstringSnippet(document, position);
-        const insertPosition = position.with(undefined, indentation.length);
-        this.editor.insertSnippet(docstringSnippet, insertPosition);
+        const insertPosition = position.with(undefined, 0);
+        return this.editor.insertSnippet(docstringSnippet, insertPosition);
     }
 
     private generateDocstringSnippet(document: string, position: vs.Position): vs.SnippetString {
@@ -37,7 +34,8 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
-        const docstring = docstringFactory.generateDocstring(docstringParts);
+        const indentation = getDocstringIndentation(document, position.line);
+        const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 
         return new vs.SnippetString(docstring);
     }

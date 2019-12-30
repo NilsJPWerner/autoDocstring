@@ -414,6 +414,30 @@ describe("DocstringFactory", () => {
                 });
             });
         });
+
+        context("when an indentation is provided", () => {
+            it("should prepend the indentation to each line", () => {
+                const template = "line1\nline2\nline3";
+                const docstringComponents = defaultDocstringComponents;
+                docstringComponents.returns = { type: "a" };
+                const factory = new DocstringFactory(template);
+
+                const result = factory.generateDocstring(docstringComponents, "  ");
+
+                expect(result).to.equal("  \"\"\"line1\n  line2\n  line3\"\"\"");
+            });
+
+            it("should not prepend the indentation to blank lines", () => {
+                const template = "line1\n\nline2";
+                const docstringComponents = defaultDocstringComponents;
+                docstringComponents.returns = { type: "a" };
+                const factory = new DocstringFactory(template);
+
+                const result = factory.generateDocstring(docstringComponents, "  ");
+
+                expect(result).to.equal("  \"\"\"line1\n\n  line2\"\"\"");
+            });
+        });
     });
 });
 
