@@ -3,7 +3,7 @@ import * as vs from "vscode";
 import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
 
-const generateDocstringCommand = "autoDocstring.generateDocstring";
+export const generateDocstringCommand = "autoDocstring.generateDocstring";
 
 export function activate(context: vs.ExtensionContext): void {
     const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString()
@@ -16,7 +16,7 @@ export function activate(context: vs.ExtensionContext): void {
                 const autoDocstring = new AutoDocstring(editor);
 
                 try {
-                    autoDocstring.generateDocstring();
+                    return autoDocstring.generateDocstring();
                 } catch (error) {
                     vs.window.showErrorMessage("AutoDocstring encountered an error:", error);
                 }

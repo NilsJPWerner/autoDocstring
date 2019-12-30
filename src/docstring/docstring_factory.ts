@@ -26,7 +26,7 @@ export class DocstringFactory {
         this.template = template;
     }
 
-    public generateDocstring(docstringParts: DocstringParts): string {
+    public generateDocstring(docstringParts: DocstringParts, indentation = ""): string {
         const templateData = new TemplateData(
             docstringParts, this.guessTypes, this.includeName, this.includeDescription,
         );
@@ -37,6 +37,7 @@ export class DocstringFactory {
         docstring = this.condenseNewLines(docstring);
         docstring = this.condenseTrailingNewLines(docstring);
         docstring = this.commentText(docstring);
+        docstring = this.indentDocstring(docstring, indentation);
 
         return docstring;
     }
@@ -58,11 +59,23 @@ export class DocstringFactory {
         return snippet.replace(/\n+$/g, "\n");
     }
 
-    private commentText(snippetString: string): string {
+    private commentText(snippet: string): string {
         if (this.startOnNewLine) {
-            snippetString = "\n" + snippetString;
+            snippet = "\n" + snippet;
         }
 
-        return this.quoteStyle + snippetString + this.quoteStyle;
+        return this.quoteStyle + snippet + this.quoteStyle;
+    }
+
+    private indentDocstring(snippet: string, indentation): string {
+        const snippetLines = snippet.split("\n");
+
+        snippetLines.forEach((line, index) => {
+            if (line !== "") {
+                snippetLines[index] = indentation + line;
+            }
+        });
+
+        return snippetLines.join("\n");
     }
 }
