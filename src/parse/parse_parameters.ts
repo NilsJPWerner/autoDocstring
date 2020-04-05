@@ -20,7 +20,7 @@ function parseDecorators(parameters: string[]): Decorator[] {
     for (const param of parameters) {
         const match = param.trim().match(pattern);
 
-        if (match == undefined) {
+        if (match == null) {
             continue;
         }
 
@@ -40,7 +40,7 @@ function parseArguments(parameters: string[]): Argument[] {
     for (const param of parameters) {
         const match = param.trim().match(pattern);
 
-        if (match == undefined || param.includes("=") || inArray(param, excludedArgs)) {
+        if (match == null || param.includes("=") || inArray(param, excludedArgs)) {
             continue;
         }
 
@@ -60,7 +60,7 @@ function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
     for (const param of parameters) {
         const match = param.trim().match(pattern);
 
-        if (match == undefined) {
+        if (match == null) {
             continue;
         }
 
@@ -74,18 +74,10 @@ function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
     return kwargs;
 }
 
-/**
- * Check whether the annotated type is an iterator.
- * @param type The annotated type
- */
-function isIterator(type: string): boolean {
-    return type.startsWith("Generator") || type.startsWith("Iterator")
-}
-
 function parseReturn(parameters: string[], body: string[]): Returns {
     const returnType = parseReturnFromDefinition(parameters);
 
-    if (returnType == undefined || isIterator(returnType.type)) {
+    if (returnType == null || isIterator(returnType.type)) {
         return parseFromBody(body, /return /);
     }
 
@@ -93,45 +85,38 @@ function parseReturn(parameters: string[], body: string[]): Returns {
 }
 
 function parseYields(parameters: string[], body: string[]): Yields {
-    const parsedYield = parseReturnFromDefinition(parameters);
-    const yieldType = parsedYield ? parsedYield.type : undefined;
+    const returnType = parseReturnFromDefinition(parameters);
 
-    if (yieldType == undefined || !isIterator(yieldType)) {
-        return parseFromBody(body, /yield /, `Iterator[${yieldType ? yieldType : 'type'}]`);
-    } else {
-        return parsedYield
+    if (returnType != null && isIterator(returnType.type)) {
+        return returnType as Yields;
     }
+
+    // To account for functions that yield but don't have a yield signature
+    const yieldType = returnType ? returnType.type : undefined;
+    const yieldInBody = parseFromBody(body, /yield /);
+
+    if (yieldInBody != null && yieldType != undefined) {
+        yieldInBody.type = `Iterator[${yieldType}]`;
+    }
+
+    return yieldInBody;
 }
 
-function parseReturnFromDefinition(parameters: string[]): Returns | undefined {
+function parseReturnFromDefinition(parameters: string[]): Returns | null {
     const pattern = /^->\s*([\w\[\], \.]*)/;
 
     for (const param of parameters) {
         const match = param.trim().match(pattern);
 
-        if (match == undefined) {
+        if (match == null) {
             continue;
         }
 
         // Skip "-> None" annotations
-        return match[1] === "None" ? undefined : { type: match[1] };
+        return match[1] === "None" ? null : { type: match[1] };
     }
 
-    return undefined;
-}
-
-function parseFromBody(body: string[], pattern: RegExp, type: string = undefined): Returns | Yields {
-    for (const line of body) {
-        const match = line.match(pattern);
-
-        if (match == undefined) {
-            continue;
-        }
-
-        return { type };
-    }
-
-    return undefined;
+    return null;
 }
 
 function parseExceptions(body: string[]): Exception[] {
@@ -141,7 +126,7 @@ function parseExceptions(body: string[]): Exception[] {
     for (const line of body) {
         const match = line.match(pattern);
 
-        if (match == undefined) {
+        if (match == null) {
             continue;
         }
 
@@ -153,4 +138,26 @@ function parseExceptions(body: string[]): Exception[] {
 
 export function inArray<type>(item: type, array: type[]) {
     return array.some((x) => item === x);
+}
+
+function parseFromBody(body: string[], pattern: RegExp): Returns | Yields {
+    for (const line of body) {
+        const match = line.match(pattern);
+
+        if (match == null) {
+            continue;
+        }
+
+        return { type: undefined };
+    }
+
+    return undefined;
+}
+
+/**
+ * Check whether the annotated type is an iterator.
+ * @param type The annotated type
+ */
+function isIterator(type: string): boolean {
+    return type.startsWith("Generator") || type.startsWith("Iterator");
 }

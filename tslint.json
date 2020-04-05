@@ -10,6 +10,12 @@
         "triple-equals": false,
         "no-console": false
     },
-    "rules": {},
+    "rules": {
+        "semicolon": true,
+        "interface-name": false,
+        "object-literal-sort-keys": false,
+        "triple-equals": false,
+        "no-console": false
+    },
     "rulesDirectory": []
 }

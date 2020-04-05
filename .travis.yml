@@ -26,4 +26,4 @@ install:
 
 script:
   - npm run unit_test
-  # - npm test
+  - npm run integration_test

@@ -16,7 +16,7 @@ function getTypeFromTyping(parameter: string): string {
     const pattern = /\w+\s*:\s*(\w[\w\[\], \.]*)/;
     const typeHint = pattern.exec(parameter);
 
-    if (typeHint == undefined || typeHint.length !== 2) {
+    if (typeHint == null || typeHint.length !== 2) {
         return undefined;
     }
 
@@ -27,7 +27,7 @@ function guessTypeFromDefaultValue(parameter: string): string {
     const pattern = /\w+\s*(?::[\w\[\], \.]+)?=\s*(.+)/;
     const defaultValueMatch = pattern.exec(parameter);
 
-    if (defaultValueMatch == undefined || defaultValueMatch.length !== 2) {
+    if (defaultValueMatch == null || defaultValueMatch.length !== 2) {
         return undefined;
     }
 
@@ -73,7 +73,8 @@ function guessTypeFromName(parameter: string): string {
 }
 
 function hasTypeHint(parameter: string): boolean {
-    return (parameter.match(/^\w+\s*:/) != undefined);
+    const pattern = /^\w+\s*:/;
+    return pattern.test(parameter);
 }
 
 function isKwarg(parameter: string): boolean {
@@ -81,51 +82,63 @@ function isKwarg(parameter: string): boolean {
 }
 
 function isInteger(value: string): boolean {
-    return (value.match(/^[-+]?[0-9]+$/) != undefined);
+    const pattern = /^[-+]?[0-9]+$/;
+    return pattern.test(value);
 }
 
 function isFloat(value: string): boolean {
-    return (value.match(/^[-+]?[0-9]*\.[0-9]+$/) != undefined);
+    const pattern = /^[-+]?[0-9]*\.[0-9]+$/;
+    return pattern.test(value);
 }
 
 function isHexadecimal(value: string): boolean {
-    return (value.match(/^[-+]?0x[0-9abcdef]+/) != undefined);
+    const pattern = /^[-+]?0x[0-9abcdef]+/;
+    return pattern.test(value);
 }
 
 function isString(value: string): boolean {
-    return (value.match(/^\".*\"$|^\'.*\'$/) != undefined);
+    const pattern = /^\".*\"$|^\'.*\'$/;
+    return pattern.test(value);
 }
 
 function isBool(value: string): boolean {
-    return (value.match(/^True$|^False$/) != undefined);
+    const pattern = /^True$|^False$/;
+    return pattern.test(value);
 }
 
 function isList(value: string): boolean {
-    return (value.match(/^\[.*\]$/) != undefined);
+    const pattern = /^\[.*\]$/;
+    return pattern.test(value);
 }
 
 function isTuple(value: string): boolean {
-    return (value.match(/^\(.*\)$/) != undefined);
+    const pattern = /^\(.*\)$/;
+    return pattern.test(value);
 }
 
 function isDict(value: string): boolean {
-    return (value.match(/^\{.*\}$/) != undefined);
+    const pattern = /^\{.*\}$/;
+    return pattern.test(value);
 }
 
 function isRegexp(value: string): boolean {
-    return (value.match(/^[rR]/) != undefined && isString(value.substr(1)));
+    const pattern = /^[rR]/;
+    return (pattern.test(value) && isString(value.substr(1)));
 }
 
 function isUnicode(value: string): boolean {
-    return (value.match(/^[uU]/) != undefined && isString(value.substr(1)));
+    const pattern = /^[uU]/;
+    return (pattern.test(value) && isString(value.substr(1)));
 }
 
 function isBytes(value: string): boolean {
-    return (value.match(/^[bB]/) != undefined && isString(value.substr(1)));
+    const pattern = /^[bB]/;
+    return (pattern.test(value) && isString(value.substr(1)));
 }
 
 function isFunction(value: string): boolean {
-    return (value.match(/^lambda /) != undefined);
+    const pattern = /^lambda /;
+    return pattern.test(value);
 }
 
 export function inArray<type>(item: type, array: type[]) {
