@@ -12,7 +12,8 @@ const expect = chai.expect;
 const identifier = "njpwerner.autodocstring";
 const settingsIdentifier = "autoDocstring";
 
-describe("Basic Integration Tests", () => {
+describe("Basic Integration Tests", function() {
+    this.timeout(0);
     vscode.window.showInformationMessage("Start all tests.");
 
     it("should have installed successfully", () => {
@@ -46,7 +47,6 @@ describe("Basic Integration Tests", () => {
     });
 
     describe("Docstring Generation", function() {
-        this.timeout(3000);
         const extension = vscode.extensions.getExtension(identifier);
 
         before(async function() {
