@@ -13,7 +13,7 @@ const identifier = "njpwerner.autodocstring";
 const settingsIdentifier = "autoDocstring";
 
 describe("Basic Integration Tests", function() {
-    this.timeout(10000);
+    this.timeout(30000);
     vscode.window.showInformationMessage("Start all tests.");
 
     it("should have installed successfully", () => {
@@ -73,6 +73,14 @@ describe("Basic Integration Tests", function() {
                 expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_2_output.py"),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_2.py"),
                 position: new vscode.Position(8, 0),
+            });
+        });
+
+        it("ignores the comments in file 3", async function() {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_3_output.py"),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_3.py"),
+                position: new vscode.Position(2, 0),
             });
         });
     });
