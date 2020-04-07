@@ -117,4 +117,13 @@ describe("tokenizeDefinition()", () => {
         expect(result).to.be.empty;
     });
 
+    it("should ignore comments at the end of the definition", () => {
+        const functionDefinition = "def abc_c(arg, arg_2): # Something";
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members([
+            "arg",
+            "arg_2",
+        ]);
+    });
 });
