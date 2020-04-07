@@ -105,37 +105,47 @@ describe("parseParameters()", () => {
     });
 
     describe("parseYields", () => {
-        it("empty body should consider Iterator", () => {
+        it("should use the signature return type if it is an Iterator", () => {
             const parameterTokens = ["-> Iterator[int]"];
             const body = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
-                type: "Iterator[int]"
+                type: "Iterator[int]",
             });
         });
 
-        it("empty body should consider Generator", () => {
+        it("should use the signature return type if it is an Generator", () => {
             const parameterTokens = ["-> Generator[int]"];
             const body = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
-                type: "Generator[int]"
+                type: "Generator[int]",
             });
         });
 
-        it("from body with default annotation 'Iterator[]'", () => {
+        it("Should use the return type as the yield type if a yield exists in the body", () => {
             const parameterTokens = ["-> int"];
             const body = ["yield 4"];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.eql({
-                type: "Iterator[int]"
+                type: "Iterator[int]",
             });
         });
 
-        it("not with empty body and no generator/iterator annotation", () => {
+        it("Should return a yield without type if a yield exists in the body but there is no return signature", () => {
+            const parameterTokens = [""];
+            const body = ["yield 4"];
+            const result = parseParameters(parameterTokens, body, "name");
+
+            expect(result.yields).to.eql({
+                type: undefined,
+            });
+        });
+
+        it("Should return undefined if no yield exists in the signature or body", () => {
             const parameterTokens = ["-> List[int]"];
             const body = [];
             const result = parseParameters(parameterTokens, body, "name");

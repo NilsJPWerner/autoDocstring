@@ -6,7 +6,9 @@
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
-    "extensionKind": ["workspace"],
+    "extensionKind": [
+        "workspace"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/NilsJPWerner/autoDocstring"
@@ -117,23 +119,25 @@
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "copy_templates": "copyfiles --up 1 \"src/docstring/templates/*.mustache\" out/",
+        "copy_python_test_files": "copyfiles --up 1 \"src/test/integration/python_test_files/*\" out/",
         "compile": "npm run copy_templates && tsc -p ./",
         "watch": "npm run copy_templates && tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\""
+        "preintegration_test": "npm run copy_python_test_files && npm run compile",
+        "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\"",
+        "integration_test": "node out/test/run_integration_tests.js"
     },
     "devDependencies": {
         "@types/chai": "^4.2.7",
         "@types/mocha": "^5.2.7",
         "@types/mustache": "^0.8.32",
         "@types/node": "^13.1.1",
+        "@types/vscode": "^1.32.0",
         "chai": "^4.2.0",
         "copyfiles": "^2.1.1",
         "mocha": "^6.2.2",
         "ts-node": "^8.5.4",
         "typescript": "^3.7.4",
-        "vscode": "^1.1.36",
-         "vscode-test": "^1.3.0"
+        "vscode-test": "^1.3.0"
     },
     "dependencies": {
         "mustache": "^3.2.0"
