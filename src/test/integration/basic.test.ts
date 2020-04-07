@@ -13,7 +13,7 @@ const identifier = "njpwerner.autodocstring";
 const settingsIdentifier = "autoDocstring";
 
 describe("Basic Integration Tests", function() {
-    this.timeout(0);
+    this.timeout(10000);
     vscode.window.showInformationMessage("Start all tests.");
 
     it("should have installed successfully", () => {
