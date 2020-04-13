@@ -1,0 +1,18 @@
+{{! Sphinx Docstring Template }}
+{{summaryPlaceholder}}
+{{#args}}
+:param {{var}}: ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+:param {{var}}: ({{typePlaceholder}}, optional): {{descriptionPlaceholder}}, defaults to {{&default}}
+{{/kwargs}}
+{{#exceptions}}
+:raises {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{#returns}}
+:return: ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/returns}}
+
+{{#yields}}
+:yield: ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/yields}}
