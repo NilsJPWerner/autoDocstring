@@ -1,7 +1,13 @@
 # Change Log
 
-## [0.4.1] - Unreleased
-- Fixed a bug where yield type annotations were parsed as return annotations (@HaaLeo)
+## [0.5.0] - 2020-04-21
+- Added remote usage capabilities
+- Switched to completionItem API and improved activation detection
+- Added integration tests
+- Fixed bug: Trailing whitespace on blank lines #99
+- Fixed bug: Lines are parsed after end of function
+- Fixed bug: Wrong docstring for yield-only generator #91 (@HaaLeo)
+- Fixed bug: Comments in definition cause parsing errors #110
 
 ## [0.4.0] - 2019-11-13
 - Omit `-> None` return annotation (@HaaLeo)
