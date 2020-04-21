@@ -19,7 +19,7 @@ export function activate(context: vs.ExtensionContext): void {
                 const autoDocstring = new AutoDocstring(editor, channel);
 
                 try {
-                    autoDocstring.generateDocstring();
+                    return autoDocstring.generateDocstring();
                 } catch (error) {
                     channel.appendLine("Error: " + error);
                     vs.window.showErrorMessage("AutoDocstring encountered an error:", error);

@@ -14,7 +14,7 @@ export class AutoDocstring {
         this.logger = logger;
     }
 
-    public generateDocstring() {
+    public generateDocstring(): Thenable<boolean> {
         const position = this.editor.selection.active;
         this.log(`Generating Docstring at line: ${position.line}`);
         const document = this.editor.document.getText();
@@ -32,6 +32,8 @@ export class AutoDocstring {
                 vs.window.showErrorMessage("AutoDocstring could not insert docstring:", reason);
             },
         );
+
+        return success;
     }
 
     private generateDocstringSnippet(document: string, position: vs.Position): vs.SnippetString {
