@@ -127,19 +127,19 @@
         "integration_test": "node out/test/run_integration_tests.js"
     },
     "devDependencies": {
-        "@types/chai": "^4.2.7",
+        "@types/chai": "^4.2.11",
         "@types/mocha": "^5.2.7",
         "@types/mustache": "^0.8.32",
-        "@types/node": "^13.1.1",
-        "@types/vscode": "^1.32.0",
+        "@types/node": "^13.13.1",
+        "@types/vscode": "^1.44.0",
         "chai": "^4.2.0",
-        "copyfiles": "^2.1.1",
-        "mocha": "^6.2.2",
-        "ts-node": "^8.5.4",
-        "typescript": "^3.7.4",
+        "copyfiles": "^2.2.0",
+        "mocha": "^6.2.3",
+        "ts-node": "^8.9.0",
+        "typescript": "^3.8.3",
         "vscode-test": "^1.3.0"
     },
     "dependencies": {
-        "mustache": "^3.2.0"
+        "mustache": "^3.2.1"
     }
 }
