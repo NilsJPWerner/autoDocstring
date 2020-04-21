@@ -4,20 +4,24 @@ import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
 
 export const generateDocstringCommand = "autoDocstring.generateDocstring";
+let channel: vs.OutputChannel;
 
 export function activate(context: vs.ExtensionContext): void {
-    const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString()
+    channel = vs.window.createOutputChannel("autoDocstring");
+
+    const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
     const activationChar = quoteStyle ? quoteStyle[0] : '"';
 
     context.subscriptions.push(
         vs.commands.registerCommand(
             generateDocstringCommand, () => {
                 const editor = vs.window.activeTextEditor;
-                const autoDocstring = new AutoDocstring(editor);
+                const autoDocstring = new AutoDocstring(editor, channel);
 
                 try {
-                    return autoDocstring.generateDocstring();
+                    autoDocstring.generateDocstring();
                 } catch (error) {
+                    channel.appendLine("Error: " + error);
                     vs.window.showErrorMessage("AutoDocstring encountered an error:", error);
                 }
              },
@@ -36,6 +40,15 @@ export function activate(context: vs.ExtensionContext): void {
             activationChar,
         ),
     );
+
+    channel.appendLine("autoDocstring was activated");
+}
+
+/**
+ * This method is called when the extension is deactivated
+ */
+export function deactivate() {
+    channel.dispose();
 }
 
 /**
@@ -71,3 +84,4 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
         };
     }
 }
+

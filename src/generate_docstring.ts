@@ -7,18 +7,31 @@ import { getDocstringIndentation, parse } from "./parse";
 export class AutoDocstring {
 
     private editor: vs.TextEditor;
+    private logger: vs.OutputChannel;
 
-    constructor(editor: vs.TextEditor) {
+    constructor(editor: vs.TextEditor, logger: vs.OutputChannel) {
         this.editor = editor;
+        this.logger = logger;
     }
 
-    public generateDocstring(): Thenable<boolean> {
-        const document = this.editor.document.getText();
+    public generateDocstring() {
         const position = this.editor.selection.active;
+        this.log(`Generating Docstring at line: ${position.line}`);
+        const document = this.editor.document.getText();
 
         const docstringSnippet = this.generateDocstringSnippet(document, position);
         const insertPosition = position.with(undefined, 0);
-        return this.editor.insertSnippet(docstringSnippet, insertPosition);
+        this.log(`Docstring generated:\n${docstringSnippet.value}`);
+        this.log(`Inserting at position: ${insertPosition.line} ${insertPosition.character}`);
+
+        const success = this.editor.insertSnippet(docstringSnippet, insertPosition);
+        success.then(
+            () => this.log("Successfully inserted docstring"),
+            (reason) => {
+                this.log("Error: " + reason);
+                vs.window.showErrorMessage("AutoDocstring could not insert docstring:", reason);
+            },
+        );
     }
 
     private generateDocstringSnippet(document: string, position: vs.Position): vs.SnippetString {
@@ -57,11 +70,17 @@ export class AutoDocstring {
             return getCustomTemplate(customTemplatePath);
         } catch (err) {
             const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+            this.log(errorMessage);
             vs.window.showErrorMessage(errorMessage);
         }
     }
 
     private getConfig(): vs.WorkspaceConfiguration {
         return vs.workspace.getConfiguration("autoDocstring");
+    }
+
+    private log(line: string) {
+        const time = new Date();
+        this.logger.appendLine(`${time.toISOString()}: ${line}`);
     }
 }
