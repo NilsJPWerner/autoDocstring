@@ -26,6 +26,12 @@ describe("getDefinition()", () => {
             expect(result).to.equal("def multi_line_function(param1,param2 = 1):");
         });
 
+        it("should get a multiline function definition with a multiple indentation levels", () => {
+            const result = getDefinition(multiLineMultiIndentationFunction, 7);
+
+            expect(result).to.equal("def build(self, a: Tuple[int, dict]):");
+        });
+
         it("should return an empty string if there is a gap above position", () => {
             const result = getDefinition(gapFunction, 5);
 
@@ -73,6 +79,17 @@ def multi_line_function(
         param2 = 1):
 
     print("HELLO WORLD")
+`;
+
+const multiLineMultiIndentationFunction = `
+Something Else
+
+def build(
+        b: int,
+        a: Tuple[int,
+                    dict]):
+
+    pass
 `;
 
 const gapFunction = `
