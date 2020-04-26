@@ -1,6 +1,7 @@
 import { guessType } from ".";
 import { indentationOf } from "./utilities";
-import {getFunctionName} from "./get_function_name";
+import { getFunctionName } from "./get_function_name";
+import { getClassName } from "./get_class_name";
 import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method } from "../docstring_parts";
 
 export function parseParameters(positionLine: number, parameterTokens: string[], body: string[], functionName: string): DocstringParts {
@@ -158,8 +159,7 @@ function parseExceptions(body: string[]): Exception[] {
 
 function parseClasses(body: string[]): Class[] {
     const classes: Class[] = []
-    const pattern = /(?:class)\s+(\w+)\s*\(/;
-    //const pattern = /(?:class)\s+(\w+)\s*\(/;
+    const pattern = /(?:class)\s/;
 
     for (const line of body) {
 
@@ -170,18 +170,16 @@ function parseClasses(body: string[]): Class[] {
 
             const match = line.match(pattern);
 
-            if (match == null) {
-                continue
+            if (match != null) {
+                console.log("class match2")
+                console.log(match)
+                let className = getClassName(line);
+                console.log(className)
+    
+                classes.push({
+                    name: className,
+                });
             }
-
-            console.log("class match")
-            console.log(match)
-            let className = getFunctionName(line);
-            console.log(className)
-
-            classes.push({
-                name: className,
-            });
         }
     }
     return classes;
