@@ -171,7 +171,7 @@ function parseClasses(body: string[]): Class[] {
             const match = line.match(pattern);
 
             if (match != null) {
-                console.log("class match2")
+                console.log("class match")
                 console.log(match)
                 let className = getClassName(line);
                 console.log(className)
