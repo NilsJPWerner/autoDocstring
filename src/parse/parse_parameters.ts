@@ -158,7 +158,7 @@ function parseExceptions(body: string[]): Exception[] {
 
 function parseClasses(body: string[]): Class[] {
     const classes: Class[] = []
-    const pattern = /(class) {1}(([A-Z]{1,2})*[a-z]*)*:{1}/g;
+    const pattern = /(?:class)\s+(\w+)\s*\(/;
     //const pattern = /(?:class)\s+(\w+)\s*\(/;
 
     for (const line of body) {
@@ -189,7 +189,7 @@ function parseClasses(body: string[]): Class[] {
 
 function parseMethods(body: string[]): Method[] {
     const methods: Class[] = []
-    const pattern = /(def) {1}([a-z\_])*\(([a-zA-Z, \=\_])+\):/g;
+    const pattern = /(?:def)\s+(\w+)\s*\(/;
 
     for (const line of body) {
 
