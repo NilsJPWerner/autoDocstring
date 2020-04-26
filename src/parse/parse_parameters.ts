@@ -189,7 +189,7 @@ function parseClasses(body: string[]): Class[] {
 
 function parseMethods(body: string[]): Method[] {
     const methods: Class[] = []
-    const pattern = /(?:def)\s+(\w+)\s*\(/;
+    const pattern = /(def)\s+(\w+)\s*\(/;
 
     for (const line of body) {
 
