@@ -24,6 +24,8 @@ export class DocstringFactory {
         this.includeDescription = includeDescription;
 
         this.template = template;
+        // console.log('template')
+        // console.log(this.template)
     }
 
     public generateDocstring(docstringParts: DocstringParts, indentation = ""): string {

@@ -1,15 +1,35 @@
 import { guessType } from ".";
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
+import { indentationOf } from "./utilities";
+import {getFunctionName} from "./get_function_name";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method } from "../docstring_parts";
 
-export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
-    return {
-        name: functionName,
-        decorators: parseDecorators(parameterTokens),
-        args: parseArguments(parameterTokens),
-        kwargs: parseKeywordArguments(parameterTokens),
-        returns: parseReturn(parameterTokens, body),
-        yields: parseYields(parameterTokens, body),
-        exceptions: parseExceptions(body),
+export function parseParameters(positionLine: number, parameterTokens: string[], body: string[], functionName: string): DocstringParts {
+
+    if (positionLine === 0) {
+        return {
+            name: functionName,
+            decorators: [],
+            args: [],
+            kwargs: [],
+            returns: undefined,
+            yields: undefined,
+            exceptions: [],
+            classes: parseClasses(body),
+            methods: parseMethods(body)
+        };
+    }
+    else {
+        return {
+            name: functionName,
+            decorators: parseDecorators(parameterTokens),
+            args: parseArguments(parameterTokens),
+            kwargs: parseKeywordArguments(parameterTokens),
+            returns: parseReturn(parameterTokens, body),
+            yields: parseYields(parameterTokens, body),
+            exceptions: parseExceptions(body),
+            classes: [],
+            methods: []
+        };
     };
 }
 
@@ -134,6 +154,69 @@ function parseExceptions(body: string[]): Exception[] {
     }
 
     return exceptions;
+}
+
+function parseClasses(body: string[]): Class[] {
+    const classes: Class[] = []
+    const pattern = /(?:class)\s+(\w+)\s*\(/;
+    //const pattern = /(?:class)\s+(\w+)\s*\(/;
+
+    for (const line of body) {
+
+        if (indentationOf(line) === 0) {
+
+            console.log("class indentation match")
+            console.log(line)
+
+            const match = line.match(pattern);
+
+            if (match == null) {
+                continue
+            }
+
+            console.log("class match")
+            console.log(match)
+            let className = getFunctionName(line);
+            console.log(className)
+
+            classes.push({
+                name: className,
+            });
+        }
+    }
+    return classes;
+}
+
+function parseMethods(body: string[]): Method[] {
+    const methods: Class[] = []
+    const pattern = /(?:def)\s+(\w+)\s*\(/;
+
+    for (const line of body) {
+
+        if (indentationOf(line) === 0) {
+
+            // console.log("indentation = 0")
+            // console.log(line)
+
+            const match = line.match(pattern);
+
+            if (match == null) {
+                continue
+            }
+            
+            // console.log("matches regex")
+            // console.log(match)
+
+            let methodName = getFunctionName(line);
+            // console.log("method name")
+            // console.log(methodName)
+
+            methods.push({
+                name: methodName,
+            });
+        }
+    }
+    return methods;
 }
 
 export function inArray<type>(item: type, array: type[]) {

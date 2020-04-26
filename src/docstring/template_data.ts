@@ -1,4 +1,4 @@
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method } from "../docstring_parts";
 
 export class TemplateData {
     public name: string;
@@ -8,6 +8,8 @@ export class TemplateData {
     public exceptions: Exception[];
     public returns: Returns;
     public yields: Yields;
+    public classes: Class[];
+    public methods: Method[];
 
     private includeName: boolean;
     private includeExtendedSummary: boolean;
@@ -22,6 +24,8 @@ export class TemplateData {
         this.exceptions = docstringParts.exceptions;
         this.returns = docstringParts.returns;
         this.yields = docstringParts.yields;
+        this.classes = docstringParts.classes;
+        this.methods = docstringParts.methods;
 
         this.includeName = includeName;
         this.includeExtendedSummary = includeExtendedSummary;
@@ -86,6 +90,14 @@ export class TemplateData {
 
     public yieldsExist(): boolean {
         return this.yields != undefined;
+    }
+
+    public classesExist(): boolean {
+        return this.classes.length > 0;
+    }
+
+    public methodsExist(): boolean {
+        return this.methods.length > 0;
     }
 
     private removeTypes(): void {

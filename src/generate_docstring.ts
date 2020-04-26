@@ -49,6 +49,15 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
+        // console.log("classes");
+        // for (const cls of docstringParts.classes) {
+        //     console.log(cls.name)
+        // }
+        // console.log("methods");
+        // for (const method of docstringParts.methods) {
+        //     console.log(method.name)
+        // }
+        // this.log(`Classes parsed:\n${docstringParts.classes}`)
         const indentation = getDocstringIndentation(document, position.line);
         const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 

@@ -4,6 +4,10 @@ export function getBody(document: string, linePosition: number): string[] {
     const lines = document.split("\n");
     const body = [];
 
+    if (linePosition === 0) {
+        return lines;
+    }
+
     let currentLineNum = linePosition;
     const originalIndentation = getBodyBaseIndentation(lines, linePosition);
 
