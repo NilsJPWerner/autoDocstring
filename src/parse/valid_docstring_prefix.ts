@@ -4,7 +4,7 @@
  */
 export function validDocstringPrefix(document: string, linePosition: number,
                                      charPosition: number, quoteStyle: string): boolean {
-    const lines = document.split("\n");
+    const lines = document.split(/\r?\n/);
     const line = lines[linePosition];
     const prefix = line.slice(0, charPosition + 1);
 
