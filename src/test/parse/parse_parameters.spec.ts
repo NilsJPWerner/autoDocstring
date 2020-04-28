@@ -26,7 +26,9 @@ describe("parseParameters()", () => {
 
         const functionName = "function";
 
-        const result = parseParameters(parameterTokens, body, functionName);
+        const docstringType = "method";
+
+        const result = parseParameters(docstringType, parameterTokens, body, functionName);
 
         expect(result).to.eql({
             name: "function",
@@ -53,7 +55,8 @@ describe("parseParameters()", () => {
 
     it("should parse args with and without type hints", () => {
         const parameterTokens = ["param1: List[string]", "param2"];
-        const result = parseParameters(parameterTokens, [], "name");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, parameterTokens, [], "name");
 
         expect(result.args).to.have.deep.members([
             { var: "param1", type: "List[string]" },
@@ -63,7 +66,8 @@ describe("parseParameters()", () => {
 
     it("should parse kwargs with and without type hints", () => {
         const parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
-        const result = parseParameters(parameterTokens, [], "name");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, parameterTokens, [], "name");
 
         expect(result.kwargs).to.have.deep.members([
             { var: "param1", default: "[1,2]", type: "List[int]" },
@@ -75,7 +79,8 @@ describe("parseParameters()", () => {
 
         it("should parse return types", () => {
             const parameterTokens = ["-> List[int]"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.returns).to.deep.equal({
                 type: "List[int]",
@@ -84,21 +89,24 @@ describe("parseParameters()", () => {
 
         it("should not parse '-> None' return types", () => {
             const parameterTokens = ["-> None"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.returns).to.deep.equal(undefined);
         });
 
         it("should not parse '-> Generator' return types", () => {
             const parameterTokens = ["-> Generator[int]"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.returns).to.deep.equal(undefined);
         });
 
         it("should not parse '-> Iterator' return types", () => {
             const parameterTokens = ["-> Iterator[int]"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.returns).to.deep.equal(undefined);
         });
@@ -108,7 +116,8 @@ describe("parseParameters()", () => {
         it("should use the signature return type if it is an Iterator", () => {
             const parameterTokens = ["-> Iterator[int]"];
             const body = [];
-            const result = parseParameters(parameterTokens, body, "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
                 type: "Iterator[int]",
@@ -118,7 +127,8 @@ describe("parseParameters()", () => {
         it("should use the signature return type if it is an Generator", () => {
             const parameterTokens = ["-> Generator[int]"];
             const body = [];
-            const result = parseParameters(parameterTokens, body, "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
                 type: "Generator[int]",
@@ -128,7 +138,8 @@ describe("parseParameters()", () => {
         it("Should use the return type as the yield type if a yield exists in the body", () => {
             const parameterTokens = ["-> int"];
             const body = ["yield 4"];
-            const result = parseParameters(parameterTokens, body, "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, "name");
 
             expect(result.yields).to.eql({
                 type: "Iterator[int]",
@@ -138,7 +149,8 @@ describe("parseParameters()", () => {
         it("Should return a yield without type if a yield exists in the body but there is no return signature", () => {
             const parameterTokens = [""];
             const body = ["yield 4"];
-            const result = parseParameters(parameterTokens, body, "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, "name");
 
             expect(result.yields).to.eql({
                 type: undefined,
@@ -148,7 +160,8 @@ describe("parseParameters()", () => {
         it("Should return undefined if no yield exists in the signature or body", () => {
             const parameterTokens = ["-> List[int]"];
             const body = [];
-            const result = parseParameters(parameterTokens, body, "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, "name");
 
             expect(result.yields).to.eql(undefined);
         });
@@ -156,7 +169,8 @@ describe("parseParameters()", () => {
     });
 
     it("should result in no yield if there is no yield type or yield in body", () => {
-        const result = parseParameters([], [], "name");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, [], [], "name");
 
         expect(result.returns).to.eql(undefined);
     });
@@ -164,7 +178,8 @@ describe("parseParameters()", () => {
     it("should parse the return from the body if there is no return type in the definition", () => {
         const parameterTokens = ["param1"];
         const body = ["return 3"];
-        const result = parseParameters(parameterTokens, body, "");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, parameterTokens, body, "");
 
         expect(result.returns).to.eql({
             type: undefined,
@@ -172,15 +187,17 @@ describe("parseParameters()", () => {
     });
 
     it("should result in no return if there is no return type or return in body", () => {
-        const result = parseParameters([], [], "name");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, [], [], "name");
 
         expect(result.returns).to.eql(undefined);
     });
 
 
     it("should parse simple exception", () => {
+        const docstringType = "method";
         const functionContent = ["raise Exception"];
-        const result = parseParameters([], functionContent, "");
+        const result = parseParameters(docstringType, [], functionContent, "");
 
         expect(result.exceptions).to.have.deep.members([
             { type: "Exception" },
@@ -199,7 +216,8 @@ describe("parseParameters()", () => {
             "raise AlwaysCrapsOut",
 
         ];
-        const result = parseParameters([], functionContent, "");
+        const docstringType = "method";
+        const result = parseParameters(docstringType, [], functionContent, "");
 
         expect(result.exceptions).to.have.deep.members([
             { type: "BadVar" },
@@ -210,8 +228,9 @@ describe("parseParameters()", () => {
 
     context("when the parameters have strange spacing", () => {
         it("should parse args with strange spacing", () => {
+            const docstringType = "method";
             const parameterTokens = [" param1 :    int ", "  param2 ", "param3:List[int]"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.args).to.have.deep.members([
                 { var: "param1", type: "int" },
@@ -222,7 +241,8 @@ describe("parseParameters()", () => {
 
         it("should parse kwargs with strange spacing", () => {
             const parameterTokens = [" param1 : str\t=\t'abc'", " param2    =  1", "param3:int=2"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.kwargs).to.have.deep.members([
                 { var: "param1", default: "'abc'", type: "str" },
@@ -233,7 +253,8 @@ describe("parseParameters()", () => {
 
         it("should parse return types with strange spacing", () => {
             const parameterTokens = ["\t -> \tint  \t"];
-            const result = parseParameters(parameterTokens, [], "name");
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
 
             expect(result.returns).to.deep.equal({
                 type: "int",

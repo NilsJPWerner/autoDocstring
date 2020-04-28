@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 describe("getBody()", () => {
     it("should return the body of a function", () => {
-        const result = getBody(basicFunction, 4);
+        const result = getBody(docstringType,basicFunction, 4);
 
         expect(result).to.have.deep.members([
             "print(\"HELLO WORLD\")",
@@ -21,7 +21,7 @@ describe("getBody()", () => {
     });
 
     it("should skip blank lines", () => {
-        const result = getBody(gapFunction, 5);
+        const result = getBody(docstringType,gapFunction, 5);
 
         expect(result).to.have.deep.members([
             "print('HELLO WORLD')",
@@ -30,7 +30,7 @@ describe("getBody()", () => {
     });
 
     it("should handle multi line definitions", () => {
-        const result = getBody(multiLineDefFunction, 4);
+        const result = getBody(docstringType,multiLineDefFunction, 4);
 
         expect(result).to.have.deep.members([
             "pass",
@@ -38,13 +38,13 @@ describe("getBody()", () => {
     });
 
     it("should handle indented functions", () => {
-        const result = getBody(indentedFunctions, 3);
+        const result = getBody(docstringType,indentedFunctions, 3);
 
         expect(result).to.have.deep.members([
             "return 2",
         ]);
 
-        const result2 = getBody(indentedFunctions, 6);
+        const result2 = getBody(docstringType,indentedFunctions, 6);
 
         expect(result2).to.have.deep.members([
             "pass",
@@ -52,11 +52,11 @@ describe("getBody()", () => {
     });
 
     it("should return an empty array if a function has no body", () => {
-        const result = getBody(noBody, 2);
+        const result = getBody(docstringType,noBody, 2);
 
         expect(result).to.have.deep.members([]);
 
-        const result2 = getBody(noBody, 4);
+        const result2 = getBody(docstringType,noBody, 4);
 
         expect(result2).to.have.deep.members([]);
     });
@@ -120,3 +120,5 @@ def no_body():
 def next_no_body():
 
 `;
+
+const docstringType = 'method';
