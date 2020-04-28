@@ -2,11 +2,11 @@ import { guessType } from ".";
 import { indentationOf } from "./utilities";
 import { getFunctionName } from "./get_function_name";
 import { getClassName } from "./get_class_name";
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method, Attribute } from "../docstring_parts";
 
-export function parseParameters(positionLine: number, parameterTokens: string[], body: string[], functionName: string): DocstringParts {
+export function parseParameters(docstringType: string, parameterTokens: string[], body: string[], functionName: string): DocstringParts {
 
-    if (positionLine === 0) {
+    if (docstringType === "module") {
         return {
             name: functionName,
             decorators: [],
@@ -16,10 +16,11 @@ export function parseParameters(positionLine: number, parameterTokens: string[],
             yields: undefined,
             exceptions: [],
             classes: parseClasses(body),
-            methods: parseMethods(body)
+            methods: parseMethods(body),
+            attributes: []
         };
     }
-    else {
+    else if (docstringType === "method") {
         return {
             name: functionName,
             decorators: parseDecorators(parameterTokens),
@@ -29,7 +30,24 @@ export function parseParameters(positionLine: number, parameterTokens: string[],
             yields: parseYields(parameterTokens, body),
             exceptions: parseExceptions(body),
             classes: [],
-            methods: []
+            methods: [],
+            attributes: []
+        };
+    }
+    else if (docstringType === "class") {
+        let args = parseArguments(parameterTokens);
+        let kwargs = parseKeywordArguments(parameterTokens);
+        return {
+            name: functionName,
+            decorators: parseDecorators(parameterTokens),
+            args: args,
+            kwargs: kwargs,
+            returns: undefined,
+            yields: undefined,
+            exceptions: parseExceptions(body),
+            classes: [],
+            methods: [],
+            attributes: parseAttributes(body, args, kwargs)
         };
     };
 }
@@ -165,16 +183,16 @@ function parseClasses(body: string[]): Class[] {
 
         if (indentationOf(line) === 0) {
 
-            console.log("class indentation match")
-            console.log(line)
+            // console.log("class indentation match")
+            // console.log(line)
 
             const match = line.match(pattern);
 
             if (match != null) {
-                console.log("class match")
-                console.log(match)
+                // console.log("class match")
+                // console.log(match)
                 let className = getClassName(line);
-                console.log(className)
+                // console.log(className)
     
                 classes.push({
                     name: className,
@@ -217,6 +235,35 @@ function parseMethods(body: string[]): Method[] {
     return methods;
 }
 
+function parseAttributes(body: string[], args: Argument[], kwargs: KeywordArgument[]): Attribute[] {
+    const attributes: Attribute[] = [];
+    const pattern = /(?:self.)(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
+    //const pattern = /(?:self).(\w+)?\s*/
+
+    for (const line of body) {
+        // console.log(line)
+        const match = line.trim().match(pattern);
+
+        // console.log(match)
+
+        if (match == null) {
+            continue;
+        }
+        let var_ = match[1];
+        let type_ = guessType(match[1]);
+        if (!containsAttribute(attributes, var_) && !containsAttribute(args, var_) && !containsAttribute(kwargs, var_)) {
+            attributes.push({
+                var: var_,
+                type: type_
+            });
+        }
+    }
+
+    // console.log(attributes)
+
+    return attributes;
+}
+
 export function inArray<type>(item: type, array: type[]) {
     return array.some((x) => item === x);
 }
@@ -241,4 +288,13 @@ function parseFromBody(body: string[], pattern: RegExp): Returns | Yields {
  */
 function isIterator(type: string): boolean {
     return type.startsWith("Generator") || type.startsWith("Iterator");
+}
+
+function containsAttribute(attributes: Attribute[], name: string): boolean {
+    for (const attribute of attributes) {
+        if (attribute.var === name) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -9,6 +9,7 @@ export interface DocstringParts {
     yields: Yields;
     classes: Class[];
     methods: Method[];
+    attributes: Attribute[];
 }
 
 export interface Decorator {
@@ -44,4 +45,9 @@ export interface Class {
 
 export interface Method {
     name: string;
+}
+
+export interface Attribute {
+    var: string;
+    type: string;
 }

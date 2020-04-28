@@ -1,5 +1,6 @@
 export function getClassName(functionDefinition: string): string {
-    const pattern1 = /(?:class)\s+(\w+)\s*\(/;
+    //const pattern1 = /(?:class)\s+(\w+)\s*\(/;
+    const pattern1 = /(?:class)\s+(\w+)/;
     const pattern2 = /(?:class)\s+(\w+)/;
 
     const match1 = pattern1.exec(functionDefinition);

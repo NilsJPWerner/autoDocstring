@@ -1,4 +1,4 @@
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method } from "../docstring_parts";
+import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method, Attribute } from "../docstring_parts";
 
 export class TemplateData {
     public name: string;
@@ -10,6 +10,7 @@ export class TemplateData {
     public yields: Yields;
     public classes: Class[];
     public methods: Method[];
+    public attributes: Attribute[];
 
     private includeName: boolean;
     private includeExtendedSummary: boolean;
@@ -26,6 +27,7 @@ export class TemplateData {
         this.yields = docstringParts.yields;
         this.classes = docstringParts.classes;
         this.methods = docstringParts.methods;
+        this.attributes = docstringParts.attributes;
 
         this.includeName = includeName;
         this.includeExtendedSummary = includeExtendedSummary;
@@ -100,6 +102,10 @@ export class TemplateData {
         return this.methods.length > 0;
     }
 
+    public attributesExist(): boolean {
+        return this.attributes.length > 0;
+    }
+
     private removeTypes(): void {
         for (const arg of this.args) {
             arg.type = undefined;
@@ -139,6 +145,12 @@ export class TemplateData {
         const yields = this.yields;
         if (yields != undefined && yields.type == undefined) {
             yields.type = placeholder;
+        }
+
+        for (const attribute of this.attributes) {
+            if (attribute.type === undefined) {
+                attribute.type = placeholder;
+            }
         }
     }
 }

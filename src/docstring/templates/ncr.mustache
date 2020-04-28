@@ -25,19 +25,32 @@ Parameters
 {{#args}}
 {{var}} : {{typePlaceholder}}
     {{descriptionPlaceholder}}
+
 {{/args}}
 {{#kwargs}}
 {{var}} : {{typePlaceholder}}, optional
     {{descriptionPlaceholder}}, by default {{&default}}
+
 {{/kwargs}}
 {{/parametersExist}}
+
+{{#attributesExist}}
+Attributes
+----------
+{{#attributes}}
+{{var}} : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/attributes}}
+{{/attributesExist}}
 
 {{#returnsExist}}
 Returns
 -------
 {{#returns}}
-{{typePlaceholder}}
+return_val : {{typePlaceholder}}
     {{descriptionPlaceholder}}
+
 {{/returns}}
 {{/returnsExist}}
 
@@ -45,8 +58,9 @@ Returns
 Yields
 -------
 {{#yields}}
-{{typePlaceholder}}
+yield_val : {{typePlaceholder}}
     {{descriptionPlaceholder}}
+
 {{/yields}}
 {{/yieldsExist}}
 
@@ -56,5 +70,6 @@ Raises
 {{#exceptions}}
 {{type}}
     {{descriptionPlaceholder}}
+    
 {{/exceptions}}
 {{/exceptionsExist}}

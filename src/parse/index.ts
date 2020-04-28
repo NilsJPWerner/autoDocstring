@@ -8,3 +8,4 @@ export { validDocstringPrefix } from "./valid_docstring_prefix";
 export { parse } from "./parse";
 export { parseParameters } from "./parse_parameters";
 export { tokenizeDefinition } from "./tokenize_definition";
+export { getDocstringType } from "./get_docstring_type";
