@@ -4,7 +4,6 @@ import "mocha";
 import * as path from "path";
 import * as vsc from "vscode";
 import { generateDocstringCommand } from "../../extension";
-import { equal } from "assert";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
