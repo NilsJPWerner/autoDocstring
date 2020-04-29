@@ -2,7 +2,7 @@ import chai = require("chai");
 import fs = require("fs");
 import "mocha";
 import * as path from "path";
-import * as vscode from "vscode";
+import * as vsc from "vscode";
 import { generateDocstringCommand } from "../../extension";
 
 chai.config.truncateThreshold = 0;
@@ -12,45 +12,65 @@ const expect = chai.expect;
 const identifier = "njpwerner.autodocstring";
 const settingsIdentifier = "autoDocstring";
 
-describe("Basic Integration Tests", function() {
+describe("Basic Integration Tests", function () {
     this.timeout(30000);
-    vscode.window.showInformationMessage("Start all tests.");
+    vsc.window.showInformationMessage("Start all tests.");
 
     it("should have installed successfully", () => {
-        expect(vscode.extensions.getExtension(identifier)).to.not.equal(undefined);
+        expect(vsc.extensions.getExtension(identifier)).to.not.equal(undefined);
     });
 
     it("should not be activated on startup", () => {
-        const extension = vscode.extensions.getExtension(identifier);
+        const extension = vsc.extensions.getExtension(identifier);
         expect(extension.isActive).to.equal(false);
     });
 
-    context("When a python file is opened", () => {
-        const extension = vscode.extensions.getExtension(identifier);
-        let basicDocument: vscode.TextDocument;
+    describe("Completion Item", function () {
+        const extension = vsc.extensions.getExtension(identifier);
+        let document: vsc.TextDocument;
+        let editor: vsc.TextEditor;
 
-        before("open test files", async () => {
-            basicDocument = await Promise.resolve(
-                vscode.workspace.openTextDocument(path.resolve(__dirname, "./python_test_files/file_1.py")),
-            );
+        beforeEach(async function () {
+            const settings = vsc.workspace.getConfiguration(settingsIdentifier);
+            await Promise.all([settings.update("generateDocstringOnEnter", true, 1)]);
+            await extension.activate();
+
+            document = await vsc.workspace.openTextDocument({ language: "python" });
+            editor = await vsc.window.showTextDocument(document);
         });
 
-        it("should activate", async () => {
-            return new Promise((resolve): void => {
-                setTimeout((): void => {
-                    if (extension.isActive) {
-                        resolve();
-                    }
-                }, 4);
+        it("will activate the Generate Docstring completion item after triple quotes", async function () {
+            await editor.edit((edit) => edit.setEndOfLine(vsc.EndOfLine.LF));
+            await editor.edit((edit) => {
+                edit.insert(new vsc.Position(0, 0), '\n    """');
             });
+
+            await vsc.commands.executeCommand("editor.action.triggerSuggest");
+            await delay(200);
+            await vsc.commands.executeCommand("acceptSelectedSuggestion");
+            await delay(600);
+            expect(document.getText()).to.contain("[summary]");
+        });
+
+        it("will activate the Generate Docstring completion item if using CRLF line endings", async function () {
+            await editor.edit((edit) => edit.setEndOfLine(vsc.EndOfLine.CRLF));
+            await editor.edit((edit) => {
+                edit.insert(new vsc.Position(0, 0), '\r\n    """');
+            });
+
+            await vsc.commands.executeCommand("editor.action.triggerSuggest");
+            await delay(200);
+            await vsc.commands.executeCommand("acceptSelectedSuggestion");
+            await delay(600);
+            expect(document.getText()).to.contain("[summary]");
         });
     });
 
-    describe("Docstring Generation", function() {
-        const extension = vscode.extensions.getExtension(identifier);
+    describe("Docstring Generation", function () {
+        const extension = vsc.extensions.getExtension(identifier);
 
-        before(async function() {
-            const settings = vscode.workspace.getConfiguration(settingsIdentifier);
+        before(async function () {
+            const settings = vsc.workspace.getConfiguration(settingsIdentifier);
             await Promise.all([
                 settings.update("docstringFormat", "sphinx", 1),
                 settings.update("includeExtendedSummary", false, 1),
@@ -60,49 +80,63 @@ describe("Basic Integration Tests", function() {
             await extension.activate();
         });
 
-        it("generates a docstring for the function in file 1", async function() {
+        it("generates a docstring for the function in file 1", async function () {
             await testDocstringGeneration({
-                expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_1_output.py"),
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_1_output.py",
+                ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_1.py"),
-                position: new vscode.Position(2, 0),
+                position: new vsc.Position(2, 0),
             });
         });
 
-        it("generates a docstring using type hints in file 2", async function() {
+        it("generates a docstring using type hints in file 2", async function () {
             await testDocstringGeneration({
-                expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_2_output.py"),
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_2_output.py",
+                ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_2.py"),
-                position: new vscode.Position(8, 0),
+                position: new vsc.Position(8, 0),
             });
         });
 
-        it("ignores the comments in file 3", async function() {
+        it("ignores the comments in file 3", async function () {
             await testDocstringGeneration({
-                expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_3_output.py"),
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_3_output.py",
+                ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_3.py"),
-                position: new vscode.Position(2, 0),
+                position: new vsc.Position(2, 0),
             });
         });
     });
-
 });
 
 async function testDocstringGeneration(testCase: TestCase) {
-    const inputDocument = await vscode.workspace.openTextDocument(testCase.inputFilePath);
+    const inputDocument = await vsc.workspace.openTextDocument(testCase.inputFilePath);
     const expectedOutput = fs.readFileSync(testCase.expectedOutputFilePath, "utf8");
 
-    await vscode.window.showTextDocument(inputDocument);
-    vscode.window.activeTextEditor.selection = new vscode.Selection(testCase.position, testCase.position);
+    await vsc.window.showTextDocument(inputDocument);
+    vsc.window.activeTextEditor.selection = new vsc.Selection(testCase.position, testCase.position);
 
-    const success = await vscode.commands.executeCommand(generateDocstringCommand);
+    const success = await vsc.commands.executeCommand(generateDocstringCommand);
     expect(success).to.equal(true);
 
-    const documentText = vscode.window.activeTextEditor.document.getText();
+    const documentText = vsc.window.activeTextEditor.document.getText();
     expect(documentText).to.equal(expectedOutput);
 }
 
 interface TestCase {
     inputFilePath: string;
-    position: vscode.Position;
+    position: vsc.Position;
     expectedOutputFilePath: string;
+}
+
+function delay(timeout) {
+    return new Promise<void>((resolve) => {
+        setTimeout(resolve, timeout);
+    });
 }
