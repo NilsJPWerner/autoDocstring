@@ -13,28 +13,29 @@ export function activate(context: vs.ExtensionContext): void {
     const activationChar = quoteStyle ? quoteStyle[0] : '"';
 
     context.subscriptions.push(
-        vs.commands.registerCommand(
-            generateDocstringCommand, () => {
-                const editor = vs.window.activeTextEditor;
-                const autoDocstring = new AutoDocstring(editor, channel);
+        vs.commands.registerCommand(generateDocstringCommand, () => {
+            const editor = vs.window.activeTextEditor;
+            const autoDocstring = new AutoDocstring(editor, channel);
 
-                try {
-                    return autoDocstring.generateDocstring();
-                } catch (error) {
-                    channel.appendLine("Error: " + error);
-                    vs.window.showErrorMessage("AutoDocstring encountered an error:", error);
-                }
-             },
-        ),
+            try {
+                return autoDocstring.generateDocstring();
+            } catch (error) {
+                channel.appendLine("Error: " + error);
+                vs.window.showErrorMessage("AutoDocstring encountered an error:", error);
+            }
+        }),
 
         vs.languages.registerCompletionItemProvider(
-            { language: "python", scheme: "file" },
+            "python",
             {
-                provideCompletionItems: (document: vs.TextDocument, position: vs.Position, _: vs.CancellationToken) => {
+                provideCompletionItems: (
+                    document: vs.TextDocument,
+                    position: vs.Position,
+                    _: vs.CancellationToken,
+                ) => {
                     if (validEnterActivation(document, position, quoteStyle)) {
                         return [new AutoDocstringCompletionItem(document, position)];
                     }
-                    return;
                 },
             },
             activationChar,
@@ -55,7 +56,11 @@ export function deactivate() {
  * Checks that the preceding characters of the position is a valid docstring prefix
  * and that the prefix is not part of an already closed docstring
  */
-function validEnterActivation(document: vs.TextDocument, position: vs.Position, quoteStyle: string): boolean {
+function validEnterActivation(
+    document: vs.TextDocument,
+    position: vs.Position,
+    quoteStyle: string,
+): boolean {
     const docString = document.getText();
 
     return (
@@ -73,10 +78,7 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
         this.insertText = "";
         this.sortText = "\0";
 
-        this.range = new vs.Range(
-            new vs.Position(position.line, 0),
-            position,
-        );
+        this.range = new vs.Range(new vs.Position(position.line, 0), position);
 
         this.command = {
             command: generateDocstringCommand,
@@ -84,4 +86,3 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
         };
     }
 }
-
