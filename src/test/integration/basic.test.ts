@@ -26,29 +26,6 @@ describe("Basic Integration Tests", function () {
         expect(extension.isActive).to.equal(false);
     });
 
-    context("When a python file is opened", () => {
-        const extension = vsc.extensions.getExtension(identifier);
-        let basicDocument: vsc.TextDocument;
-
-        before("open test files", async () => {
-            basicDocument = await Promise.resolve(
-                vsc.workspace.openTextDocument(
-                    path.resolve(__dirname, "./python_test_files/file_1.py"),
-                ),
-            );
-        });
-
-        it("should activate", async () => {
-            return new Promise((resolve): void => {
-                setTimeout((): void => {
-                    if (extension.isActive) {
-                        resolve();
-                    }
-                }, 4);
-            });
-        });
-    });
-
     describe("Completion Item", function () {
         const extension = vsc.extensions.getExtension(identifier);
         let document: vsc.TextDocument;
