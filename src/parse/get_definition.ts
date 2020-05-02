@@ -2,25 +2,28 @@ import { blankLine, indentationOf } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
     const lines = document.split("\n");
-    let definition = "";
+    let precedingLines = lines.slice(0, linePosition);
+    precedingLines = precedingLines.map((line) => line.trim());
+    const precedingText = precedingLines.join(" ");
 
-    if (linePosition === 0) {
-        return definition;
+    // Don't parse if the preceding line is blank
+    const precedingLine = precedingLines[precedingLines.length - 1];
+    if (blankLine(precedingLine)) {
+        return "";
     }
 
-    let currentLineNum = linePosition - 1;
-    const originalIndentation = indentationOf(lines[currentLineNum]);
+    const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
 
-    while (currentLineNum >= 0) {
-        const line = lines[currentLineNum];
-        definition = line.trim() + definition;
-
-        if (indentationOf(line) < originalIndentation || blankLine(line)) {
-            break;
-        }
-
-        currentLineNum -= 1;
+    // Get starting index of last def match in the preceding text
+    let index: number;
+    while (pattern.test(precedingText)) {
+        index = pattern.lastIndex - RegExp.lastMatch.length;
     }
 
-    return definition;
+    if (index == undefined) {
+        return "";
+    }
+
+    const lastFunctionDef = precedingText.slice(index);
+    return lastFunctionDef.trim();
 }

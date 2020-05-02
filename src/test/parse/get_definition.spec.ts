@@ -9,7 +9,7 @@ const expect = chai.expect;
 describe("getDefinition()", () => {
     context("when encountering a function", () => {
         it("should get a basic function definition", () => {
-            const result = getDefinition(basicFunction, 4);
+            const result = getDefinition(basicFunction, 5);
 
             expect(result).to.equal("def basic_function(param1, param2 = abc):");
         });
@@ -23,7 +23,19 @@ describe("getDefinition()", () => {
         it("should get a multiline function definition", () => {
             const result = getDefinition(multiLineFunction, 6);
 
-            expect(result).to.equal("def multi_line_function(param1,param2 = 1):");
+            expect(result).to.equal("def multi_line_function( param1, param2 = 1):");
+        });
+
+        it("should get an async function definition", () => {
+            const result = getDefinition(asyncFunction, 4);
+
+            expect(result).to.equal("async def multi_line_function(param1,param2 = 1):");
+        });
+
+        it("should get a multiline function definition with a multiple indentation levels", () => {
+            const result = getDefinition(multiLineMultiIndentationFunction, 7);
+
+            expect(result).to.equal("def build( b: int, a: Tuple[int, dict]):");
         });
 
         it("should return an empty string if there is a gap above position", () => {
@@ -43,6 +55,7 @@ describe("getDefinition()", () => {
 });
 
 const basicFunction = `
+def another_func():
     return 3
 
 def basic_function(param1, param2 = abc):
@@ -73,6 +86,25 @@ def multi_line_function(
         param2 = 1):
 
     print("HELLO WORLD")
+`;
+
+const asyncFunction = `
+Something Else
+
+async def multi_line_function(param1,param2 = 1):
+
+    print("HELLO WORLD")
+`;
+
+const multiLineMultiIndentationFunction = `
+Something Else
+
+def build(
+        b: int,
+        a: Tuple[int,
+                    dict]):
+
+    pass
 `;
 
 const gapFunction = `
