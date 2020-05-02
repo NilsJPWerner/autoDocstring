@@ -113,11 +113,14 @@ describe("Basic Integration Tests", function () {
             });
         });
 
-        it("Deals with type hints split across lines in file 4", async function() {
+        it("Deals with type hints split across lines in file 4", async function () {
             await testDocstringGeneration({
-                expectedOutputFilePath: path.resolve(__dirname, "./python_test_files/file_4_output.py"),
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_4_output.py",
+                ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_4.py"),
-                position: new vscode.Position(2, 0),
+                position: new vsc.Position(5, 0),
             });
         });
     });

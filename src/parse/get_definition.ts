@@ -2,7 +2,8 @@ import { blankLine, indentationOf } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
     const lines = document.split("\n");
-    const precedingLines = lines.slice(0, linePosition);
+    let precedingLines = lines.slice(0, linePosition);
+    precedingLines = precedingLines.map((line) => line.trim());
     const precedingText = precedingLines.join(" ");
 
     // Don't parse if the preceding line is blank

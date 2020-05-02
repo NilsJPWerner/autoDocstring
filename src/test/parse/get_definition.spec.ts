@@ -6,7 +6,7 @@ import { getDefinition } from "../../parse";
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
-describe.only("getDefinition()", () => {
+describe("getDefinition()", () => {
     context("when encountering a function", () => {
         it("should get a basic function definition", () => {
             const result = getDefinition(basicFunction, 5);
@@ -23,15 +23,19 @@ describe.only("getDefinition()", () => {
         it("should get a multiline function definition", () => {
             const result = getDefinition(multiLineFunction, 6);
 
-            expect(removeExtraSpaces(result)).to.equal(
-                "def multi_line_function( param1, param2 = 1):",
-            );
+            expect(result).to.equal("def multi_line_function( param1, param2 = 1):");
+        });
+
+        it("should get an async function definition", () => {
+            const result = getDefinition(asyncFunction, 4);
+
+            expect(result).to.equal("async def multi_line_function(param1,param2 = 1):");
         });
 
         it("should get a multiline function definition with a multiple indentation levels", () => {
             const result = getDefinition(multiLineMultiIndentationFunction, 7);
 
-            expect(removeExtraSpaces(result)).to.equal("def build( b: int, a: Tuple[int, dict]):");
+            expect(result).to.equal("def build( b: int, a: Tuple[int, dict]):");
         });
 
         it("should return an empty string if there is a gap above position", () => {
@@ -49,10 +53,6 @@ describe.only("getDefinition()", () => {
         });
     });
 });
-
-function removeExtraSpaces(str: string): string {
-    return str.replace(/\s\s+/g, " ");
-}
 
 const basicFunction = `
 def another_func():
@@ -84,6 +84,14 @@ Something Else
 def multi_line_function(
         param1,
         param2 = 1):
+
+    print("HELLO WORLD")
+`;
+
+const asyncFunction = `
+Something Else
+
+async def multi_line_function(param1,param2 = 1):
 
     print("HELLO WORLD")
 `;
