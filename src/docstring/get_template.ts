@@ -1,11 +1,16 @@
+
 import {readFileSync} from "fs";
 
 export function getTemplate(docstringFormat: string): string {
     switch (docstringFormat) {
         case "google":
             return getTemplateFile("google.mustache");
+        case "google-simplified":
+            return getTemplateFile("google-simplified.mustache");
         case "sphinx":
             return getTemplateFile("sphinx.mustache");
+        case "sphinx-simplified":
+            return getTemplateFile("sphinx-simplified.mustache");
         case "numpy":
             return getTemplateFile("numpy.mustache");
         default:
