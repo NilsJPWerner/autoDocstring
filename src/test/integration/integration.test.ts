@@ -32,7 +32,10 @@ describe("Basic Integration Tests", function () {
 
         beforeEach(async function () {
             const settings = vsc.workspace.getConfiguration(settingsIdentifier);
-            await Promise.all([settings.update("generateDocstringOnEnter", true, 1)]);
+            await Promise.all([
+                settings.update("generateDocstringOnEnter", true, true),
+                settings.update("quoteStyle", "'''", true),
+            ]);
             await extension.activate();
 
             document = await vsc.workspace.openTextDocument({ language: "python" });
@@ -41,6 +44,7 @@ describe("Basic Integration Tests", function () {
 
         it("will activate the Generate Docstring completion item after triple quotes", async function () {
             await editor.edit((edit) => edit.setEndOfLine(vsc.EndOfLine.LF));
+
             await editor.edit((edit) => {
                 edit.insert(new vsc.Position(0, 0), '\n    """');
             });
@@ -52,8 +56,24 @@ describe("Basic Integration Tests", function () {
             expect(document.getText()).to.contain("[summary]");
         });
 
+        it.only("will activate the Generate Docstring completion item after triple single quotes", async function () {
+            const settings = vsc.workspace.getConfiguration(settingsIdentifier);
+            await settings.update("quoteStyle", "'''", true);
+
+            await editor.edit((edit) => {
+                edit.insert(new vsc.Position(0, 0), "\n    '''");
+            });
+
+            await vsc.commands.executeCommand("editor.action.triggerSuggest");
+            await delay(200);
+            await vsc.commands.executeCommand("acceptSelectedSuggestion");
+            await delay(600);
+            expect(document.getText()).to.contain("[summary]");
+        });
+
         it("will activate the Generate Docstring completion item if using CRLF line endings", async function () {
             await editor.edit((edit) => edit.setEndOfLine(vsc.EndOfLine.CRLF));
+
             await editor.edit((edit) => {
                 edit.insert(new vsc.Position(0, 0), '\r\n    """');
             });
@@ -72,9 +92,10 @@ describe("Basic Integration Tests", function () {
         before(async function () {
             const settings = vsc.workspace.getConfiguration(settingsIdentifier);
             await Promise.all([
-                settings.update("docstringFormat", "sphinx", 1),
-                settings.update("includeExtendedSummary", false, 1),
-                settings.update("guessTypes", true, 1),
+                settings.update("docstringFormat", "sphinx", true),
+                settings.update("includeExtendedSummary", false, true),
+                settings.update("guessTypes", true, true),
+                settings.update("quoteStyle", "'''", true),
             ]);
 
             await extension.activate();

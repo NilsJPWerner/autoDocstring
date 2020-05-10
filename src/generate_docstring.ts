@@ -5,7 +5,6 @@ import { getCustomTemplate, getTemplate } from "./docstring/get_template";
 import { getDocstringIndentation, parse } from "./parse";
 
 export class AutoDocstring {
-
     private editor: vs.TextEditor;
     private logger: vs.OutputChannel;
 
@@ -71,7 +70,8 @@ export class AutoDocstring {
         try {
             return getCustomTemplate(customTemplatePath);
         } catch (err) {
-            const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+            const errorMessage =
+                "AutoDocstring Error: Template could not be found: " + customTemplatePath;
             this.log(errorMessage);
             vs.window.showErrorMessage(errorMessage);
         }
