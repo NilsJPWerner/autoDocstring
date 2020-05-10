@@ -31,10 +31,10 @@ describe("getDocstringIndentation()", () => {
         expect(result).to.equal("        ");
     });
 
-    it("should default to blank string if no indentation is found", () => {
+    it("should default to 4 spaces if no indentation is found", () => {
         const result = getDocstringIndentation("", 0);
-
-        expect(result).to.equal("");
+        // default should be 4 spaces
+        expect(result).to.equal("    ");
     });
 });
 

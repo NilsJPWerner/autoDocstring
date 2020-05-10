@@ -9,11 +9,14 @@ export function getDocstringIndentation(document: string, linePosition: number):
         const line = lines[currentLineNum];
 
         if (!blankLine(line)) {
-            return getIndentation(line);
+            const indentation = getIndentation(line);
+            if (indentation !== "") {
+                return indentation;
+            }
         }
 
         currentLineNum++;
     }
 
-    return "";
+    return "    ";
 }
