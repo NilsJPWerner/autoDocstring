@@ -9,9 +9,6 @@ let channel: vs.OutputChannel;
 export function activate(context: vs.ExtensionContext): void {
     channel = vs.window.createOutputChannel("autoDocstring");
 
-    const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
-    const activationChar = quoteStyle ? quoteStyle[0] : '"';
-
     context.subscriptions.push(
         vs.commands.registerCommand(generateDocstringCommand, () => {
             const editor = vs.window.activeTextEditor;
@@ -33,12 +30,15 @@ export function activate(context: vs.ExtensionContext): void {
                     position: vs.Position,
                     _: vs.CancellationToken,
                 ) => {
-                    if (validEnterActivation(document, position, quoteStyle)) {
+                    if (validEnterActivation(document, position)) {
+                        channel.appendLine(position.toString());
                         return [new AutoDocstringCompletionItem(document, position)];
                     }
                 },
             },
-            activationChar,
+            '"',
+            "'",
+            "#",
         ),
     );
 
@@ -56,12 +56,9 @@ export function deactivate() {
  * Checks that the preceding characters of the position is a valid docstring prefix
  * and that the prefix is not part of an already closed docstring
  */
-function validEnterActivation(
-    document: vs.TextDocument,
-    position: vs.Position,
-    quoteStyle: string,
-): boolean {
+function validEnterActivation(document: vs.TextDocument, position: vs.Position): boolean {
     const docString = document.getText();
+    const quoteStyle = getQuoteStyle();
 
     return (
         validDocstringPrefix(docString, position.line, position.character, quoteStyle) &&
@@ -74,8 +71,9 @@ function validEnterActivation(
  */
 class AutoDocstringCompletionItem extends vs.CompletionItem {
     constructor(_: vs.TextDocument, position: vs.Position) {
-        super('""" Generate Docstring """', vs.CompletionItemKind.Snippet);
+        super("Generate Docstring", vs.CompletionItemKind.Snippet);
         this.insertText = "";
+        this.filterText = getQuoteStyle();
         this.sortText = "\0";
 
         this.range = new vs.Range(new vs.Position(position.line, 0), position);
@@ -85,4 +83,8 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
             title: "Generate Docstring",
         };
     }
+}
+
+function getQuoteStyle(): string {
+    return vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
 }
