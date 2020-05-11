@@ -34,7 +34,7 @@ describe("Basic Integration Tests", function () {
             const settings = vsc.workspace.getConfiguration(settingsIdentifier);
             await Promise.all([
                 settings.update("generateDocstringOnEnter", true, true),
-                settings.update("quoteStyle", "'''", true),
+                settings.update("quoteStyle", '"""', true),
             ]);
             await extension.activate();
 
@@ -56,7 +56,7 @@ describe("Basic Integration Tests", function () {
             expect(document.getText()).to.contain("[summary]");
         });
 
-        it.only("will activate the Generate Docstring completion item after triple single quotes", async function () {
+        it("will activate the Generate Docstring completion item after triple single quotes", async function () {
             const settings = vsc.workspace.getConfiguration(settingsIdentifier);
             await settings.update("quoteStyle", "'''", true);
 
@@ -95,7 +95,7 @@ describe("Basic Integration Tests", function () {
                 settings.update("docstringFormat", "sphinx", true),
                 settings.update("includeExtendedSummary", false, true),
                 settings.update("guessTypes", true, true),
-                settings.update("quoteStyle", "'''", true),
+                settings.update("quoteStyle", '"""', true),
             ]);
 
             await extension.activate();

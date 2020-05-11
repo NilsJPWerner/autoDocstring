@@ -112,6 +112,10 @@
                 "autoDocstring.quoteStyle": {
                     "type": "string",
                     "default": "\"\"\"",
+                    "enum": [
+                        "\"\"\"",
+                        "'''"
+                    ],
                     "description": "Style of quote used with generate docstring command"
                 }
             }

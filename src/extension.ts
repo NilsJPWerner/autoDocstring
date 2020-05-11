@@ -58,7 +58,7 @@ export function deactivate() {
  */
 function validEnterActivation(document: vs.TextDocument, position: vs.Position): boolean {
     const docString = document.getText();
-    const quoteStyle = vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
+    const quoteStyle = getQuoteStyle();
 
     return (
         validDocstringPrefix(docString, position.line, position.character, quoteStyle) &&
@@ -73,9 +73,9 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
     constructor(_: vs.TextDocument, position: vs.Position) {
         super("Generate Docstring", vs.CompletionItemKind.Snippet);
         this.insertText = "";
+        this.filterText = getQuoteStyle();
         this.sortText = "\0";
 
-        channel.appendLine("HERE");
         this.range = new vs.Range(new vs.Position(position.line, 0), position);
 
         this.command = {
@@ -83,4 +83,8 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
             title: "Generate Docstring",
         };
     }
+}
+
+function getQuoteStyle(): string {
+    return vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
 }
