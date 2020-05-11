@@ -10,7 +10,7 @@ export function getDocstringIndentation(document: string, linePosition: number):
 
         if (!blankLine(line)) {
             const indentation = getIndentation(line);
-            if (indentation !== "") {
+            if (indentation) {
                 return indentation;
             }
         }
