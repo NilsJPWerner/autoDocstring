@@ -8,11 +8,8 @@ export function getDocstringIndentation(document: string, linePosition: number):
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
 
-        if (!blankLine(line)) {
-            const indentation = getIndentation(line);
-            if (indentation) {
-                return indentation;
-            }
+        if (!blankLine(line) && getIndentation(line)) {
+            return getIndentation(line);
         }
 
         currentLineNum++;
