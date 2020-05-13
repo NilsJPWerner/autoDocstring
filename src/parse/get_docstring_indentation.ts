@@ -15,5 +15,5 @@ export function getDocstringIndentation(document: string, linePosition: number):
         currentLineNum++;
     }
 
-    return "    ";
+    return "";
 }

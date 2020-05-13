@@ -124,7 +124,7 @@ describe("Basic Integration Tests", function () {
             });
         });
 
-        it("Does not mess up empty function in file 5", async function () {
+        it("Correctly indents docstring for empty function in file 5", async function () {
             await testDocstringGeneration({
                 expectedOutputFilePath: path.resolve(
                     __dirname,
