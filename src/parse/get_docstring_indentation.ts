@@ -1,6 +1,6 @@
 import { blankLine, getIndentation } from "./utilities";
 
-export function getDocstringIndentation(document: string, linePosition: number): string {
+export function getDocstringIndentation(document: string, linePosition: number, lineCharacter: number = 0): string {
     const lines = document.split("\n");
 
     let currentLineNum = linePosition;
@@ -15,5 +15,6 @@ export function getDocstringIndentation(document: string, linePosition: number):
         currentLineNum++;
     }
 
-    return "";
+    // Return current cursor indentation.
+    return Array(lineCharacter + 1).join(" ");
 }

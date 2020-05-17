@@ -49,7 +49,7 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
-        const indentation = getDocstringIndentation(document, position.line);
+        const indentation = getDocstringIndentation(document, position.line, position.character);
         const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 
         return new vs.SnippetString(docstring);
