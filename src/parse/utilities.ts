@@ -13,5 +13,13 @@ export function indentationOf(line: string): number {
 }
 
 export function blankLine(line: string): boolean {
-    return (line.match(/[^\s]/) == undefined);
+    return line.match(/[^\s]/) == undefined;
+}
+
+export function getDefaultIndentation(useSpaces: boolean, tabSize: number): string {
+    if (!useSpaces) {
+        return "\t";
+    }
+
+    return " ".repeat(tabSize);
 }

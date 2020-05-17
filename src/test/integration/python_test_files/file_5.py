@@ -1,7 +1,11 @@
+class abc():
 
-def my_4_spaces_func(a1):
-    print("foo")
+    def function(
+        self,
+        a: int,
+        b: str,
+        c = "abc",
+    ):
 
 
-def function():
-
+# force new line

@@ -2,10 +2,9 @@ import * as path from "path";
 import * as vs from "vscode";
 import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
-import { getDocstringIndentation, parse } from "./parse";
+import { getDocstringIndentation, getDefaultIndentation, parse } from "./parse";
 
 export class AutoDocstring {
-
     private editor: vs.TextEditor;
     private logger: vs.OutputChannel;
 
@@ -49,7 +48,11 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
-        const indentation = getDocstringIndentation(document, position.line);
+        const defaultIndentation = getDefaultIndentation(
+            this.editor.options.insertSpaces as boolean,
+            this.editor.options.tabSize as number,
+        );
+        const indentation = getDocstringIndentation(document, position.line, defaultIndentation);
         const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 
         return new vs.SnippetString(docstring);
@@ -71,7 +74,8 @@ export class AutoDocstring {
         try {
             return getCustomTemplate(customTemplatePath);
         } catch (err) {
-            const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
+            const errorMessage =
+                "AutoDocstring Error: Template could not be found: " + customTemplatePath;
             this.log(errorMessage);
             vs.window.showErrorMessage(errorMessage);
         }
