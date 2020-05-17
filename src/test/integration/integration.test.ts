@@ -144,6 +144,28 @@ describe("Basic Integration Tests", function () {
                 position: new vsc.Position(5, 0),
             });
         });
+
+        it("Correctly indents docstring for empty function in file 5", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_5_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_5.py"),
+                position: new vsc.Position(8, 0),
+            });
+        });
+
+        it("Respects the tabbed indentation in the empty function in file 6", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_6_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_6.py"),
+                position: new vsc.Position(4, 0),
+            });
+        });
     });
 });
 
