@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.5.2] - 2020-05-17
+
+-   Fixed bug: Multiline function definitions are not parsed correctly #74
+-   Fixed bug: No indentation if function is blank #117 (@rileypeterson)
+-   Fixed bug: CompletionItem not appearing after triple single quote #125
+
 ## [0.5.1] - 2020-04-28
 
 -   Fixed bug: No completion item in CRLF documents #118
