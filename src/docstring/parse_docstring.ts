@@ -1,11 +1,9 @@
 // import { reverseMustache } from "reverse-mustache";
-const reverseMustache = require("reverse-mustache");
+// const reverseMustache = require("reverse-mustache");
+import { diffLines } from "Diff";
 
-export function parseDocstring(docstring: string, template: string) {
-    const data = reverseMustache({
-        template: template,
-        content: docstring,
-    });
+export function parseDocstring(oldDocstring: string, newDocstring: string) {
+    const data = diffLines(oldDocstring, newDocstring);
 
     console.log(data);
 }

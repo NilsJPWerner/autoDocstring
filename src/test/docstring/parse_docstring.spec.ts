@@ -7,48 +7,29 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 it.only("should return the string containing the google mustache template", () => {
-    const template = getTemplate("google");
-    parseDocstring(googleDocstring, template);
+    // const template = getTemplate("google");
+    // parseDocstring(googleDocstring, template);
 
     // parseDocstring("world", "{{#place}}{{name}}{{/place}}");
-    parseDocstring(testString, testTemplate);
+    parseDocstring(oldDocstring, newDocstring);
 });
 
-// describe("getTemplate()", () => {
-//     context("when asked for google template", () => {
-//         it("should return the string containing the google mustache template", () => {
-//             const result = getTemplate("google");
+const oldDocstring = `
+[summary]
 
-//             expect(result).to.contain("Google Docstring Template");
-//         });
-//     });
+Args:
+    a (int): [description]
+    b (str): abcdefg hijk
+`;
 
-//     context("when asked for sphinx template", () => {
-//         it("should return the string containing the sphinx mustache template", () => {
-//             const result = getTemplate("sphinx");
+const newDocstring = `
+[summary]
 
-//             expect(result).to.contain("Sphinx Docstring Template");
-//         });
-//     });
-
-//     context("when asked for sphinx template", () => {
-//         it("should return the string containing the numpy mustache template", () => {
-//             const result = getTemplate("numpy");
-
-//             expect(result).to.contain("Numpy Docstring Template");
-//         });
-//     });
-
-//     context("when asked for anything else", () => {
-//         it("should return the string containing the default mustache template", () => {
-//             const result = getTemplate("blah");
-//             const result2 = getTemplate("default");
-
-//             expect(result).to.contain("Default Docstring Template");
-//             expect(result2).to.contain("Default Docstring Template");
-//         });
-//     });
-// });
+Args:
+    a (int): [description]
+    c (list, optional): [description]. Defaults to [1,2].
+    d (str): abcdefg hijk
+`;
 
 const googleDocstring = `
 [summary]
