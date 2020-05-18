@@ -26,6 +26,14 @@ describe("getDefinition()", () => {
             expect(result).to.equal("def multi_line_function( param1, param2 = 1):");
         });
 
+        it("should get ignore commented lines in a multiline function definition", () => {
+            const result = getDefinition(multiLineCommentedLineFunction, 9);
+
+            expect(result).to.equal(
+                "def multi_line_function( param1: str, param2: List[int], param3: int ):",
+            );
+        });
+
         it("should get an async function definition", () => {
             const result = getDefinition(asyncFunction, 4);
 
@@ -84,6 +92,19 @@ Something Else
 def multi_line_function(
         param1,
         param2 = 1):
+
+    print("HELLO WORLD")
+`;
+
+const multiLineCommentedLineFunction = `
+Something Else
+
+def multi_line_function(
+        param1: str,
+        # a comment
+        param2: List[int],
+        param3: int
+    ):
 
     print("HELLO WORLD")
 `;

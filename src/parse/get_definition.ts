@@ -1,9 +1,7 @@
 import { blankLine, indentationOf } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
-    const lines = document.split("\n");
-    let precedingLines = lines.slice(0, linePosition);
-    precedingLines = precedingLines.map((line) => line.trim());
+    const precedingLines = getPrecedingLines(document, linePosition);
     const precedingText = precedingLines.join(" ");
 
     // Don't parse if the preceding line is blank
@@ -26,4 +24,14 @@ export function getDefinition(document: string, linePosition: number): string {
 
     const lastFunctionDef = precedingText.slice(index);
     return lastFunctionDef.trim();
+}
+
+function getPrecedingLines(document: string, linePosition: number): string[] {
+    const lines = document.split("\n");
+    let precedingLines = lines.slice(0, linePosition);
+
+    precedingLines = precedingLines.map((line) => line.trim());
+    precedingLines = precedingLines.filter((line) => !line.startsWith("#"));
+
+    return precedingLines;
 }
