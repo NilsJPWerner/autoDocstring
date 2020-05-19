@@ -1,4 +1,4 @@
-import {readFileSync} from "fs";
+import { readFileSync } from "fs";
 
 export function getTemplate(docstringFormat: string): string {
     switch (docstringFormat) {

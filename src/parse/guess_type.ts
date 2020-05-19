@@ -33,29 +33,53 @@ function guessTypeFromDefaultValue(parameter: string): string {
 
     const defaultValue = defaultValueMatch[1];
 
-    if (isInteger(defaultValue)) { return "int"; }
+    if (isInteger(defaultValue)) {
+        return "int";
+    }
 
-    if (isFloat(defaultValue)) { return "float"; }
+    if (isFloat(defaultValue)) {
+        return "float";
+    }
 
-    if (isHexadecimal(defaultValue)) { return "hexadecimal"; }
+    if (isHexadecimal(defaultValue)) {
+        return "hexadecimal";
+    }
 
-    if (isString(defaultValue)) { return "str"; }
+    if (isString(defaultValue)) {
+        return "str";
+    }
 
-    if (isBool(defaultValue)) { return "bool"; }
+    if (isBool(defaultValue)) {
+        return "bool";
+    }
 
-    if (isList(defaultValue)) { return "list"; }
+    if (isList(defaultValue)) {
+        return "list";
+    }
 
-    if (isTuple(defaultValue)) { return "tuple"; }
+    if (isTuple(defaultValue)) {
+        return "tuple";
+    }
 
-    if (isDict(defaultValue)) { return "dict"; }
+    if (isDict(defaultValue)) {
+        return "dict";
+    }
 
-    if (isRegexp(defaultValue)) { return "regexp"; }
+    if (isRegexp(defaultValue)) {
+        return "regexp";
+    }
 
-    if (isUnicode(defaultValue)) { return "unicode"; }
+    if (isUnicode(defaultValue)) {
+        return "unicode";
+    }
 
-    if (isBytes(defaultValue)) { return "bytes"; }
+    if (isBytes(defaultValue)) {
+        return "bytes";
+    }
 
-    if (isFunction(defaultValue)) { return "function"; }
+    if (isFunction(defaultValue)) {
+        return "function";
+    }
 
     return undefined;
 }
@@ -123,17 +147,17 @@ function isDict(value: string): boolean {
 
 function isRegexp(value: string): boolean {
     const pattern = /^[rR]/;
-    return (pattern.test(value) && isString(value.substr(1)));
+    return pattern.test(value) && isString(value.substr(1));
 }
 
 function isUnicode(value: string): boolean {
     const pattern = /^[uU]/;
-    return (pattern.test(value) && isString(value.substr(1)));
+    return pattern.test(value) && isString(value.substr(1));
 }
 
 function isBytes(value: string): boolean {
     const pattern = /^[bB]/;
-    return (pattern.test(value) && isString(value.substr(1)));
+    return pattern.test(value) && isString(value.substr(1));
 }
 
 function isFunction(value: string): boolean {

@@ -7,7 +7,6 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 describe("parseParameters()", () => {
-
     it("should parse an array of strings into a docstring struct", () => {
         const parameterTokens = [
             "@decorator1",
@@ -19,10 +18,7 @@ describe("parseParameters()", () => {
             "-> int",
         ];
 
-        const body = [
-            "   raise Exception",
-            "raise Exception2",
-        ];
+        const body = ["   raise Exception", "raise Exception2"];
 
         const functionName = "function";
 
@@ -30,10 +26,7 @@ describe("parseParameters()", () => {
 
         expect(result).to.eql({
             name: "function",
-            decorators: [
-                { name: "decorator1" },
-                { name: "decorator2" },
-            ],
+            decorators: [{ name: "decorator1" }, { name: "decorator2" }],
             args: [
                 { var: "param1", type: undefined },
                 { var: "param2", type: "int" },
@@ -44,10 +37,7 @@ describe("parseParameters()", () => {
             ],
             returns: { type: "int" },
             yields: undefined,
-            exceptions: [
-                { type: "Exception" },
-                { type: "Exception2" },
-            ],
+            exceptions: [{ type: "Exception" }, { type: "Exception2" }],
         });
     });
 
@@ -72,7 +62,6 @@ describe("parseParameters()", () => {
     });
 
     describe("parseReturns", () => {
-
         it("should parse return types", () => {
             const parameterTokens = ["-> List[int]"];
             const result = parseParameters(parameterTokens, [], "name");
@@ -152,7 +141,6 @@ describe("parseParameters()", () => {
 
             expect(result.yields).to.eql(undefined);
         });
-
     });
 
     it("should result in no yield if there is no yield type or yield in body", () => {
@@ -177,14 +165,11 @@ describe("parseParameters()", () => {
         expect(result.returns).to.eql(undefined);
     });
 
-
     it("should parse simple exception", () => {
         const functionContent = ["raise Exception"];
         const result = parseParameters([], functionContent, "");
 
-        expect(result.exceptions).to.have.deep.members([
-            { type: "Exception" },
-        ]);
+        expect(result.exceptions).to.have.deep.members([{ type: "Exception" }]);
     });
 
     it("should find all exceptions in a function body", () => {
@@ -197,7 +182,6 @@ describe("parseParameters()", () => {
             "catch Error:",
             "    raise RiskyException",
             "raise AlwaysCrapsOut",
-
         ];
         const result = parseParameters([], functionContent, "");
 

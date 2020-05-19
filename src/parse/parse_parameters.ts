@@ -1,7 +1,19 @@
 import { guessType } from ".";
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
+import {
+    Argument,
+    Decorator,
+    DocstringParts,
+    Exception,
+    KeywordArgument,
+    Returns,
+    Yields,
+} from "../docstring_parts";
 
-export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
+export function parseParameters(
+    parameterTokens: string[],
+    body: string[],
+    functionName: string,
+): DocstringParts {
     return {
         name: functionName,
         decorators: parseDecorators(parameterTokens),

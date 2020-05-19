@@ -20,5 +20,4 @@ describe("getFunctionName()", () => {
 
         expect(result).to.eql("Func1");
     });
-
 });

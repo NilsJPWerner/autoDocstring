@@ -7,7 +7,6 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 describe("guessType()", () => {
-
     context("when the parameter has pep484 type hints", () => {
         it("should get type from arg type hint", () => {
             const parameter = "arg: int";
@@ -144,5 +143,4 @@ describe("guessType()", () => {
             expect(result).to.equal("function");
         });
     });
-
 });

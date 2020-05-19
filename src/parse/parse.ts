@@ -1,4 +1,4 @@
-import { getBody, getDefinition, getFunctionName, parseParameters, tokenizeDefinition} from ".";
+import { getBody, getDefinition, getFunctionName, parseParameters, tokenizeDefinition } from ".";
 import { DocstringParts } from "../docstring_parts";
 
 export function parse(document: string, positionLine: number): DocstringParts {

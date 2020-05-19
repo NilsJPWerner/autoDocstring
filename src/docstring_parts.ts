@@ -1,4 +1,3 @@
-
 export interface DocstringParts {
     name: string;
     decorators: Decorator[];

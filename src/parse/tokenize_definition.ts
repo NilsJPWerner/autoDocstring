@@ -23,7 +23,6 @@ function tokenizeParameterString(parameterString: string): string[] {
     let position = parameterString.length - 1;
 
     while (position >= 0) {
-
         const top = stack[stack.length - 1];
         const char = parameterString.charAt(position);
 
@@ -88,7 +87,9 @@ function tokenizeParameterString(parameterString: string): string[] {
         position -= 1;
     }
 
-    if (arg.length > 0) { parameters.unshift(arg); }
+    if (arg.length > 0) {
+        parameters.unshift(arg);
+    }
 
     return parameters;
 }

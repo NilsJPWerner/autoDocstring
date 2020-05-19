@@ -11,7 +11,7 @@ describe("getBody()", () => {
         const result = getBody(basicFunction, 4);
 
         expect(result).to.have.deep.members([
-            "print(\"HELLO WORLD\")",
+            'print("HELLO WORLD")',
             "try:",
             "something()",
             "except Error:",
@@ -23,32 +23,23 @@ describe("getBody()", () => {
     it("should skip blank lines", () => {
         const result = getBody(gapFunction, 5);
 
-        expect(result).to.have.deep.members([
-            "print('HELLO WORLD')",
-            "print('HELLO AGAIN')",
-        ]);
+        expect(result).to.have.deep.members(["print('HELLO WORLD')", "print('HELLO AGAIN')"]);
     });
 
     it("should handle multi line definitions", () => {
         const result = getBody(multiLineDefFunction, 4);
 
-        expect(result).to.have.deep.members([
-            "pass",
-        ]);
+        expect(result).to.have.deep.members(["pass"]);
     });
 
     it("should handle indented functions", () => {
         const result = getBody(indentedFunctions, 3);
 
-        expect(result).to.have.deep.members([
-            "return 2",
-        ]);
+        expect(result).to.have.deep.members(["return 2"]);
 
         const result2 = getBody(indentedFunctions, 6);
 
-        expect(result2).to.have.deep.members([
-            "pass",
-        ]);
+        expect(result2).to.have.deep.members(["pass"]);
     });
 
     it("should return an empty array if a function has no body", () => {
