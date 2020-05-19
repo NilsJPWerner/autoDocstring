@@ -14,6 +14,14 @@ export class AutoDocstring {
     }
 
     public generateDocstring(): Thenable<boolean> {
+        if (this.editor == undefined) {
+            this.log("Editor is undefined. Cannot proceed.");
+            vs.window.showWarningMessage(
+                "AutoDocstring cannot process this document. It is either too large or is not yet supported.",
+            );
+            return new Promise(() => false);
+        }
+
         const position = this.editor.selection.active;
         this.log(`Generating Docstring at line: ${position.line}`);
         const document = this.editor.document.getText();
@@ -28,7 +36,7 @@ export class AutoDocstring {
             () => this.log("Successfully inserted docstring"),
             (reason) => {
                 this.log("Error: " + reason);
-                vs.window.showErrorMessage("AutoDocstring could not insert docstring:", reason);
+                vs.window.showErrorMessage("AutoDocstring could not insert docstring: " + reason);
             },
         );
 
