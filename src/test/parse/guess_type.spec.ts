@@ -15,6 +15,13 @@ describe("guessType()", () => {
             expect(result).to.equal("int");
         });
 
+        it("should get type from quoted arg type hint", () => {
+            const parameter = "arg: 'int'";
+            const result = guessType(parameter);
+
+            expect(result).to.equal("int");
+        });
+
         it("should get type from composite type hint", () => {
             const parameter = "arg: List[str]";
             const result = guessType(parameter);
