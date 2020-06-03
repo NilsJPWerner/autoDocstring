@@ -51,6 +51,12 @@ describe("getDefinition()", () => {
 
             expect(result).to.equal("");
         });
+
+        it("should return an empty string if the position is at the top of the document", () => {
+            const result = getDefinition('"""', 0);
+
+            expect(result).to.equal("");
+        });
     });
 
     context("when encountering a class", () => {

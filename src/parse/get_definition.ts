@@ -1,4 +1,4 @@
-import { blankLine, indentationOf } from "./utilities";
+import { blankLine } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
     const precedingLines = getPrecedingLines(document, linePosition);
@@ -6,7 +6,7 @@ export function getDefinition(document: string, linePosition: number): string {
 
     // Don't parse if the preceding line is blank
     const precedingLine = precedingLines[precedingLines.length - 1];
-    if (blankLine(precedingLine)) {
+    if (precedingLine == undefined || blankLine(precedingLine)) {
         return "";
     }
 
