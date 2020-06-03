@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.5.3] - 2020-06-03
+
+-   Changed default docstring type to google
+-   Added better logging and stack traces for errors
+-   Fixed bug: Comments in multiline function definition are not ignored #77
+-   Fixed bug: Parse quoted type hints #138 (@bastienboutonnet)
+-   Fixed bug: Parsing fails when activated on first line #139
+-   Fixed bug: Unclear error when a document type is not supported. e.g. notebooks
+
 ## [0.5.2] - 2020-05-17
 
 -   Fixed bug: Multiline function definitions are not parsed correctly #74
