@@ -2,23 +2,22 @@
 import * as vs from "vscode";
 import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
-
-export const generateDocstringCommand = "autoDocstring.generateDocstring";
-let channel: vs.OutputChannel;
+import { extensionRoot, generateDocstringCommand, extensionID } from "./constants";
+import { getStackTrace } from "./telemetry";
+import { logInfo, logError } from "./logger";
 
 export function activate(context: vs.ExtensionContext): void {
-    channel = vs.window.createOutputChannel("autoDocstring");
+    extensionRoot.path = context.extensionPath;
 
     context.subscriptions.push(
         vs.commands.registerCommand(generateDocstringCommand, () => {
             const editor = vs.window.activeTextEditor;
-            const autoDocstring = new AutoDocstring(editor, channel);
+            const autoDocstring = new AutoDocstring(editor);
 
             try {
                 return autoDocstring.generateDocstring();
             } catch (error) {
-                channel.appendLine("Error: " + error);
-                vs.window.showErrorMessage("AutoDocstring encountered an error:", error);
+                logError(error + "\n\t" + getStackTrace(error));
             }
         }),
 
@@ -31,7 +30,6 @@ export function activate(context: vs.ExtensionContext): void {
                     _: vs.CancellationToken,
                 ) => {
                     if (validEnterActivation(document, position)) {
-                        channel.appendLine(position.toString());
                         return [new AutoDocstringCompletionItem(document, position)];
                     }
                 },
@@ -42,15 +40,13 @@ export function activate(context: vs.ExtensionContext): void {
         ),
     );
 
-    channel.appendLine("autoDocstring was activated");
+    logInfo("autoDocstring was activated");
 }
 
 /**
  * This method is called when the extension is deactivated
  */
-export function deactivate() {
-    channel.dispose();
-}
+export function deactivate() {}
 
 /**
  * Checks that the preceding characters of the position is a valid docstring prefix
@@ -86,5 +82,5 @@ class AutoDocstringCompletionItem extends vs.CompletionItem {
 }
 
 function getQuoteStyle(): string {
-    return vs.workspace.getConfiguration("autoDocstring").get("quoteStyle").toString();
+    return vs.workspace.getConfiguration(extensionID).get("quoteStyle").toString();
 }

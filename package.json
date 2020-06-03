@@ -70,9 +70,9 @@
             "properties": {
                 "autoDocstring.docstringFormat": {
                     "type": "string",
-                    "default": "default",
+                    "default": "google",
                     "enum": [
-                        "default",
+                        "docblockr",
                         "google",
                         "sphinx",
                         "numpy"
@@ -117,6 +117,17 @@
                         "'''"
                     ],
                     "description": "Style of quote used with generate docstring command"
+                },
+                "autoDocstring.logLevel": {
+                    "type": "string",
+                    "default": "Info",
+                    "enum": [
+                        "None",
+                        "Info",
+                        "Debug"
+                    ],
+                    "scope": "window",
+                    "description": "Output log information"
                 }
             }
         }
@@ -145,6 +156,8 @@
         "vscode-test": "^1.3.0"
     },
     "dependencies": {
-        "mustache": "^3.2.1"
+        "@types/stack-trace": "0.0.29",
+        "mustache": "^3.2.1",
+        "stack-trace": "0.0.10"
     }
 }

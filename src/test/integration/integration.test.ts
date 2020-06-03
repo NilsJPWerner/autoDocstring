@@ -3,7 +3,7 @@ import fs = require("fs");
 import "mocha";
 import * as path from "path";
 import * as vsc from "vscode";
-import { generateDocstringCommand } from "../../extension";
+import { generateDocstringCommand } from "../../constants";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
