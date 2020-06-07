@@ -133,7 +133,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
 
 function parseExceptions(body: string[]): Exception[] {
     const exceptions: Exception[] = [];
-    const pattern = /raise\s+([\w.]+)/;
+    const pattern = /(?<!#.*)raise\s+([\w.]+)/;
 
     for (const line of body) {
         const match = line.match(pattern);
