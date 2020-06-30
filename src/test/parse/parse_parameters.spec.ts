@@ -192,6 +192,13 @@ describe("parseParameters()", () => {
         ]);
     });
 
+    it("should not parse exception after inline comment", () => {
+        const functionContent = ["arg1 + arg2 # todo: raise an error"];
+        const result = parseParameters([], functionContent, "");
+
+        expect(result.exceptions).to.eql([]);
+    });
+
     context("when the parameters have strange spacing", () => {
         it("should parse args with strange spacing", () => {
             const parameterTokens = [" param1 :    int ", "  param2 ", "param3:List[int]"];
