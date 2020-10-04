@@ -15,7 +15,7 @@ export function getIndentation(line: string): string {
  */
 export function preprocessLines(lines: string[]): string[] {
     return lines
-        .map(line => line.trim())
+        .map(line => line.split("#")[0].trim())
         .filter((line) => !line.startsWith("#"));
 }
 
