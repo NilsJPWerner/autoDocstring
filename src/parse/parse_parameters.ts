@@ -125,7 +125,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
         }
 
         // Skip "-> None" annotations
-        return match[1] === "None" ? null : { type: match[2] };
+        return match[2] === "None" ? null : { type: match[2] };
     }
 
     return null;

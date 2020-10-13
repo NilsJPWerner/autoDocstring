@@ -71,6 +71,22 @@ describe("parseParameters()", () => {
             });
         });
 
+        it("should parse return types wrapped in single quotes", () => {
+            expect(
+                parseParameters(["-> 'List[Type]'"], [], "name").returns
+            ).to.deep.equal({
+                type: "List[Type]"
+            });
+        });
+
+        it("should parse return types wrapped in double quotes", () => {
+            expect(
+                parseParameters(['-> "List[Type]"'], [], "name").returns
+            ).to.deep.equal({
+                type: "List[Type]"
+            });
+        });
+
         it("should not parse '-> None' return types", () => {
             const parameterTokens = ["-> None"];
             const result = parseParameters(parameterTokens, [], "name");
