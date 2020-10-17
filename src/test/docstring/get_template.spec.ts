@@ -31,6 +31,14 @@ describe("getTemplate()", () => {
         });
     });
 
+    context("when asked for reStructuredText template", () => {
+        it("should return the string containing the reStructuredText mustache template", () => {
+            const result = getTemplate("reStructuredText");
+
+            expect(result).to.contain("reStructuredText Docstring Template");
+        });
+    });
+
     context("when asked for anything else", () => {
         it("should return the string containing the default mustache template", () => {
             const result = getTemplate("blah");

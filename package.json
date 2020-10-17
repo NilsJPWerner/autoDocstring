@@ -26,6 +26,7 @@
         "docstring",
         "google",
         "numpy",
+        "reStructuredText",
         "sphinx",
         "generator",
         "autodocstring",
@@ -75,7 +76,8 @@
                         "docblockr",
                         "google",
                         "sphinx",
-                        "numpy"
+                        "numpy",
+                        "reStructuredText"
                     ],
                     "description": "Which docstring format to use."
                 },
