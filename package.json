@@ -137,10 +137,9 @@
         "vscode:prepublish": "npm run compile",
         "copy_templates": "copyfiles --up 1 \"src/docstring/templates/*.mustache\" out/",
         "copy_python_test_files": "copyfiles --up 1 \"src/test/integration/python_test_files/*\" out/",
-        "copy_starlark_test_files": "copyfiles --up 1 \"src/test/integration/starlark_test_files/*\" out/",
         "compile": "npm run copy_templates && tsc -p ./",
         "watch": "npm run copy_templates && tsc -watch -p ./",
-        "preintegration_test": "npm run copy_python_test_files && npm run copy_starlark_test_files && npm run compile",
+        "preintegration_test": "npm run copy_python_test_files && npm run compile",
         "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\"",
         "integration_test": "node out/test/run_integration_tests.js"
     },

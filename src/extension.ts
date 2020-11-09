@@ -33,9 +33,9 @@ export function activate(context: vs.ExtensionContext): void {
                         }
                     },
                 },
-                '"',
+                "\"",
                 "'",
-                '#',
+                "#",
             )
         );
     });

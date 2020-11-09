@@ -171,9 +171,9 @@ describe("Basic Integration Tests", function () {
             await testDocstringGeneration({
                 expectedOutputFilePath: path.resolve(
                     __dirname,
-                    "./starlark_test_files/file_starlark_output.sky",
+                    "./python_test_files/file_starlark_output.sky",
                 ),
-                inputFilePath: path.resolve(__dirname, "./starlark_test_files/file_starlark.sky"),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_starlark.sky"),
                 position: new vsc.Position(2, 0),
             });
         });
@@ -182,9 +182,9 @@ describe("Basic Integration Tests", function () {
             await testDocstringGeneration({
                 expectedOutputFilePath: path.resolve(
                     __dirname,
-                    "./starlark_test_files/file_bazel_output.bzl",
+                    "./python_test_files/file_bazel_output.bzl",
                 ),
-                inputFilePath: path.resolve(__dirname, "./starlark_test_files/file_bazel.bzl"),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_bazel.bzl"),
                 position: new vsc.Position(2, 0),
             });
         });
