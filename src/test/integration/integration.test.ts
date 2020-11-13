@@ -166,6 +166,28 @@ describe("Basic Integration Tests", function () {
                 position: new vsc.Position(4, 0),
             });
         });
+
+        it("generates a docstring for the starlark function", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_starlark_output.sky",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_starlark.sky"),
+                position: new vsc.Position(2, 0),
+            });
+        });
+
+        it("generates a docstring for the bazel macro", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_bazel_output.bzl",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_bazel.bzl"),
+                position: new vsc.Position(2, 0),
+            });
+        });
     });
 });
 

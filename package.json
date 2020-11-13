@@ -37,7 +37,8 @@
         "vscode": "^1.9.0"
     },
     "activationEvents": [
-        "onLanguage:python"
+        "onLanguage:python",
+        "onLanguage:starlark"
     ],
     "main": "./out/extension.js",
     "contributes": {

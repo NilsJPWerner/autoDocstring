@@ -20,25 +20,25 @@ export function activate(context: vs.ExtensionContext): void {
                 logError(error + "\n\t" + getStackTrace(error));
             }
         }),
-
-        vs.languages.registerCompletionItemProvider(
-            "python",
-            {
-                provideCompletionItems: (
-                    document: vs.TextDocument,
-                    position: vs.Position,
-                    _: vs.CancellationToken,
-                ) => {
-                    if (validEnterActivation(document, position)) {
-                        return [new AutoDocstringCompletionItem(document, position)];
-                    }
-                },
-            },
-            '"',
-            "'",
-            "#",
-        ),
     );
+
+    ['python', 'starlark'].map((language) => {
+        context.subscriptions.push(
+            vs.languages.registerCompletionItemProvider(
+                language,
+                {
+                    provideCompletionItems: (document: vs.TextDocument, position: vs.Position, _: vs.CancellationToken) => {
+                        if (validEnterActivation(document, position)) {
+                            return [new AutoDocstringCompletionItem(document, position)];
+                        }
+                    },
+                },
+                "\"",
+                "'",
+                "#",
+            )
+        );
+    });
 
     logInfo("autoDocstring was activated");
 }
@@ -46,7 +46,7 @@ export function activate(context: vs.ExtensionContext): void {
 /**
  * This method is called when the extension is deactivated
  */
-export function deactivate() {}
+export function deactivate() { }
 
 /**
  * Checks that the preceding characters of the position is a valid docstring prefix
