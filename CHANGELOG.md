@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.5.4] - 2020-11-17
+
+-   Added Starlark support #139 (@UebelAndre)
+-   Fixed bug: Ignore "raise" in comments #138 (@bastienboutonnet)
+-   Fixed bug: Discard lines that are only comments #146 (@HaaLeo)
+
 ## [0.5.3] - 2020-06-03
 
 -   Changed default docstring type to google
