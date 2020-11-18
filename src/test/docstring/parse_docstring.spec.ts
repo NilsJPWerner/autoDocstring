@@ -6,7 +6,7 @@ import { parseDocstring, getTemplate } from "../../docstring";
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
-it.only("google", () => {
+it("Full google docstring", () => {
     // const template = getTemplate("google");
     // parseDocstring(googleDocstring, template);
 
@@ -14,7 +14,21 @@ it.only("google", () => {
     parseDocstring(fullGoogleDocstring, googleTemplate);
 });
 
-it.only("sphinx", () => {
+it("parses a google docstring with no args", () => {
+    const docstring = parseDocstring(noArgsGoogleDocstring, googleTemplate);
+
+    expect(docstring).to.eql({
+        name: "",
+        args: [],
+        kwargs: [{ var: "kwarg1", type: "int", default: "1" }],
+        decorators: [],
+        exceptions: [{ type: "FileExistsError" }, { type: "KeyError" }],
+        yields: { type: "[type]" },
+        returns: { type: "[type]" },
+    });
+});
+
+it("sphinx", () => {
     // const template = getTemplate("google");
     // parseDocstring(googleDocstring, template);
 
@@ -26,6 +40,21 @@ const fullGoogleDocstring = `
 Args:
     arg1 ([type]): An argument. It is named arg1
     arg2 (Dict[str, int]): This is also an argument => a good one!
+    kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
+
+Raises:
+    FileExistsError: Oh nej!
+    KeyError: bad things!
+
+Returns:
+    [type]: [description]
+
+Yields:
+    [type]: [description]
+"""`;
+
+const noArgsGoogleDocstring = `
+Args:
     kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
 
 Raises:

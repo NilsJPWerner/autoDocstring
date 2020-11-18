@@ -45,6 +45,10 @@
             {
                 "command": "autoDocstring.generateDocstring",
                 "title": "Generate Docstring"
+            },
+            {
+                "command": "autoDocstring.updateDocstring",
+                "title": "Update Docstring [beta]"
             }
         ],
         "keybindings": [

@@ -10,11 +10,11 @@ export function parseDocstring(oldDocstring: string, template: string) {
     const docstringLines = oldDocstring.split("\n");
     const templateLines = template.split("\n");
 
-    const argRegex = getBlockRegex(template, "args");
-    const kwargRegex = getBlockRegex(template, "kwargs");
-    const exceptionRegex = getBlockRegex(template, "exceptions");
-    const returnRegex = getBlockRegex(template, "returns");
-    const yieldRegex = getBlockRegex(template, "yields");
+    const argRegex = getTemplateBlockRegex(template, "args");
+    const kwargRegex = getTemplateBlockRegex(template, "kwargs");
+    const exceptionRegex = getTemplateBlockRegex(template, "exceptions");
+    const returnRegex = getTemplateBlockRegex(template, "returns");
+    const yieldRegex = getTemplateBlockRegex(template, "yields");
 
     console.log(yieldRegex);
 
@@ -151,10 +151,31 @@ export function parseDocstring(oldDocstring: string, template: string) {
         }
     }
 
-    console.log(docstringParts);
+    return docstringParts;
 }
 
-function getBlockRegex(template: string, block: string): RegExp {
+/** Gets the docstring template section for the given block type */
+function getTemplateBlockRegex(template: string, blockName: string): RegExp {
+    const block = getTemplateBlock(template, blockName);
+
+    // Escape all characters that can be misidentified in regex
+    let blockRegex = escapeRegExp(block);
+
+    // Replace all tags with named regex capture groups
+    blockRegex = replaceTags(blockRegex, "{{var}}", "\\w+", "var");
+    blockRegex = replaceTags(blockRegex, "{{typePlaceholder}}", "[\\w\\[\\], ]+", "type");
+    blockRegex = replaceTags(blockRegex, "{{descriptionPlaceholder}}", ".*", "description");
+    blockRegex = replaceTags(blockRegex, "{{&default}}", ".+", "default");
+    blockRegex = replaceTags(blockRegex, "{{type}}", "\\w+", "type");
+
+    // Escape newlines and handle possible indentation
+    blockRegex = blockRegex.trim();
+    blockRegex = blockRegex.replace(/\n/g, "\\n\\s*");
+
+    return new RegExp(blockRegex.trim());
+}
+
+function getTemplateBlock(template: string, block: string): string {
     const blockStartTag = `{{#${block}}}`;
     const blockEndTag = `{{/${block}}}`;
     const blockRegex = new RegExp(blockStartTag + "(.*)" + blockEndTag, "s");
@@ -162,20 +183,7 @@ function getBlockRegex(template: string, block: string): RegExp {
     const match = template.match(blockRegex);
     let pattern = match[1];
 
-    // Escape all characters that can be misidentified in regex
-    pattern = escapeRegExp(pattern);
-
-    // Replace all tags with named regex capture groups
-    pattern = replaceTags(pattern, "{{var}}", "\\w+", "var");
-    pattern = replaceTags(pattern, "{{typePlaceholder}}", "[\\w\\[\\], ]+", "type");
-    pattern = replaceTags(pattern, "{{descriptionPlaceholder}}", ".*", "description");
-    pattern = replaceTags(pattern, "{{&default}}", ".+", "default");
-    pattern = replaceTags(pattern, "{{type}}", "\\w+", "type");
-
-    pattern = pattern.trim();
-    pattern = pattern.replace(/\n/g, "\\n\\s*");
-
-    return new RegExp(pattern.trim());
+    return pattern;
 }
 
 function replaceTags(str: string, tag: string, pattern: string, captureGroupName: string): string {

@@ -2,7 +2,12 @@
 import * as vs from "vscode";
 import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
-import { extensionRoot, generateDocstringCommand, extensionID } from "./constants";
+import {
+    extensionRoot,
+    generateDocstringCommand,
+    extensionID,
+    updateDocstringCommand,
+} from "./constants";
 import { getStackTrace } from "./telemetry";
 import { logInfo, logError } from "./logger";
 
@@ -16,6 +21,17 @@ export function activate(context: vs.ExtensionContext): void {
 
             try {
                 return autoDocstring.generateDocstring();
+            } catch (error) {
+                logError(error + "\n\t" + getStackTrace(error));
+            }
+        }),
+
+        vs.commands.registerCommand(updateDocstringCommand, () => {
+            const editor = vs.window.activeTextEditor;
+            const autoDocstring = new AutoDocstring(editor);
+
+            try {
+                return autoDocstring.updateDocstring();
             } catch (error) {
                 logError(error + "\n\t" + getStackTrace(error));
             }
