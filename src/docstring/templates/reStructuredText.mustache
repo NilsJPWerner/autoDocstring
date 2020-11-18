@@ -1,0 +1,25 @@
+{{! reStructuredText Docstring Template }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+{{#args}}
+:param {{type}} {{var}}: {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+:param {{type}} {{var}}: {{descriptionPlaceholder}}. Defaults to {{&default}}.
+{{/kwargs}}
+{{#returns}}
+:return: {{descriptionPlaceholder}}
+:rtype: {{typePlaceholder}}
+{{/returns}}
+{{#yields}}
+:yield: {{descriptionPlaceholder}}
+:rtype: {{typePlaceholder}}
+{{/yields}}
+{{#exceptions}}
+:raises {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{#yields}}
+:yield: {{type}} {{descriptionPlaceholder}}
+{{/yields}}
