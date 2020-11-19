@@ -1,0 +1,22 @@
+{{! One-line RST Docstring Template }}
+{{! To use, add the following line to your vscode settings.json: }}
+{{! "autoDocstring.customTemplatePath": "abs/path/to/sphinx-rst.mustache"}} 
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+{{#args}}
+:param {{typePlaceholder}} {{var}}: {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+:param {{typePlaceholder}} {{var}}: {{descriptionPlaceholder}}, defaults to {{&default}}
+{{/kwargs}}
+{{#exceptions}}
+:raises {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{#returns}}
+:return {{typePlaceholder}}: {{descriptionPlaceholder}}
+{{/returns}}
+{{#yields}}
+:yield {{typePlaceholder}}: {{descriptionPlaceholder}}
+{{/yields}}
