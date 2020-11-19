@@ -8,6 +8,8 @@ export function getTemplate(docstringFormat: string): string {
             return getTemplateFile("sphinx.mustache");
         case "numpy":
             return getTemplateFile("numpy.mustache");
+	case "rst":
+	    return getTemplateFile("rst.mustache");
         default:
             return getTemplateFile("default.mustache");
     }
