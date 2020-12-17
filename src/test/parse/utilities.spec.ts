@@ -57,4 +57,19 @@ describe("preprocessLines()", () => {
             'foo'
         ]);
     });
+
+    it('should discard inline comments.', () => {
+        const result = preprocessLines([
+            'foo',
+            'arg: int # hello',
+            'hello#world',
+            'hello\t\t#world'
+        ]);
+        expect(result).to.be.deep.equal([
+            'foo',
+            'arg: int',
+            'hello',
+            'hello'
+        ]);
+    })
 });
