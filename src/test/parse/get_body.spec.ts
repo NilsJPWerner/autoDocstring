@@ -127,3 +127,5 @@ def no_body():
 def next_no_body():
 
 `;
+
+const docstringType = 'method';

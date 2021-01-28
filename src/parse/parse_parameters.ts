@@ -59,7 +59,7 @@ export function parseParameters(
             kwargs: kwargs,
             returns: undefined,
             yields: undefined,
-            exceptions: parseExceptions(body),
+            exceptions: [],
             classes: [],
             methods: [],
             attributes: parseAttributes(body, args, kwargs)
@@ -192,7 +192,7 @@ function parseExceptions(body: string[]): Exception[] {
 
 function parseClasses(body: string[]): Class[] {
     const classes: Class[] = []
-    const pattern = /(?:class)\s/;
+    const pattern = /(?:class)\s+(\w+)\s*\(*/;
 
     for (const line of body) {
 
@@ -206,7 +206,8 @@ function parseClasses(body: string[]): Class[] {
             if (match != null) {
                 // console.log("class match")
                 // console.log(match)
-                let className = getClassName(line);
+                // let className = getClassName(line);
+                let className = getFunctionName(line);
                 // console.log(className)
     
                 classes.push({
@@ -252,7 +253,7 @@ function parseMethods(body: string[]): Method[] {
 
 function parseAttributes(body: string[], args: Argument[], kwargs: KeywordArgument[]): Attribute[] {
     const attributes: Attribute[] = [];
-    const pattern = /(?:self.)(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
+    const pattern = /(?:self\.|cls\.)(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
     //const pattern = /(?:self).(\w+)?\s*/
 
     for (const line of body) {
