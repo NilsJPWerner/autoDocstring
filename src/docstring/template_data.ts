@@ -1,4 +1,16 @@
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method, Attribute } from "../docstring_parts";
+import {
+    Argument,
+    Decorator,
+    DocstringParts,
+    Exception,
+    KeywordArgument,
+    Returns,
+    Yields,
+    Class,
+    Method,
+    Attribute
+} from "../docstring_parts";
+
 
 export class TemplateData {
     public name: string;
@@ -16,7 +28,10 @@ export class TemplateData {
     private includeExtendedSummary: boolean;
 
     constructor(
-        docstringParts: DocstringParts, guessTypes: boolean, includeName: boolean, includeExtendedSummary: boolean,
+        docstringParts: DocstringParts,
+        guessTypes: boolean,
+        includeName: boolean,
+        includeExtendedSummary: boolean,
     ) {
         this.name = docstringParts.name;
         this.decorators = docstringParts.decorators;

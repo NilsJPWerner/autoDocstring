@@ -1,4 +1,4 @@
-import { blankLine, indentationOf } from "./utilities";
+import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
 export function getBody(docstringType: string, document: string, linePosition: number): string[] {
     const lines = document.split("\n");
@@ -33,11 +33,11 @@ export function getBody(docstringType: string, document: string, linePosition: n
             break;
         }
 
-        body.push(line.trim());
+        body.push(line);
         currentLineNum++;
     }
 
-    return body;
+    return preprocessLines(body);
 }
 
 function getBodyBaseIndentation(lines: string[], linePosition: number, regex: string): number {

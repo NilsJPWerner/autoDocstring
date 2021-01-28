@@ -3,7 +3,6 @@ import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
 
 export class DocstringFactory {
-
     private template: string;
     private quoteStyle: string;
 
@@ -13,8 +12,12 @@ export class DocstringFactory {
     private guessTypes: boolean;
 
     constructor(
-        template: string, quoteStyle = '"""', startOnNewLine = false,
-        includeDescription = true, includeName = false, guessTypes = true,
+        template: string,
+        quoteStyle = '"""',
+        startOnNewLine = false,
+        includeDescription = true,
+        includeName = false,
+        guessTypes = true,
     ) {
         this.quoteStyle = quoteStyle;
 
@@ -30,7 +33,10 @@ export class DocstringFactory {
 
     public generateDocstring(docstringParts: DocstringParts, indentation = ""): string {
         const templateData = new TemplateData(
-            docstringParts, this.guessTypes, this.includeName, this.includeDescription,
+            docstringParts,
+            this.guessTypes,
+            this.includeName,
+            this.includeDescription,
         );
 
         let docstring = render(this.template, templateData);

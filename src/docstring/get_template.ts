@@ -1,4 +1,4 @@
-import {readFileSync} from "fs";
+import { readFileSync } from "fs";
 
 export function getTemplate(docstringFormat: string): string {
     switch (docstringFormat) {
@@ -8,6 +8,8 @@ export function getTemplate(docstringFormat: string): string {
             return getTemplateFile("sphinx.mustache");
         case "numpy":
             return getTemplateFile("numpy.mustache");
+        case "oneline-rst":
+            return getTemplateFile("oneline-rst.mustache");
         default:
             return getTemplateFile("default.mustache");
     }

@@ -2,9 +2,24 @@ import { guessType } from ".";
 import { indentationOf } from "./utilities";
 import { getFunctionName } from "./get_function_name";
 import { getClassName } from "./get_class_name";
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields, Class, Method, Attribute } from "../docstring_parts";
+import { 
+    Argument,
+    Decorator,
+    DocstringParts,
+    Exception,
+    KeywordArgument,
+    Returns,
+    Yields,
+    Class,
+    Method,
+    Attribute
+} from "../docstring_parts";
 
-export function parseParameters(docstringType: string, parameterTokens: string[], body: string[], functionName: string): DocstringParts {
+export function parseParameters(
+    docstringType: string,
+    parameterTokens: string[],
+    body: string[],
+    functionName: string): DocstringParts {
 
     if (docstringType === "module") {
         return {
@@ -160,7 +175,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
 
 function parseExceptions(body: string[]): Exception[] {
     const exceptions: Exception[] = [];
-    const pattern = /raise\s+([\w.]+)/;
+    const pattern = /(?<!#.*)raise\s+([\w.]+)/;
 
     for (const line of body) {
         const match = line.match(pattern);

@@ -28,5 +28,11 @@ A clear and concise description of what the bug is.
 ```python
 ```
 
+**Stack trace:**
+If an error was reported by autodocstring please copy the stack trace from the `autoDocstring` output channel.
+```
+```
+
+
 **Additional context**
 Add any other context about the problem here.
