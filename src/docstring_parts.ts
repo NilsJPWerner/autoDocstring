@@ -6,7 +6,7 @@ export interface DocstringParts {
     exceptions: Exception[];
     returns: Returns;
     yields: Yields;
-    classes: Class[];
+    classes: Method[];
     methods: Method[];
     attributes: Attribute[];
 }
@@ -38,9 +38,9 @@ export interface Yields {
     type: string;
 }
 
-export interface Class {
-    name: string;
-}
+// export interface Class {
+//     name: string;
+// }
 
 export interface Method {
     name: string;

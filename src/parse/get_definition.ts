@@ -40,26 +40,31 @@ function getClassDefinition(document: string, lastFunctionDef: string, linePosit
         if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
             return definition;
         }
-        else {
+        
+        // if (isInitMatch(line)) {
+        //     definition += getInitMatch(line);       
+        // }
+        // else {
+        //     definition += line.trim();
+        // }
+        definition = updateDefinition(definition, line)
 
-            if (isInitMatch(line) && isCloseDefMatch(line)) {
-                return definition + getInitMatch(line);
-                
-            }
-            else if (isInitMatch(line)) {
-                definition += getInitMatch(line);
-                
-            }
-            else if (isCloseDefMatch(line)) {
-                return definition + line.trim();
-            }
-            else {
-                definition += line.trim();
-            }
+        if (isCloseDefMatch(line)) {
+            return definition
         }
         linePosition += 1;
     }
 
+    return definition
+}
+
+function updateDefinition(definition: string, line: string): string {
+    if (isInitMatch(line)) {
+        definition += getInitMatch(line);       
+    }
+    else {
+        definition += line.trim();
+    }
     return definition
 }
 
