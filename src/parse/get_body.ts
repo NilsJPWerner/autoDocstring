@@ -2,7 +2,6 @@ import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
 export function getBody(docstringType: string, document: string, linePosition: number): string[] {
     const lines = document.split("\n");
-    const body = [];
     let regex = '\s*def \w+'
 
     if (docstringType === 'module') {
@@ -16,9 +15,16 @@ export function getBody(docstringType: string, document: string, linePosition: n
     const originalIndentation = getBodyBaseIndentation(lines, linePosition, regex);
 
     if (originalIndentation === 0) {
-        return body;
+        return [];
     }
 
+    return populateBody(currentLineNum, lines, originalIndentation);
+
+}
+
+function populateBody(currentLineNum: number, lines: string[], originalIndentation: number) {
+
+    const body = [];
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
 
