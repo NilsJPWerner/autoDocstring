@@ -10,5 +10,10 @@ export function parse(document: string, positionLine: number): DocstringParts {
     const parameterTokens = tokenizeDefinition(definition);
     const functionName = getFunctionName(definition);
 
+    console.log(docstringType)
+    console.log(body)
+    console.log(parameterTokens)
+    console.log(functionName)
+
     return parseParameters(docstringType, parameterTokens, body, functionName);
 }

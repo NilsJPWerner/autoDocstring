@@ -7,63 +7,150 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 describe("parseParameters()", () => {
-    it("should parse an array of strings into a docstring struct", () => {
-        const parameterTokens = [
-            "@decorator1",
-            "@decorator2",
-            "param1",
-            "param2: int",
-            "param3 = 1",
-            "param4: str = 'abc'",
-            "-> int",
-        ];
+    context("when encoutering a method", () => {
+        it("should parse an array of strings into a docstring struct", () => {
+            const parameterTokens = [
+                "@decorator1",
+                "@decorator2",
+                "param1",
+                "param2: int",
+                "param3 = 1",
+                "param4: str = 'abc'",
+                "-> int",
+            ];
 
-        const body = ["   raise Exception", "raise Exception2"];
+            const body = ["   raise Exception", "raise Exception2"];
 
-        const functionName = "function";
-        const docstringType = "method";
-        const result = parseParameters(docstringType, parameterTokens, body, functionName);
+            const functionName = "function";
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, body, functionName);
 
-        expect(result).to.eql({
-            name: "function",
-            decorators: [{ name: "decorator1" }, { name: "decorator2" }],
-            args: [
-                { var: "param1", type: undefined },
-                { var: "param2", type: "int" },
-            ],
-            kwargs: [
-                { var: "param3", default: "1", type: "int" },
-                { var: "param4", default: "'abc'", type: "str" },
-            ],
-            returns: { type: "int" },
-            yields: undefined,
-            exceptions: [{ type: "Exception" }, { type: "Exception2" }],
-            classes: [],
-            methods: [],
-            attributes: [],
+            expect(result).to.eql({
+                name: "function",
+                decorators: [{ name: "decorator1" }, { name: "decorator2" }],
+                args: [
+                    { var: "param1", type: undefined },
+                    { var: "param2", type: "int" },
+                ],
+                kwargs: [
+                    { var: "param3", default: "1", type: "int" },
+                    { var: "param4", default: "'abc'", type: "str" },
+                ],
+                returns: { type: "int" },
+                yields: undefined,
+                exceptions: [{ type: "Exception" }, { type: "Exception2" }],
+                classes: [],
+                methods: [],
+                attributes: [],
+            });
+        });
+
+        it("should parse args with and without type hints", () => {
+            const parameterTokens = ["param1: List[string]", "param2"];
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
+
+            expect(result.args).to.have.deep.members([
+                { var: "param1", type: "List[string]" },
+                { var: "param2", type: undefined },
+            ]);
+        });
+
+        it("should parse kwargs with and without type hints", () => {
+            const parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
+            const docstringType = "method";
+            const result = parseParameters(docstringType, parameterTokens, [], "name");
+
+            expect(result.kwargs).to.have.deep.members([
+                { var: "param1", default: "[1,2]", type: "List[int]" },
+                { var: "param2", default: "'abc'", type: "str" },
+            ]);
         });
     });
 
-    it("should parse args with and without type hints", () => {
-        const parameterTokens = ["param1: List[string]", "param2"];
-        const docstringType = "method";
-        const result = parseParameters(docstringType, parameterTokens, [], "name");
+    context("when encoutering a class", () => {
+        it("should return only parameters when no attributes are defined in body", () => {
+            const parameterTokens = [
+                "@decorator1",
+                "@decorator2",
+                "param1",
+                "param2: int",
+                "param3 = 1",
+                "param4: str = 'abc'",
+                "-> int",
+            ];
 
-        expect(result.args).to.have.deep.members([
-            { var: "param1", type: "List[string]" },
-            { var: "param2", type: undefined },
-        ]);
-    });
+            const body = ["   raise Exception", "raise Exception2"];
 
-    it("should parse kwargs with and without type hints", () => {
-        const parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
-        const docstringType = "method";
-        const result = parseParameters(docstringType, parameterTokens, [], "name");
+            const functionName = "testClass";
+            const docstringType = "class";
+            const result = parseParameters(docstringType, parameterTokens, body, functionName);
 
-        expect(result.kwargs).to.have.deep.members([
-            { var: "param1", default: "[1,2]", type: "List[int]" },
-            { var: "param2", default: "'abc'", type: "str" },
-        ]);
+            expect(result).to.eql({
+                name: "testClass",
+                decorators: [{ name: "decorator1" }, { name: "decorator2" }],
+                args: [
+                    { var: "param1", type: undefined },
+                    { var: "param2", type: "int" },
+                ],
+                kwargs: [
+                    { var: "param3", default: "1", type: "int" },
+                    { var: "param4", default: "'abc'", type: "str" },
+                ],
+                returns: undefined,
+                yields: undefined,
+                exceptions: [],
+                classes: [],
+                methods: [],
+                attributes: [],
+            });
+        });
+
+        it("should return only parameters when no attributes are defined in body", () => {
+            const parameterTokens = [
+                "@decorator1",
+                "@decorator2",
+                "param1",
+                "param2: int",
+                "param3 = 1",
+                "param4: str = 'abc'",
+                "-> int",
+            ];
+
+            const body = ["",
+                          "    def __init__(self, param1, param2: int, param3 = 1, param4: str = 'abc'):",
+                          "        self.param1 = param1",
+                          "        self.param2 = param2",
+                          "        self.param3 = param3",
+                          "        self.param4 = param4",
+                          "        self.param5 = 7"];
+
+            const functionName = "testClass";
+            const docstringType = "class";
+            const result = parseParameters(docstringType, parameterTokens, body, functionName);
+
+            expect(result).to.eql({
+                name: "testClass",
+                decorators: [{ name: "decorator1" }, { name: "decorator2" }],
+                args: [
+                    { var: "param1", type: undefined },
+                    { var: "param2", type: "int" },
+                ],
+                kwargs: [
+                    { var: "param3", default: "1", type: "int" },
+                    { var: "param4", default: "'abc'", type: "str" },
+                ],
+                returns: undefined,
+                yields: undefined,
+                exceptions: [],
+                classes: [],
+                methods: [],
+                attributes: [
+                    { var: "param5", type: undefined}
+                ],
+            });
+        });
+
     });
 
     describe("parseReturns", () => {

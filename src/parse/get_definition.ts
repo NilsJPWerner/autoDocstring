@@ -1,61 +1,11 @@
 import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
-    // const lines = document.split("\n");
-    // let definition = "";
 
-    // if (linePosition === 0) {
-    //     return definition;
-    // }
+    if (linePosition === 0) {
+        return "";
+    }
 
-    // let currentLineNum = linePosition - 1;
-    // const originalIndentation = indentationOf(lines[currentLineNum]);
-
-    // while (currentLineNum >= 0) {
-    //     const line = lines[currentLineNum];
-    //     definition = line.trim() + definition;
-
-    //     if (indentationOf(line) < originalIndentation || blankLine(line)) {
-    //         break;
-    //     }
-
-    //     currentLineNum -= 1;
-    // }
-
-    // const classPattern = /(?:class)\s+(\w+)/;
-    // const classMatch = classPattern.exec(definition);
-
-    // if (classMatch != undefined && classMatch[0] != undefined) {
-    //     currentLineNum += 2;
-    //     let definition = classMatch[0];
-    //     const initPattern = /(?:def __init__)/;
-
-    //     while (currentLineNum < lines.length) {
-    //         const line = lines[currentLineNum];
-    //         const initMatch = initPattern.exec(line)
-
-    //         if (initMatch != undefined && initMatch[0] != undefined) {
-    //             const newIndentation = indentationOf(lines[currentLineNum]);
-
-    //             while (currentLineNum < lines.length) {
-    //                 const line = lines[currentLineNum];
-    //                 definition += line.trim();
-
-    //                 if (indentationOf(line) < newIndentation || blankLine(line)) {
-    //                     return definition;
-    //                 }
-
-    //                 currentLineNum += 1;
-    //             }
-                
-    //         }
-    //         else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
-    //             return definition;
-    //         }
-    //         currentLineNum += 1;
-    //     }
-
-    // return definition;
     const precedingLines = getPrecedingLines(document, linePosition);
     const precedingText = precedingLines.join(" ");
 
@@ -88,7 +38,7 @@ export function getDefinition(document: string, linePosition: number): string {
         let definition = classMatch[0];
         // const initPattern = /(?:def __init__)/;
         const initPattern = /(?<=def __init__).*/;
-        const defClosePattern = /(\)\:)/
+        const defClosePattern = /(\))/
 
         while (linePosition < lines.length) {
             const line = lines[linePosition];
@@ -126,40 +76,6 @@ export function getDefinition(document: string, linePosition: number): string {
 
         return definition
     }
-
-
-    // const classPattern = /(?:class)\s+(\w+)/;
-    // const classMatch = classPattern.exec(lastFunctionDef);
-
-    // if (classMatch != undefined && classMatch[0] != undefined) {
-    //     currentLineNum += 2;
-    //     let definition = classMatch[0];
-    //     const initPattern = /(?:def __init__)/;
-
-    //     while (currentLineNum < lines.length) {
-    //         const line = lines[currentLineNum];
-    //         const initMatch = initPattern.exec(line)
-
-    //         if (initMatch != undefined && initMatch[0] != undefined) {
-    //             const newIndentation = indentationOf(lines[currentLineNum]);
-
-    //             while (currentLineNum < lines.length) {
-    //                 const line = lines[currentLineNum];
-    //                 definition += line.trim();
-
-    //                 if (indentationOf(line) < newIndentation || blankLine(line)) {
-    //                     return definition;
-    //                 }
-
-    //                 currentLineNum += 1;
-    //             }
-                
-    //         }
-    //         else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
-    //             return definition;
-    //         }
-    //         currentLineNum += 1;
-    //     }
 
     return lastFunctionDef;
 }

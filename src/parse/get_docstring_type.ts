@@ -2,8 +2,6 @@ export function getDocstringType(functionDefinition: string, linePosition: numbe
 
     const class_pattern = /(?:class)/;
     const class_match = class_pattern.exec(functionDefinition);
-    console.log(class_match)
-    console.log(functionDefinition)
 
     if (linePosition === 0) {
         return "module"

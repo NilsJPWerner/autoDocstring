@@ -197,19 +197,10 @@ function parseClasses(body: string[]): Class[] {
     for (const line of body) {
 
         if (indentationOf(line) === 0) {
-
-            // console.log("class indentation match")
-            // console.log(line)
-
             const match = line.match(pattern);
 
             if (match != null) {
-                // console.log("class match")
-                // console.log(match)
-                // let className = getClassName(line);
                 let className = getFunctionName(line);
-                // console.log(className)
-    
                 classes.push({
                     name: className,
                 });
@@ -226,23 +217,12 @@ function parseMethods(body: string[]): Method[] {
     for (const line of body) {
 
         if (indentationOf(line) === 0) {
-
-            // console.log("indentation = 0")
-            // console.log(line)
-
             const match = line.match(pattern);
 
             if (match == null) {
                 continue
             }
-            
-            // console.log("matches regex")
-            // console.log(match)
-
             let methodName = getFunctionName(line);
-            // console.log("method name")
-            // console.log(methodName)
-
             methods.push({
                 name: methodName,
             });
@@ -257,10 +237,7 @@ function parseAttributes(body: string[], args: Argument[], kwargs: KeywordArgume
     //const pattern = /(?:self).(\w+)?\s*/
 
     for (const line of body) {
-        // console.log(line)
         const match = line.trim().match(pattern);
-
-        // console.log(match)
 
         if (match == null) {
             continue;
@@ -274,8 +251,6 @@ function parseAttributes(body: string[], args: Argument[], kwargs: KeywordArgume
             });
         }
     }
-
-    // console.log(attributes)
 
     return attributes;
 }

@@ -9,13 +9,13 @@ export function getBody(docstringType: string, document: string, linePosition: n
         return lines;
     }
     else if (docstringType === 'class') {
-        let regex = '.';
+        regex = '.';
     }
 
     let currentLineNum = linePosition;
     const originalIndentation = getBodyBaseIndentation(lines, linePosition, regex);
 
-    if (originalIndentation == 0) {
+    if (originalIndentation === 0) {
         return body;
     }
 

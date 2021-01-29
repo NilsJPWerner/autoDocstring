@@ -3,7 +3,7 @@
     "displayName": "Python Docstring Generator",
     "description": "Automatically generates detailed docstrings for python functions",
     "version": "0.5.4",
-    "publisher": "tracetidwell",
+    "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
     "extensionKind": [
