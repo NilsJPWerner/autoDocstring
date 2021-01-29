@@ -32,36 +32,59 @@ function getClassDefinition(document: string, lastFunctionDef: string, linePosit
 
     const lines = document.split("\n");
     const originalIndentation = indentationOf(lines[linePosition]);
-    const classPattern = /(?:class)\s+(\w+)/;
-    const classMatch = classPattern.exec(lastFunctionDef);
-    let definition = classMatch[0];
-    // const initPattern = /(?:def __init__)/;
-    const initPattern = /(?<=def __init__).*/;
-    const defClosePattern = /(\))/
+    let definition = getClassName(lastFunctionDef);
 
     while (linePosition < lines.length) {
-        const line = lines[linePosition];
-        
+        const line = lines[linePosition];        
 
         if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
             return definition;
         }
         else {
 
-            const initMatch = initPattern.exec(line)
-            if (initMatch != undefined && initMatch[0] != undefined) {
-                definition += initMatch[0];
+            if (isInitMatch(line) && isCloseDefMatch(line)) {
+                return definition + getInitMatch(line);
+                
             }
-            
-            const defCloseMatch = defClosePattern.exec(line);
-            if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
-                return definition;
+            else if (isInitMatch(line)) {
+                definition += getInitMatch(line);
+                
+            }
+            else if (isCloseDefMatch(line)) {
+                return definition + line.trim();
+            }
+            else {
+                definition += line.trim();
             }
         }
         linePosition += 1;
     }
 
     return definition
+}
+
+function isInitMatch(line: string): boolean {
+    // const initPattern = /(?<=def __init__).*/;
+    const initPattern = /(?:def __init__)/;
+    const initMatch = initPattern.exec(line)
+    return initMatch != undefined && initMatch[0] != undefined;
+}
+
+function getInitMatch(line: string): string {
+    const initPattern = /(?<=def __init__).*/;
+    return initPattern.exec(line)[0].trim()
+}
+
+function isCloseDefMatch(line: string): boolean {
+    const defClosePattern = /(\))/
+    const defCloseMatch = defClosePattern.exec(line);
+    return defCloseMatch != undefined && defCloseMatch[0] != undefined;
+}
+
+function getClassName(lastFunctionDef: string): string {
+    const classPattern = /(?:class)\s+(\w+)/;
+    const classMatch = classPattern.exec(lastFunctionDef);
+    return classMatch[0];
 }
 
 function getIndex(precedingText: string): number {

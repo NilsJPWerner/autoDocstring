@@ -215,14 +215,13 @@ function parseClasses(body: string[]): Class[] {
     const pattern = /(?:class)\s+(\w+)\s*\(*/;
 
     for (const line of body) {
-        // if (indentationOf(line) === 0) {
+
         const match = line.match(pattern);
         if (indentationOf(line) === 0 && match != null) {
             classes.push({
                 name: getFunctionName(line),
             });
         }
-        // }
     }
     return classes;
 }
@@ -233,12 +232,8 @@ function parseMethods(body: string[]): Method[] {
 
     for (const line of body) {
 
-        if (indentationOf(line) === 0) {
-            const match = line.match(pattern);
-
-            if (match == null) {
-                continue
-            }
+        const match = line.match(pattern);
+        if (indentationOf(line) === 0 && match != null) {
             methods.push({
                 name: getFunctionName(line),
             });
