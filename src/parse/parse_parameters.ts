@@ -15,27 +15,10 @@ import {
     Attribute
 } from "../docstring_parts";
 
-export function parseParameters(
-    docstringType: string,
+function parseMethod(
     parameterTokens: string[],
     body: string[],
     functionName: string): DocstringParts {
-
-    if (docstringType === "module") {
-        return {
-            name: functionName,
-            decorators: [],
-            args: [],
-            kwargs: [],
-            returns: undefined,
-            yields: undefined,
-            exceptions: [],
-            classes: parseClasses(body),
-            methods: parseMethods(body),
-            attributes: []
-        };
-    }
-    else if (docstringType === "method") {
         return {
             name: functionName,
             decorators: parseDecorators(parameterTokens),
@@ -48,8 +31,12 @@ export function parseParameters(
             methods: [],
             attributes: []
         };
-    }
-    else if (docstringType === "class") {
+}
+
+function parseClass(
+    parameterTokens: string[],
+    body: string[],
+    functionName: string): DocstringParts {
         let args = parseArguments(parameterTokens);
         let kwargs = parseKeywordArguments(parameterTokens);
         return {
@@ -64,6 +51,39 @@ export function parseParameters(
             methods: [],
             attributes: parseAttributes(body, args, kwargs)
         };
+}
+
+function parseModule(
+    body: string[],
+    functionName: string): DocstringParts {
+        return {
+            name: functionName,
+            decorators: [],
+            args: [],
+            kwargs: [],
+            returns: undefined,
+            yields: undefined,
+            exceptions: [],
+            classes: parseClasses(body),
+            methods: parseMethods(body),
+            attributes: []
+        };
+}
+
+export function parseParameters(
+    docstringType: string,
+    parameterTokens: string[],
+    body: string[],
+    functionName: string): DocstringParts {
+
+    if (docstringType === "module") {
+        return parseModule(body, functionName);
+    }
+    else if (docstringType === "method") {
+        return parseMethod(parameterTokens, body, functionName);
+    }
+    else if (docstringType === "class") {
+        return parseClass(parameterTokens, body, functionName);
     };
 }
 
@@ -200,9 +220,8 @@ function parseClasses(body: string[]): Class[] {
             const match = line.match(pattern);
 
             if (match != null) {
-                let className = getFunctionName(line);
                 classes.push({
-                    name: className,
+                    name: getFunctionName(line),
                 });
             }
         }
@@ -211,7 +230,7 @@ function parseClasses(body: string[]): Class[] {
 }
 
 function parseMethods(body: string[]): Method[] {
-    const methods: Class[] = []
+    const methods: Method[] = []
     const pattern = /(def)\s+(\w+)\s*\(/;
 
     for (const line of body) {
@@ -222,9 +241,8 @@ function parseMethods(body: string[]): Method[] {
             if (match == null) {
                 continue
             }
-            let methodName = getFunctionName(line);
             methods.push({
-                name: methodName,
+                name: getFunctionName(line),
             });
         }
     }

@@ -27,57 +27,61 @@ export function getDefinition(document: string, linePosition: number): string {
         return "";
     }
 
-    const lastFunctionDef = precedingText.slice(index).trim();
+    let lastFunctionDef = precedingText.slice(index).trim();
 
     if (lastFunctionDef.startsWith('class')) {
-        const lines = document.split("\n");
-
-        const originalIndentation = indentationOf(lines[linePosition]);
-        const classPattern = /(?:class)\s+(\w+)/;
-        const classMatch = classPattern.exec(lastFunctionDef);
-        let definition = classMatch[0];
-        // const initPattern = /(?:def __init__)/;
-        const initPattern = /(?<=def __init__).*/;
-        const defClosePattern = /(\))/
-
-        while (linePosition < lines.length) {
-            const line = lines[linePosition];
-            const initMatch = initPattern.exec(line)
-
-            if (initMatch != undefined && initMatch[0] != undefined) {
-                definition += initMatch[0];
-                const newIndentation = indentationOf(lines[linePosition]);
-                let defCloseMatch = defClosePattern.exec(line);
-                if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
-                    return definition;
-                }
-                linePosition += 1;
-
-                while (linePosition < lines.length) {
-                    const line = lines[linePosition];
-                    definition += line.trim();
-                    defCloseMatch = defClosePattern.exec(line);
-                    if (indentationOf(line) < newIndentation || blankLine(line)) {
-                        return definition;
-                    }
-                    else if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
-                        return definition;
-                    }
-
-                    linePosition += 1;
-                }
-                
-            }
-            else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
-                return definition;
-            }
-            linePosition += 1;
-        }
-
-        return definition
+        lastFunctionDef = getClassDefinition(document, lastFunctionDef, linePosition)
     }
 
     return lastFunctionDef;
+}
+
+function getClassDefinition(document: string, lastFunctionDef: string, linePosition: number): string {
+
+    const lines = document.split("\n");
+    const originalIndentation = indentationOf(lines[linePosition]);
+    const classPattern = /(?:class)\s+(\w+)/;
+    const classMatch = classPattern.exec(lastFunctionDef);
+    let definition = classMatch[0];
+    // const initPattern = /(?:def __init__)/;
+    const initPattern = /(?<=def __init__).*/;
+    const defClosePattern = /(\))/
+
+    while (linePosition < lines.length) {
+        const line = lines[linePosition];
+        const initMatch = initPattern.exec(line)
+
+        if (initMatch != undefined && initMatch[0] != undefined) {
+            definition += initMatch[0];
+            const newIndentation = indentationOf(lines[linePosition]);
+            let defCloseMatch = defClosePattern.exec(line);
+            if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
+                return definition;
+            }
+            linePosition += 1;
+
+            while (linePosition < lines.length) {
+                const line = lines[linePosition];
+                definition += line.trim();
+                defCloseMatch = defClosePattern.exec(line);
+                if (indentationOf(line) < newIndentation || blankLine(line)) {
+                    return definition;
+                }
+                else if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
+                    return definition;
+                }
+
+                linePosition += 1;
+            }
+            
+        }
+        else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
+            return definition;
+        }
+        linePosition += 1;
+    }
+
+    return definition
 }
 
 function getPrecedingLines(document: string, linePosition: number): string[] {
