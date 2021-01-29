@@ -123,7 +123,7 @@ def next_func():
 
 const noBody = `
 def no_body():
-
+    
 def next_no_body():
 
 `;

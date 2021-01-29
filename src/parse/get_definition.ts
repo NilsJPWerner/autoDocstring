@@ -1,75 +1,173 @@
-import { blankLine, indentationOf } from "./utilities";
+import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
-    const lines = document.split("\n");
-    let definition = "";
+    // const lines = document.split("\n");
+    // let definition = "";
 
-    if (linePosition === 0) {
-        return definition;
+    // if (linePosition === 0) {
+    //     return definition;
+    // }
+
+    // let currentLineNum = linePosition - 1;
+    // const originalIndentation = indentationOf(lines[currentLineNum]);
+
+    // while (currentLineNum >= 0) {
+    //     const line = lines[currentLineNum];
+    //     definition = line.trim() + definition;
+
+    //     if (indentationOf(line) < originalIndentation || blankLine(line)) {
+    //         break;
+    //     }
+
+    //     currentLineNum -= 1;
+    // }
+
+    // const classPattern = /(?:class)\s+(\w+)/;
+    // const classMatch = classPattern.exec(definition);
+
+    // if (classMatch != undefined && classMatch[0] != undefined) {
+    //     currentLineNum += 2;
+    //     let definition = classMatch[0];
+    //     const initPattern = /(?:def __init__)/;
+
+    //     while (currentLineNum < lines.length) {
+    //         const line = lines[currentLineNum];
+    //         const initMatch = initPattern.exec(line)
+
+    //         if (initMatch != undefined && initMatch[0] != undefined) {
+    //             const newIndentation = indentationOf(lines[currentLineNum]);
+
+    //             while (currentLineNum < lines.length) {
+    //                 const line = lines[currentLineNum];
+    //                 definition += line.trim();
+
+    //                 if (indentationOf(line) < newIndentation || blankLine(line)) {
+    //                     return definition;
+    //                 }
+
+    //                 currentLineNum += 1;
+    //             }
+                
+    //         }
+    //         else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
+    //             return definition;
+    //         }
+    //         currentLineNum += 1;
+    //     }
+
+    // return definition;
+    const precedingLines = getPrecedingLines(document, linePosition);
+    const precedingText = precedingLines.join(" ");
+
+    // Don't parse if the preceding line is blank
+    const precedingLine = precedingLines[precedingLines.length - 1];
+    if (precedingLine == undefined || blankLine(precedingLine)) {
+        return "";
     }
 
-    let currentLineNum = linePosition - 1;
-    const originalIndentation = indentationOf(lines[currentLineNum]);
-    // console.log("original indentation")
-    // console.log(originalIndentation)
+    const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
 
-    while (currentLineNum >= 0) {
-        const line = lines[currentLineNum];
-        definition = line.trim() + definition;
-
-        if (indentationOf(line) < originalIndentation || blankLine(line)) {
-            break;
-        }
-
-        currentLineNum -= 1;
+    // Get starting index of last def match in the preceding text
+    let index: number;
+    while (pattern.test(precedingText)) {
+        index = pattern.lastIndex - RegExp.lastMatch.length;
     }
 
-    //const classPattern = /(?:class)/;
-    const classPattern = /(?:class)\s+(\w+)/;
-    const classMatch = classPattern.exec(definition);
+    if (index == undefined) {
+        return "";
+    }
 
-    if (classMatch != undefined && classMatch[0] != undefined) {
-        currentLineNum += 2;
+    const lastFunctionDef = precedingText.slice(index).trim();
+
+    if (lastFunctionDef.startsWith('class')) {
+        const lines = document.split("\n");
+
+        const originalIndentation = indentationOf(lines[linePosition]);
+        const classPattern = /(?:class)\s+(\w+)/;
+        const classMatch = classPattern.exec(lastFunctionDef);
         let definition = classMatch[0];
-        // console.log("new definition")
-        // console.log(definition)
-        // console.log(classMatch)
-        // console.log("current line num")
-        // console.log(currentLineNum)
-        // console.log("current indentation")
-        // console.log(indentationOf(lines[currentLineNum]))
-        // console.log(lines[currentLineNum])
-        const initPattern = /(?:def __init__)/;
+        // const initPattern = /(?:def __init__)/;
+        const initPattern = /(?<=def __init__).*/;
+        const defClosePattern = /(\)\:)/
 
-        while (currentLineNum < lines.length) {
-            const line = lines[currentLineNum];
-            // console.log("current indentation")
-            // console.log(indentationOf(line))
+        while (linePosition < lines.length) {
+            const line = lines[linePosition];
             const initMatch = initPattern.exec(line)
 
             if (initMatch != undefined && initMatch[0] != undefined) {
-                const newIndentation = indentationOf(lines[currentLineNum]);
+                definition += initMatch[0];
+                const newIndentation = indentationOf(lines[linePosition]);
+                let defCloseMatch = defClosePattern.exec(line);
+                if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
+                    return definition;
+                }
+                linePosition += 1;
 
-                while (currentLineNum < lines.length) {
-                    const line = lines[currentLineNum];
+                while (linePosition < lines.length) {
+                    const line = lines[linePosition];
                     definition += line.trim();
-                    // console.log(definition)
-
+                    defCloseMatch = defClosePattern.exec(line);
                     if (indentationOf(line) < newIndentation || blankLine(line)) {
                         return definition;
                     }
+                    else if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
+                        return definition;
+                    }
 
-                    currentLineNum += 1;
+                    linePosition += 1;
                 }
                 
             }
             else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
                 return definition;
             }
-            currentLineNum += 1;
+            linePosition += 1;
         }
+
+        return definition
     }
-    // console.log("last definition")
-    // console.log(definition)
-    return definition;
+
+
+    // const classPattern = /(?:class)\s+(\w+)/;
+    // const classMatch = classPattern.exec(lastFunctionDef);
+
+    // if (classMatch != undefined && classMatch[0] != undefined) {
+    //     currentLineNum += 2;
+    //     let definition = classMatch[0];
+    //     const initPattern = /(?:def __init__)/;
+
+    //     while (currentLineNum < lines.length) {
+    //         const line = lines[currentLineNum];
+    //         const initMatch = initPattern.exec(line)
+
+    //         if (initMatch != undefined && initMatch[0] != undefined) {
+    //             const newIndentation = indentationOf(lines[currentLineNum]);
+
+    //             while (currentLineNum < lines.length) {
+    //                 const line = lines[currentLineNum];
+    //                 definition += line.trim();
+
+    //                 if (indentationOf(line) < newIndentation || blankLine(line)) {
+    //                     return definition;
+    //                 }
+
+    //                 currentLineNum += 1;
+    //             }
+                
+    //         }
+    //         else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
+    //             return definition;
+    //         }
+    //         currentLineNum += 1;
+    //     }
+
+    return lastFunctionDef;
+}
+
+function getPrecedingLines(document: string, linePosition: number): string[] {
+    const lines = document.split("\n");
+    const rawPrecedingLines = lines.slice(0, linePosition);
+
+    const precedingLines = preprocessLines(rawPrecedingLines);
+    return precedingLines;
 }

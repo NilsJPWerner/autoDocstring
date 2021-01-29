@@ -38,6 +38,9 @@ describe("parseParameters()", () => {
             returns: { type: "int" },
             yields: undefined,
             exceptions: [{ type: "Exception" }, { type: "Exception2" }],
+            classes: [],
+            methods: [],
+            attributes: [],
         });
     });
 

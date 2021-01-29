@@ -14,15 +14,13 @@ export function getBody(docstringType: string, document: string, linePosition: n
 
     let currentLineNum = linePosition;
     const originalIndentation = getBodyBaseIndentation(lines, linePosition, regex);
-    // console.log("original indentation")
-    // console.log(originalIndentation)
-    // console.log(currentLineNum)
+
+    if (originalIndentation == 0) {
+        return body;
+    }
 
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
-        // console.log("current indentation")
-        // console.log(indentationOf(line))
-        // console.log(currentLineNum)
 
         if (blankLine(line)) {
             currentLineNum++;

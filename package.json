@@ -3,7 +3,7 @@
     "displayName": "Python Docstring Generator",
     "description": "Automatically generates detailed docstrings for python functions",
     "version": "0.5.4",
-    "publisher": "njpwerner",
+    "publisher": "tracetidwell",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
     "extensionKind": [
@@ -45,7 +45,7 @@
         "commands": [
             {
                 "command": "autoDocstring.generateDocstring",
-                "title": "Generate Docstring2"
+                "title": "Generate Docstring"
             }
         ],
         "keybindings": [
@@ -71,11 +71,7 @@
             "properties": {
                 "autoDocstring.docstringFormat": {
                     "type": "string",
-<<<<<<< HEAD
                     "default": "ncr",
-=======
-                    "default": "google",
->>>>>>> master
                     "enum": [
                         "docblockr",
                         "google",
@@ -150,6 +146,7 @@
     },
     "devDependencies": {
         "@types/chai": "^4.2.11",
+        "@types/glob": "^7.1.3",
         "@types/mocha": "^5.2.7",
         "@types/mustache": "^0.8.32",
         "@types/node": "^13.13.1",

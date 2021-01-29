@@ -63,6 +63,7 @@ function main() {
                     return [3 /*break*/, 4];
                 case 3:
                     err_1 = _a.sent();
+                    console.error(err_1);
                     console.error("Failed to run tests");
                     process.exit(1);
                     return [3 /*break*/, 4];
