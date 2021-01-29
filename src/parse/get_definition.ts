@@ -22,15 +22,14 @@ export function getDefinition(document: string, linePosition: number): string {
 
     let lastFunctionDef = precedingText.slice(index).trim();
     if (lastFunctionDef.startsWith('class')) {
-        lastFunctionDef = getClassDefinition(document, lastFunctionDef, linePosition)
+        lastFunctionDef = getClassDefinition(document.split("\n"), lastFunctionDef, linePosition)
     }
 
     return lastFunctionDef;
 }
 
-function getClassDefinition(document: string, lastFunctionDef: string, linePosition: number): string {
+function getClassDefinition(lines: string[], lastFunctionDef: string, linePosition: number): string {
 
-    const lines = document.split("\n");
     const originalIndentation = indentationOf(lines[linePosition]);
     let definition = getClassName(lastFunctionDef);
 
@@ -41,12 +40,6 @@ function getClassDefinition(document: string, lastFunctionDef: string, linePosit
             return definition;
         }
         
-        // if (isInitMatch(line)) {
-        //     definition += getInitMatch(line);       
-        // }
-        // else {
-        //     definition += line.trim();
-        // }
         definition = updateDefinition(definition, line)
 
         if (isCloseDefMatch(line)) {
