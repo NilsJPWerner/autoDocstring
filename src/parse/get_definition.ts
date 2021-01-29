@@ -29,17 +29,10 @@ export function getDefinition(document: string, linePosition: number): string {
 }
 
 function getClassDefinition(lines: string[], lastFunctionDef: string, linePosition: number): string {
-
-    const originalIndentation = indentationOf(lines[linePosition]);
     let definition = getClassName(lastFunctionDef);
 
     while (linePosition < lines.length) {
-        const line = lines[linePosition];        
-
-        if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
-            return definition;
-        }
-        
+        const line = lines[linePosition];               
         definition = updateDefinition(definition, line)
 
         if (isCloseDefMatch(line)) {
