@@ -7,18 +7,18 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 describe("DocstringFactory", () => {
-
     describe("generateDocstring()", () => {
         context("when instantiated with a template with placeholder tags", () => {
             it("should add numerically increasing snippet placeholders", () => {
-                const template = "{{#placeholder}}first{{/placeholder}}\n{{#placeholder}}second{{/placeholder}}";
+                const template =
+                    "{{#placeholder}}first{{/placeholder}}\n{{#placeholder}}second{{/placeholder}}";
                 const docstringComponents = defaultDocstringComponents;
 
                 const factory = new DocstringFactory(template);
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"${1:first}\n${2:second}\"\"\"");
+                expect(result).to.equal('"""${1:first}\n${2:second}"""');
             });
 
             it("should use docstring components in the placeholders", () => {
@@ -30,7 +30,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"${1:--Function--}\"\"\"");
+                expect(result).to.equal('"""${1:--Function--}"""');
             });
         });
 
@@ -43,7 +43,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"Function  hello\"\"\"");
+                expect(result).to.equal('"""Function  hello"""');
             });
         });
 
@@ -54,7 +54,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"${1:[summary]}\"\"\"");
+            expect(result).to.equal('"""${1:[summary]}"""');
         });
 
         it("should use the docstring name if the template specifies it", () => {
@@ -65,21 +65,18 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"Function abc\"\"\"");
+            expect(result).to.equal('"""Function abc"""');
         });
 
         it("should iterate over docstring decorators", () => {
             const template = "{{#decorators}}\n{{name}}\n{{/decorators}}";
             const docstringComponents = defaultDocstringComponents;
-            docstringComponents.decorators = [
-                { name: "decorator_1" },
-                { name: "decorator_2" },
-            ];
+            docstringComponents.decorators = [{ name: "decorator_1" }, { name: "decorator_2" }];
             const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"decorator_1\ndecorator_2\n\"\"\"");
+            expect(result).to.equal('"""decorator_1\ndecorator_2\n"""');
         });
 
         it("should iterate over docstring args", () => {
@@ -93,7 +90,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"arg_1 string\narg_2 number\n\"\"\"");
+            expect(result).to.equal('"""arg_1 string\narg_2 number\n"""');
         });
 
         it("should iterate over docstring kwargs", () => {
@@ -107,21 +104,18 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"kwarg_1 string 1\nkwarg_2 number text\n\"\"\"");
+            expect(result).to.equal('"""kwarg_1 string 1\nkwarg_2 number text\n"""');
         });
 
         it("should iterate over docstring exceptions components", () => {
             const template = "{{#exceptions}}\n{{type}}\n{{/exceptions}}";
             const docstringComponents = defaultDocstringComponents;
-            docstringComponents.exceptions = [
-                { type: "Error_1" },
-                { type: "Error_2" },
-            ];
+            docstringComponents.exceptions = [{ type: "Error_1" }, { type: "Error_2" }];
             const factory = new DocstringFactory(template);
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"Error_1\nError_2\n\"\"\"");
+            expect(result).to.equal('"""Error_1\nError_2\n"""');
         });
 
         it("should use the docstring returns if the template specifies it", () => {
@@ -132,7 +126,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"Thing yay\"\"\"");
+            expect(result).to.equal('"""Thing yay"""');
         });
 
         it("should condense multiple newlines to two newlines", () => {
@@ -142,7 +136,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal("\"\"\"Thing\n\nHello\n\nAgain!\"\"\"");
+            expect(result).to.equal('"""Thing\n\nHello\n\nAgain!"""');
         });
 
         it("should condense trailing newlines to a single newline", () => {
@@ -151,7 +145,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(defaultDocstringComponents);
 
-            expect(result).to.equal("\"\"\"abc\n\nabc\n\"\"\"");
+            expect(result).to.equal('"""abc\n\nabc\n"""');
         });
 
         context("when guessTypes is set to false", () => {
@@ -162,11 +156,17 @@ describe("DocstringFactory", () => {
                 docstringComponents.returns = { type: "Thing" };
 
                 const factory = new DocstringFactory(
-                    noTypesTemplate, undefined, undefined, undefined, undefined, false);
+                    noTypesTemplate,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    false,
+                );
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"arg_1 [type]\nkwarg_1 [type]\nreturns [type]\"\"\"");
+                expect(result).to.equal('"""arg_1 [type]\nkwarg_1 [type]\nreturns [type]"""');
             });
         });
 
@@ -192,7 +192,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal("\"\"\"\nFunction hello\"\"\"");
+                expect(result).to.equal('"""\nFunction hello"""');
             });
         });
 
@@ -205,7 +205,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(defaultDocstringComponents);
 
-                    expect(result).to.equal("\"\"\"Doc\n\n${1:[extended_summary]}\n\nHello\"\"\"");
+                    expect(result).to.equal('"""Doc\n\n${1:[extended_summary]}\n\nHello"""');
                 });
             });
 
@@ -215,7 +215,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(defaultDocstringComponents);
 
-                    expect(result).to.equal("\"\"\"Doc\n\nHello\"\"\"");
+                    expect(result).to.equal('"""Doc\n\nHello"""');
                 });
             });
         });
@@ -227,11 +227,17 @@ describe("DocstringFactory", () => {
                 it("should add the name to the summary", () => {
                     const docstringComponents = defaultDocstringComponents;
                     docstringComponents.name = "Function";
-                    const factory = new DocstringFactory(template, undefined, undefined, undefined, true);
+                    const factory = new DocstringFactory(
+                        template,
+                        undefined,
+                        undefined,
+                        undefined,
+                        true,
+                    );
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\nFunction ${1:[summary]}\"\"\"");
+                    expect(result).to.equal('"""\nFunction ${1:[summary]}"""');
                 });
             });
 
@@ -239,11 +245,17 @@ describe("DocstringFactory", () => {
                 it("should not add the name to the summary", () => {
                     const docstringComponents = defaultDocstringComponents;
                     docstringComponents.name = "Function";
-                    const factory = new DocstringFactory(template, undefined, undefined, undefined, false);
+                    const factory = new DocstringFactory(
+                        template,
+                        undefined,
+                        undefined,
+                        undefined,
+                        false,
+                    );
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\n${1:[summary]}\"\"\"");
+                    expect(result).to.equal('"""\n${1:[summary]}"""');
                 });
             });
         });
@@ -262,7 +274,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Args Exist!\"\"\"");
+                    expect(result).to.equal('"""Args Exist!"""');
                 });
             });
 
@@ -274,7 +286,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\"\"\"");
+                    expect(result).to.equal('""""""');
                 });
             });
         });
@@ -293,7 +305,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Kwargs Exist!\"\"\"");
+                    expect(result).to.equal('"""Kwargs Exist!"""');
                 });
             });
 
@@ -305,7 +317,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\"\"\"");
+                    expect(result).to.equal('""""""');
                 });
             });
         });
@@ -324,7 +336,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Params Exist!\"\"\"");
+                    expect(result).to.equal('"""Params Exist!"""');
                 });
             });
 
@@ -339,7 +351,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Params Exist!\"\"\"");
+                    expect(result).to.equal('"""Params Exist!"""');
                 });
             });
 
@@ -351,7 +363,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\"\"\"");
+                    expect(result).to.equal('""""""');
                 });
             });
         });
@@ -370,7 +382,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Exceptions Exist!\"\"\"");
+                    expect(result).to.equal('"""Exceptions Exist!"""');
                 });
             });
 
@@ -382,7 +394,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\"\"\"");
+                    expect(result).to.equal('""""""');
                 });
             });
         });
@@ -398,7 +410,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"Returns Exist!\"\"\"");
+                    expect(result).to.equal('"""Returns Exist!"""');
                 });
             });
 
@@ -410,7 +422,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal("\"\"\"\"\"\"");
+                    expect(result).to.equal('""""""');
                 });
             });
         });
@@ -424,7 +436,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents, "  ");
 
-                expect(result).to.equal("  \"\"\"line1\n  line2\n  line3\"\"\"");
+                expect(result).to.equal('  """line1\n  line2\n  line3"""');
             });
 
             it("should not prepend the indentation to blank lines", () => {
@@ -435,7 +447,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents, "  ");
 
-                expect(result).to.equal("  \"\"\"line1\n\n  line2\"\"\"");
+                expect(result).to.equal('  """line1\n\n  line2"""');
             });
         });
     });
@@ -446,9 +458,12 @@ const defaultDocstringComponents: DocstringParts = {
     decorators: [],
     args: [],
     kwargs: [],
+    exceptions: [],
     returns: { type: "" },
     yields: { type: "" },
-    exceptions: [],
+    classes: [],
+    methods: [],
+    attributes: []
 };
 
 const noTypesTemplate = `{{#args}}{{var}} {{type}}{{/args}}

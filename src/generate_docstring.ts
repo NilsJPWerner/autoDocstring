@@ -2,34 +2,40 @@ import * as path from "path";
 import * as vs from "vscode";
 import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
-import { getDocstringIndentation, parse } from "./parse";
+import { getDocstringIndentation, getDefaultIndentation, parse } from "./parse";
+import { extensionID } from "./constants";
+import { logInfo } from "./logger";
 
 export class AutoDocstring {
-
     private editor: vs.TextEditor;
-    private logger: vs.OutputChannel;
 
-    constructor(editor: vs.TextEditor, logger: vs.OutputChannel) {
+    constructor(editor: vs.TextEditor) {
         this.editor = editor;
-        this.logger = logger;
     }
 
     public generateDocstring(): Thenable<boolean> {
+        if (this.editor == undefined) {
+            throw new Error(
+                "Cannot process this document. It is either too large or is not yet supported.",
+            );
+        }
+
         const position = this.editor.selection.active;
-        this.log(`Generating Docstring at line: ${position.line}`);
         const document = this.editor.document.getText();
+        logInfo(`Generating Docstring at line: ${position.line}`);
 
         const docstringSnippet = this.generateDocstringSnippet(document, position);
+        logInfo(`Docstring generated:\n${docstringSnippet.value}`);
+
         const insertPosition = position.with(undefined, 0);
-        this.log(`Docstring generated:\n${docstringSnippet.value}`);
-        this.log(`Inserting at position: ${insertPosition.line} ${insertPosition.character}`);
+        logInfo(`Inserting at position: ${insertPosition.line} ${insertPosition.character}`);
 
         const success = this.editor.insertSnippet(docstringSnippet, insertPosition);
+
         success.then(
-            () => this.log("Successfully inserted docstring"),
+            () => logInfo("Successfully inserted docstring"),
             (reason) => {
-                this.log("Error: " + reason);
-                vs.window.showErrorMessage("AutoDocstring could not insert docstring:", reason);
+                throw new Error("Could not insert docstring: " + reason.toString());
             },
         );
 
@@ -49,7 +55,11 @@ export class AutoDocstring {
         );
 
         const docstringParts = parse(document, position.line);
-        const indentation = getDocstringIndentation(document, position.line);
+        const defaultIndentation = getDefaultIndentation(
+            this.editor.options.insertSpaces as boolean,
+            this.editor.options.tabSize as number,
+        );
+        const indentation = getDocstringIndentation(document, position.line, defaultIndentation);
         const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 
         return new vs.SnippetString(docstring);
@@ -68,21 +78,10 @@ export class AutoDocstring {
             customTemplatePath = path.join(vs.workspace.rootPath, customTemplatePath);
         }
 
-        try {
-            return getCustomTemplate(customTemplatePath);
-        } catch (err) {
-            const errorMessage = "AutoDocstring Error: Template could not be found: " + customTemplatePath;
-            this.log(errorMessage);
-            vs.window.showErrorMessage(errorMessage);
-        }
+        return getCustomTemplate(customTemplatePath);
     }
 
     private getConfig(): vs.WorkspaceConfiguration {
-        return vs.workspace.getConfiguration("autoDocstring");
-    }
-
-    private log(line: string) {
-        const time = new Date();
-        this.logger.appendLine(`${time.toISOString()}: ${line}`);
+        return vs.workspace.getConfiguration(extensionID);
     }
 }

@@ -1,19 +1,30 @@
 import { blankLine, getIndentation } from "./utilities";
 
-export function getDocstringIndentation(document: string, linePosition: number): string {
+export function getDocstringIndentation(
+    document: string,
+    linePosition: number,
+    defaultIndentation: string,
+): string {
+
+    if (linePosition === 0) {
+        return ""
+    }
     const lines = document.split("\n");
+    const definitionPattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
 
     let currentLineNum = linePosition;
 
-    while (currentLineNum < lines.length) {
-        const line = lines[currentLineNum];
+    while (currentLineNum >= 0) {
+        const currentLine = lines[currentLineNum];
 
-        if (!blankLine(line)) {
-            return getIndentation(line);
+        if (!blankLine(currentLine)) {
+            if (definitionPattern.test(currentLine)) {
+                return getIndentation(currentLine) + defaultIndentation;
+            }
         }
 
-        currentLineNum++;
+        currentLineNum--;
     }
 
-    return "";
+    return defaultIndentation;
 }

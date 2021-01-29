@@ -30,6 +30,12 @@ describe("validDocstringPrefix()", () => {
 
         expect(result).to.equal(true);
     });
+
+    it("should work with carriage returns", () => {
+        const result = validDocstringPrefix(validDocstringCarriageReturnStart, 4, 6, '"""');
+
+        expect(result).to.equal(true);
+    });
 });
 
 const charsBeforeQuotes = `
@@ -73,6 +79,20 @@ def function(param1):
 
 def something_else():
 `;
+
+const validDocstringCarriageReturnStart = `
+    return 3
+
+def function(param1):
+    """
+    try:
+        something()
+    except Error:
+        raise SomethingWentWrong
+    return 3
+
+def something_else():
+`.replace("\n", "\r\n");
 
 const validSingleQuoteDocstringStart = `
     return 3

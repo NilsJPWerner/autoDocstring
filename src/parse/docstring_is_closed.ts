@@ -1,7 +1,11 @@
 import { blankLine, indentationOf } from "./utilities";
 
-export function docstringIsClosed(document: string, linePosition: number,
-                                  charPosition: number, quoteStyle: string): boolean {
+export function docstringIsClosed(
+    document: string,
+    linePosition: number,
+    charPosition: number,
+    quoteStyle: string,
+): boolean {
     const lines = document.split("\n");
 
     if (quotesCloseExistingDocstring(lines, linePosition, charPosition, quoteStyle)) {
@@ -15,8 +19,12 @@ export function docstringIsClosed(document: string, linePosition: number,
     return false;
 }
 
-function quotesCloseExistingDocstring(lines: string[], linePosition: number,
-                                      charPosition: number, quoteStyle: string): boolean {
+function quotesCloseExistingDocstring(
+    lines: string[],
+    linePosition: number,
+    charPosition: number,
+    quoteStyle: string,
+): boolean {
     const linesBeforePosition = sliceUpToPosition(lines, linePosition, charPosition);
     let numberOfTripleQuotes = 0;
 
@@ -28,11 +36,15 @@ function quotesCloseExistingDocstring(lines: string[], linePosition: number,
         numberOfTripleQuotes += occurrences(line, quoteStyle);
     }
 
-    return (numberOfTripleQuotes % 2 === 0);
+    return numberOfTripleQuotes % 2 === 0;
 }
 
-function quotesOpenExistingDocstring(lines: string[], linePosition: number,
-                                     charPosition: number, quoteStyle: string): boolean {
+function quotesOpenExistingDocstring(
+    lines: string[],
+    linePosition: number,
+    charPosition: number,
+    quoteStyle: string,
+): boolean {
     const linesAfterPosition = sliceFromPosition(lines, linePosition, charPosition);
     const originalIndentation = indentationOf(lines[linePosition]);
 
@@ -46,8 +58,11 @@ function quotesOpenExistingDocstring(lines: string[], linePosition: number,
             return true;
         }
 
-        if ((!blankLine(line) && indentationOf(line) < originalIndentation) ||
-           (line.includes("def ") || line.includes("class "))) {
+        if (
+            (!blankLine(line) && indentationOf(line) < originalIndentation) ||
+            line.includes("def ") ||
+            line.includes("class ")
+        ) {
             return false;
         }
     }

@@ -7,58 +7,109 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 describe("getBody()", () => {
-    it("should return the body of a function", () => {
-        const result = getBody(basicFunction, 4);
+    context("when encoutering a function", () => {
+        it("should return the body of a function", () => {
+            const result = getBody("method", basicFunction, 4);
 
-        expect(result).to.have.deep.members([
-            "print(\"HELLO WORLD\")",
-            "try:",
-            "something()",
-            "except Error:",
-            "raise SomethingWentWrong",
-            "return 3",
-        ]);
+            expect(result).to.have.deep.members([
+                'print("HELLO WORLD")',
+                "try:",
+                "something()",
+                "except Error:",
+                "raise SomethingWentWrong",
+                "return 3",
+            ]);
+        });
+
+        it("should skip blank lines", () => {
+            const result = getBody("method", gapFunction, 5);
+
+            expect(result).to.have.deep.members(["print('HELLO WORLD')", "print('HELLO AGAIN')"]);
+        });
+
+        it("should skip comment lines", () => {
+            const result = getBody("method", commentFunction, 5);
+
+            expect(result).to.have.deep.members(["print('HELLO AGAIN')"]);
+        });
+
+        it("should handle multi line definitions", () => {
+            const result = getBody("method", multiLineDefFunction, 4);
+
+            expect(result).to.have.deep.members(["pass"]);
+        });
+
+        it("should handle indented functions", () => {
+            const result = getBody("method", indentedFunctions, 3);
+
+            expect(result).to.have.deep.members(["return 2"]);
+
+            const result2 = getBody("method", indentedFunctions, 6);
+
+            expect(result2).to.have.deep.members(["pass"]);
+        });
+
+        it("should return an empty array if a function has no body", () => {
+            const result = getBody("method", noBody, 2);
+
+            expect(result).to.have.deep.members([]);
+
+            const result2 = getBody("method", noBody, 4);
+
+            expect(result2).to.have.deep.members([]);
+        });
     });
+    context("when encoutering a class", () => {
+        it("should return the body of a function", () => {
+            const result = getBody("method", basicFunction, 4);
 
-    it("should skip blank lines", () => {
-        const result = getBody(gapFunction, 5);
+            expect(result).to.have.deep.members([
+                'print("HELLO WORLD")',
+                "try:",
+                "something()",
+                "except Error:",
+                "raise SomethingWentWrong",
+                "return 3",
+            ]);
+        });
 
-        expect(result).to.have.deep.members([
-            "print('HELLO WORLD')",
-            "print('HELLO AGAIN')",
-        ]);
-    });
+        it("should skip blank lines", () => {
+            const result = getBody("method", gapFunction, 5);
 
-    it("should handle multi line definitions", () => {
-        const result = getBody(multiLineDefFunction, 4);
+            expect(result).to.have.deep.members(["print('HELLO WORLD')", "print('HELLO AGAIN')"]);
+        });
 
-        expect(result).to.have.deep.members([
-            "pass",
-        ]);
-    });
+        it("should skip comment lines", () => {
+            const result = getBody("method", commentFunction, 5);
 
-    it("should handle indented functions", () => {
-        const result = getBody(indentedFunctions, 3);
+            expect(result).to.have.deep.members(["print('HELLO AGAIN')"]);
+        });
 
-        expect(result).to.have.deep.members([
-            "return 2",
-        ]);
+        it("should handle multi line definitions", () => {
+            const result = getBody("method", multiLineDefFunction, 4);
 
-        const result2 = getBody(indentedFunctions, 6);
+            expect(result).to.have.deep.members(["pass"]);
+        });
 
-        expect(result2).to.have.deep.members([
-            "pass",
-        ]);
-    });
+        it("should handle indented functions", () => {
+            const result = getBody("method", indentedFunctions, 3);
 
-    it("should return an empty array if a function has no body", () => {
-        const result = getBody(noBody, 2);
+            expect(result).to.have.deep.members(["return 2"]);
 
-        expect(result).to.have.deep.members([]);
+            const result2 = getBody("method", indentedFunctions, 6);
 
-        const result2 = getBody(noBody, 4);
+            expect(result2).to.have.deep.members(["pass"]);
+        });
 
-        expect(result2).to.have.deep.members([]);
+        it("should return an empty array if a function has no body", () => {
+            const result = getBody("method", noBody, 2);
+
+            expect(result).to.have.deep.members([]);
+
+            const result2 = getBody("method", noBody, 4);
+
+            expect(result2).to.have.deep.members([]);
+        });
     });
 });
 
@@ -90,6 +141,16 @@ def gap_function():
 Something Else
 `;
 
+const commentFunction = `
+Something Else
+
+def gap_function():
+    # print('HELLO WORLD')
+    print('HELLO AGAIN')
+
+Something Else
+`;
+
 const multiLineDefFunction = `
 def multi_line_func(arg,
                 arg2,
@@ -116,7 +177,31 @@ def next_func():
 
 const noBody = `
 def no_body():
-
+    
 def next_no_body():
 
 `;
+
+const basicClass = `
+Something Else
+
+class BasicClass(object):
+
+    def __init__(self, param1):
+        self.param1 = param1
+
+    def hello(self):
+        print("Hello world")
+
+class AnotherBasicClass(object):
+
+    def __init__(
+            self, param2
+        ):
+        self.param2 = param2
+
+    def hello(self):
+        print("Goodbye world")
+`;
+
+const docstringType = 'method';

@@ -1,15 +1,69 @@
 import { guessType } from ".";
-import { Argument, Decorator, DocstringParts, Exception, KeywordArgument, Returns, Yields } from "../docstring_parts";
+import { indentationOf } from "./utilities";
+import { getFunctionName } from "./get_function_name";
+import { getClassName } from "./get_class_name";
+import { 
+    Argument,
+    Decorator,
+    DocstringParts,
+    Exception,
+    KeywordArgument,
+    Returns,
+    Yields,
+    Class,
+    Method,
+    Attribute
+} from "../docstring_parts";
 
-export function parseParameters(parameterTokens: string[], body: string[], functionName: string): DocstringParts {
-    return {
-        name: functionName,
-        decorators: parseDecorators(parameterTokens),
-        args: parseArguments(parameterTokens),
-        kwargs: parseKeywordArguments(parameterTokens),
-        returns: parseReturn(parameterTokens, body),
-        yields: parseYields(parameterTokens, body),
-        exceptions: parseExceptions(body),
+export function parseParameters(
+    docstringType: string,
+    parameterTokens: string[],
+    body: string[],
+    functionName: string): DocstringParts {
+
+    if (docstringType === "module") {
+        return {
+            name: functionName,
+            decorators: [],
+            args: [],
+            kwargs: [],
+            returns: undefined,
+            yields: undefined,
+            exceptions: [],
+            classes: parseClasses(body),
+            methods: parseMethods(body),
+            attributes: []
+        };
+    }
+    else if (docstringType === "method") {
+        return {
+            name: functionName,
+            decorators: parseDecorators(parameterTokens),
+            args: parseArguments(parameterTokens),
+            kwargs: parseKeywordArguments(parameterTokens),
+            returns: parseReturn(parameterTokens, body),
+            yields: parseYields(parameterTokens, body),
+            exceptions: parseExceptions(body),
+            classes: [],
+            methods: [],
+            attributes: []
+        };
+    }
+    else if (docstringType === "class") {
+        let args = parseArguments(parameterTokens);
+        let kwargs = parseKeywordArguments(parameterTokens);
+        return {
+            name: functionName,
+            decorators: parseDecorators(parameterTokens),
+            args: args,
+            kwargs: kwargs,
+            returns: undefined,
+            yields: undefined,
+            exceptions: [],
+            classes: [],
+            methods: [],
+            attributes: parseAttributes(body, args, kwargs)
+        };
     };
 }
 
@@ -121,7 +175,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
 
 function parseExceptions(body: string[]): Exception[] {
     const exceptions: Exception[] = [];
-    const pattern = /raise\s+([\w.]+)/;
+    const pattern = /(?<!#.*)raise\s+([\w.]+)/;
 
     for (const line of body) {
         const match = line.match(pattern);
@@ -134,6 +188,71 @@ function parseExceptions(body: string[]): Exception[] {
     }
 
     return exceptions;
+}
+
+function parseClasses(body: string[]): Class[] {
+    const classes: Class[] = []
+    const pattern = /(?:class)\s+(\w+)\s*\(*/;
+
+    for (const line of body) {
+
+        if (indentationOf(line) === 0) {
+            const match = line.match(pattern);
+
+            if (match != null) {
+                let className = getFunctionName(line);
+                classes.push({
+                    name: className,
+                });
+            }
+        }
+    }
+    return classes;
+}
+
+function parseMethods(body: string[]): Method[] {
+    const methods: Class[] = []
+    const pattern = /(def)\s+(\w+)\s*\(/;
+
+    for (const line of body) {
+
+        if (indentationOf(line) === 0) {
+            const match = line.match(pattern);
+
+            if (match == null) {
+                continue
+            }
+            let methodName = getFunctionName(line);
+            methods.push({
+                name: methodName,
+            });
+        }
+    }
+    return methods;
+}
+
+function parseAttributes(body: string[], args: Argument[], kwargs: KeywordArgument[]): Attribute[] {
+    const attributes: Attribute[] = [];
+    const pattern = /(?:self\.|cls\.)(\w+)(?:\s*:[^=]+)?\s*=\s*(.+)/;
+    //const pattern = /(?:self).(\w+)?\s*/
+
+    for (const line of body) {
+        const match = line.trim().match(pattern);
+
+        if (match == null) {
+            continue;
+        }
+        let var_ = match[1];
+        let type_ = guessType(match[1]);
+        if (!containsAttribute(attributes, var_) && !containsAttribute(args, var_) && !containsAttribute(kwargs, var_)) {
+            attributes.push({
+                var: var_,
+                type: type_
+            });
+        }
+    }
+
+    return attributes;
 }
 
 export function inArray<type>(item: type, array: type[]) {
@@ -160,4 +279,13 @@ function parseFromBody(body: string[], pattern: RegExp): Returns | Yields {
  */
 function isIterator(type: string): boolean {
     return type.startsWith("Generator") || type.startsWith("Iterator");
+}
+
+function containsAttribute(attributes: Attribute[], name: string): boolean {
+    for (const attribute of attributes) {
+        if (attribute.var === name) {
+            return true;
+        }
+    }
+    return false;
 }

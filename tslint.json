@@ -8,14 +8,17 @@
         "interface-name": false,
         "object-literal-sort-keys": false,
         "triple-equals": false,
-        "no-console": false
+        "no-console": false,
+        "space-before-function-paren": false
     },
     "rules": {
         "semicolon": true,
         "interface-name": false,
         "object-literal-sort-keys": false,
         "triple-equals": false,
-        "no-console": false
+        "no-console": false,
+        "space-before-function-paren": false,
+        "ordered-imports": false
     },
     "rulesDirectory": []
 }
