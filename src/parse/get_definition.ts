@@ -15,20 +15,12 @@ export function getDefinition(document: string, linePosition: number): string {
         return "";
     }
 
-    const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
-
-    // Get starting index of last def match in the preceding text
-    let index: number;
-    while (pattern.test(precedingText)) {
-        index = pattern.lastIndex - RegExp.lastMatch.length;
-    }
-
+    const index = getIndex(precedingText)
     if (index == undefined) {
         return "";
     }
 
     let lastFunctionDef = precedingText.slice(index).trim();
-
     if (lastFunctionDef.startsWith('class')) {
         lastFunctionDef = getClassDefinition(document, lastFunctionDef, linePosition)
     }
@@ -49,39 +41,39 @@ function getClassDefinition(document: string, lastFunctionDef: string, linePosit
 
     while (linePosition < lines.length) {
         const line = lines[linePosition];
-        const initMatch = initPattern.exec(line)
+        
 
-        if (initMatch != undefined && initMatch[0] != undefined) {
-            definition += initMatch[0];
-            const newIndentation = indentationOf(lines[linePosition]);
-            let defCloseMatch = defClosePattern.exec(line);
+        if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
+            return definition;
+        }
+        else {
+
+            const initMatch = initPattern.exec(line)
+            if (initMatch != undefined && initMatch[0] != undefined) {
+                definition += initMatch[0];
+            }
+            
+            const defCloseMatch = defClosePattern.exec(line);
             if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
                 return definition;
             }
-            linePosition += 1;
-
-            while (linePosition < lines.length) {
-                const line = lines[linePosition];
-                definition += line.trim();
-                defCloseMatch = defClosePattern.exec(line);
-                if (indentationOf(line) < newIndentation || blankLine(line)) {
-                    return definition;
-                }
-                else if (defCloseMatch != undefined && defCloseMatch[0] != undefined) {
-                    return definition;
-                }
-
-                linePosition += 1;
-            }
-            
-        }
-        else if (indentationOf(line) <= originalIndentation && !blankLine(line)) {
-            return definition;
         }
         linePosition += 1;
     }
 
     return definition
+}
+
+function getIndex(precedingText: string): number {
+    const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
+
+    // Get starting index of last def match in the preceding text
+    let index: number;
+    while (pattern.test(precedingText)) {
+        index = pattern.lastIndex - RegExp.lastMatch.length;
+    }
+
+    return index
 }
 
 function getPrecedingLines(document: string, linePosition: number): string[] {
