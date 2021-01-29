@@ -1,7 +1,6 @@
 import { guessType } from ".";
 import { indentationOf } from "./utilities";
 import { getFunctionName } from "./get_function_name";
-import { getClassName } from "./get_class_name";
 import { 
     Argument,
     Decorator,
@@ -10,7 +9,6 @@ import {
     KeywordArgument,
     Returns,
     Yields,
-    Class,
     Method,
     Attribute
 } from "../docstring_parts";
@@ -64,8 +62,8 @@ function parseModule(
             returns: undefined,
             yields: undefined,
             exceptions: [],
-            classes: parseClasses(body),
-            methods: parseMethods(body),
+            classes: parseMethods(body, /(?:class)\s/),
+            methods: parseMethods(body, /(def)\s+(\w+)\s*\(/),
             attributes: []
         };
 }
@@ -210,25 +208,10 @@ function parseExceptions(body: string[]): Exception[] {
     return exceptions;
 }
 
-function parseClasses(body: string[]): Class[] {
-    const classes: Class[] = []
-    const pattern = /(?:class)\s+(\w+)\s*\(*/;
-
-    for (const line of body) {
-
-        const match = line.match(pattern);
-        if (indentationOf(line) === 0 && match != null) {
-            classes.push({
-                name: getFunctionName(line),
-            });
-        }
-    }
-    return classes;
-}
-
-function parseMethods(body: string[]): Method[] {
+function parseMethods(body: string[], pattern: RegExp): Method[] {
     const methods: Method[] = []
-    const pattern = /(def)\s+(\w+)\s*\(/;
+    // const pattern = /(def)\s+(\w+)\s*\(/;
+    // const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
 
     for (const line of body) {
 

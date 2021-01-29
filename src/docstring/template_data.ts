@@ -6,7 +6,6 @@ import {
     KeywordArgument,
     Returns,
     Yields,
-    Class,
     Method,
     Attribute
 } from "../docstring_parts";
@@ -20,7 +19,7 @@ export class TemplateData {
     public exceptions: Exception[];
     public returns: Returns;
     public yields: Yields;
-    public classes: Class[];
+    public classes: Method[];
     public methods: Method[];
     public attributes: Attribute[];
 
