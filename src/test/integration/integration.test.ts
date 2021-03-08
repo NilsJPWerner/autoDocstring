@@ -167,6 +167,28 @@ describe("Basic Integration Tests", function () {
             });
         });
 
+        it("generates class docstring by parsing __init__ in file 7", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_7_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_7.py"),
+                position: new vsc.Position(1, 0),
+            });
+        });
+
+        it("generates module docstring by parsing document and listting classes and methods in file 8", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_8_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_8.py"),
+                position: new vsc.Position(0, 0),
+            });
+        });
+
         it("generates a docstring for the starlark function", async function () {
             await testDocstringGeneration({
                 expectedOutputFilePath: path.resolve(

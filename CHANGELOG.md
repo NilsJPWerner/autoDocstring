@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.5.5] - 2021-01-17
+
+-   Added class and module docstrings (@tracetidwell)
+
 ## [0.5.4] - 2020-11-17
 
 -   Added Starlark support #139 (@UebelAndre)

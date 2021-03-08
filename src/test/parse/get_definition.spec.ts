@@ -26,7 +26,7 @@ describe("getDefinition()", () => {
             expect(result).to.equal("def multi_line_function( param1, param2 = 1):");
         });
 
-        it("should get ignore commented lines in a multiline function definition", () => {
+        it("should ignore commented lines in a multiline function definition", () => {
             const result = getDefinition(multiLineCommentedLineFunction, 9);
 
             expect(result).to.equal(
@@ -60,10 +60,15 @@ describe("getDefinition()", () => {
     });
 
     context("when encountering a class", () => {
-        it("should get the class definition", () => {
+        it("should get the class definition from init", () => {
             const result = getDefinition(basicClass, 4);
 
-            expect(result).to.equal("class BasicClass(object):");
+            expect(result).to.equal("class BasicClass(self, param1):");
+        });
+        it("should get the class definition from multiline init", () => {
+            const result = getDefinition(basicClass, 12);
+
+            expect(result).to.equal("class AnotherBasicClass(self, param2):");
         });
     });
 });
@@ -95,8 +100,8 @@ Something Else
 const multiLineFunction = `
 Something Else
 
-def multi_line_function(
-        param1,
+def multi_line_function( 
+        param1, 
         param2 = 1):
 
     print("HELLO WORLD")
@@ -158,4 +163,14 @@ class BasicClass(object):
 
     def hello(self):
         print("Hello world")
+
+class AnotherBasicClass(object):
+
+    def __init__(
+            self, param2
+        ):
+        self.param2 = param2
+
+    def hello(self):
+        print("Goodbye world")
 `;

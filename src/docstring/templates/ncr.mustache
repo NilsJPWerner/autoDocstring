@@ -1,0 +1,75 @@
+{{! NCR Docstring Template }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+{{#classesExist}}
+Classes
+-------
+{{#classes}}
+{{name}}
+{{/classes}}
+{{/classesExist}}
+
+{{#methodsExist}}
+Methods
+-------
+{{#methods}}
+{{name}}
+{{/methods}}
+{{/methodsExist}}
+
+{{#parametersExist}}
+Parameters
+----------
+{{#args}}
+{{var}} : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/args}}
+{{#kwargs}}
+{{var}} : {{typePlaceholder}}, optional
+    {{descriptionPlaceholder}}, by default {{&default}}
+
+{{/kwargs}}
+{{/parametersExist}}
+
+{{#attributesExist}}
+Attributes
+----------
+{{#attributes}}
+{{var}} : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/attributes}}
+{{/attributesExist}}
+
+{{#returnsExist}}
+Returns
+-------
+{{#returns}}
+return_val : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/returns}}
+{{/returnsExist}}
+
+{{#yieldsExist}}
+Yields
+-------
+{{#yields}}
+yield_val : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/yields}}
+{{/yieldsExist}}
+
+{{#exceptionsExist}}
+Raises
+------
+{{#exceptions}}
+{{type}}
+    {{descriptionPlaceholder}}
+    
+{{/exceptions}}
+{{/exceptionsExist}}

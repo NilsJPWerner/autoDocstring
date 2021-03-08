@@ -25,7 +25,7 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 ## Usage
 
-Cursor must be on the line directly below the definition to generate full auto-populated docstring
+Cursor must be on the line directly below the class or method definition or on the first line of the file to generate full auto-populated docstring
 
 -   Press enter after opening docstring with triple quotes (`"""` or `'''`)
 -   Keyboard shortcut: `ctrl+shift+2` or `cmd+shift+2` for mac
@@ -110,6 +110,15 @@ This extension now supports custom templates. The extension uses the [mustache.j
 
 {{#returnsExist}}       - display contents if returns exist
 {{/returnsExist}}
+
+{{#classesExist}}       - display contents if classes exist
+{{/classesExist}}
+
+{{#methodsExist}}       - display contents if methods exist
+{{/methodsExist}}
+
+{{#attributesExist}}    - display contents if attributes exist
+{{/attributesExist}}
 
 {{#placeholder}}        - makes contents a placeholder
 {{/placeholder}}

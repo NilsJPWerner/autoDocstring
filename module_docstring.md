@@ -1,0 +1,33 @@
+# Changes made to autoDocstring to incorporate module level docstrings
+- src/parse/get_body.ts
+    - getBody(): if docstring is being added at first line of document, return entire document as body
+- src/docstring_parts.ts
+    - DocstringParts: added Class[] and Method[] attributes
+    - Class: Created Class interface
+    - Method: Created Method interface
+- src/parse/parse_parameters.ts
+    - parseParameters(): added positionLine argument, if positionLine == 0 return only top-level classes and methods, otherwise return normal DocstringParts
+    - parseClasses(): returns list of top-level classes
+    - parseMethods(): returns list of top-level methods
+- src/docstring/template_data.ts
+    - TemplateData: added classes and methods attributes, updated constructor to take list of classes and list of methods
+        - classesExist(): added method to check if classes exist, needed to parse template
+        - methodsExist(): added method to check if methods exist, needed to parse template
+- src/docstring/templates/ncr.mustache
+    - Created template file that incorporates classes and methods
+- package.json
+    - contributes.configuration.properties.autoDocstring.docstringFormat.enum
+        - Added "ncr" template (this should probably be removed)
+    - contributes.commands[0].title
+        - Changed to "Generate Docstring2" just to avoid any confusion, will change back when ready for PR
+
+# To run the code
+- Open the autoDocstring folder in VS Code
+- Open the command palette (Ctrl+Shift+P) and type `settings.json` to open the settings configuration file
+- Add the line `"autoDocstring.customTemplatePath": "/home/shared/Projects/autoDocstring/src/docstring/templates/ncr.mustache"` and make sure the path to the ncr.mustache template is correct for your computer.
+- Save and close settings.json.
+- Press F5
+- Click "Debug Anyway"
+- When the new screen opens, open a folder to any project you want to add a module level docstring to
+- On line 1, click Ctrl+Shift+P or input """ and press enter.
+- The docstring should populate and list all top-level classes and methods in the file.

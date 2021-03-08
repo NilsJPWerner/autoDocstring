@@ -1,12 +1,30 @@
 import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
-export function getBody(document: string, linePosition: number): string[] {
+export function getBody(docstringType: string, document: string, linePosition: number): string[] {
     const lines = document.split("\n");
-    const body = [];
+    let regex = '\s*def \w+'
+
+    if (docstringType === 'module') {
+        return lines;
+    }
+    else if (docstringType === 'class') {
+        regex = '.';
+    }
 
     let currentLineNum = linePosition;
-    const originalIndentation = getBodyBaseIndentation(lines, linePosition);
+    const originalIndentation = getBodyBaseIndentation(lines, linePosition, regex);
 
+    if (originalIndentation === 0) {
+        return [];
+    }
+
+    return populateBody(currentLineNum, lines, originalIndentation);
+
+}
+
+function populateBody(currentLineNum: number, lines: string[], originalIndentation: number) {
+
+    const body = [];
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
 
@@ -26,9 +44,10 @@ export function getBody(document: string, linePosition: number): string[] {
     return preprocessLines(body);
 }
 
-function getBodyBaseIndentation(lines: string[], linePosition: number): number {
+function getBodyBaseIndentation(lines: string[], linePosition: number, regex: string): number {
     let currentLineNum = linePosition;
-    const functionDefRegex = /\s*def \w+/;
+    //const functionDefRegex = /\s*def \w+/;
+    const functionDefRegex = RegExp(regex)
 
     while (currentLineNum < lines.length) {
         const line = lines[currentLineNum];
