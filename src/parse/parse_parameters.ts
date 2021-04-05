@@ -133,9 +133,22 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
 
 function parseExceptions(body: string[]): Exception[] {
     const exceptions: Exception[] = [];
-    const pattern = /(?<!#.*)raise\s+([\w.]+)/;
 
+    // Add "assert" exceptions
     for (const line of body) {
+        const pattern = /(?<!#.*)assert\s+/;
+        const match = line.match(pattern);
+
+        if (match == null) {
+            continue;
+        }
+
+        exceptions.push({ type: "AssertionError" });
+    }
+
+    // Add "raise" exceptions
+    for (const line of body) {
+        const pattern = /(?<!#.*)raise\s+([\w.]+)/;
         const match = line.match(pattern);
 
         if (match == null) {
