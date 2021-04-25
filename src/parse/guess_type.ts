@@ -13,10 +13,10 @@ export function guessType(parameter: string): string {
 }
 
 function getTypeFromTyping(parameter: string): string {
-    const pattern = /\w+\s*:\s*(['"]?\w[\w\[\], \.]*['"]?)/;
+    const pattern = /\w+\s*:\s*(['"]?.*['"]?)\s*(=.*)?/;
     const typeHint = pattern.exec(parameter);
 
-    if (typeHint == null || typeHint.length !== 2) {
+    if (typeHint == null || typeHint.length < 2) {
         return undefined;
     }
 
