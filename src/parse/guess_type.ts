@@ -19,7 +19,7 @@ function getTypeFromTypeHint(parameter: string): string {
     }
     const typeHint = sections[1];
 
-    const pattern = /\s*(['"]?\w["'\w\[\], |\.]*['"]?)/;
+    const pattern = /\s*(['"]?[^=]+['"]?)\s*(=.*)?/;
     const typeHintRegex = pattern.exec(typeHint);
 
     if (typeHintRegex == null) {
@@ -27,7 +27,7 @@ function getTypeFromTypeHint(parameter: string): string {
     }
 
     // Remove enclosing quotes
-    let type = typeHintRegex[0].trim();
+    let type = typeHintRegex[1].trim();
     type = type.replace(/^['"]|['"]$/g, "");
 
     return type;
