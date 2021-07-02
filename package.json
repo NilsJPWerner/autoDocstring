@@ -76,7 +76,8 @@
                         "docblockr",
                         "google",
                         "sphinx",
-                        "numpy"
+                        "numpy",
+                        "oneline-rst"
                     ],
                     "description": "Which docstring format to use."
                 },

@@ -21,6 +21,7 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 -   docBlockr
 -   Numpy
 -   Sphinx
+-   oneline-rst
 -   PEP0257 (coming soon)
 
 ## Usage
