@@ -58,11 +58,11 @@ export class DocstringFactory {
     }
 
     private condenseNewLines(snippet: string): string {
-        return snippet.replace(/\n{3,}/gm, "\n\n");
+        return snippet.replace(/(?:\r?\n){3,}/gm, "\n\n");
     }
 
     private condenseTrailingNewLines(snippet: string): string {
-        return snippet.replace(/\n+$/g, "\n");
+        return snippet.replace(/(?:\r?\n)+$/g, "\n");
     }
 
     private commentText(snippet: string): string {
