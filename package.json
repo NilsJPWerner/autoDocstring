@@ -75,6 +75,7 @@
                     "enum": [
                         "docblockr",
                         "google",
+                        "google-notypes",
                         "sphinx",
                         "numpy"
                     ],
