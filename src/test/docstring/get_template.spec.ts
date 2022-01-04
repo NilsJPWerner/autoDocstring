@@ -15,6 +15,14 @@ describe("getTemplate()", () => {
         });
     });
 
+    context("when asked for google-notypes template", () => {
+        it("should return the string containing the google mustache template", () => {
+            const result = getTemplate("google-notypes");
+
+            expect(result).to.contain("Google Docstring Template without Types for Args, Returns or Yields");
+        });
+    });
+
     context("when asked for sphinx template", () => {
         it("should return the string containing the sphinx mustache template", () => {
             const result = getTemplate("sphinx");

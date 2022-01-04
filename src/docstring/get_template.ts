@@ -4,6 +4,8 @@ export function getTemplate(docstringFormat: string): string {
     switch (docstringFormat) {
         case "google":
             return getTemplateFile("google.mustache");
+        case "google-notypes":
+            return getTemplateFile("google-notypes.mustache");
         case "sphinx":
             return getTemplateFile("sphinx.mustache");
         case "numpy":
