@@ -27,7 +27,7 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 Cursor must be on the line directly below the definition to generate full auto-populated docstring
 
--   Press enter after opening docstring with triple quotes (`"""` or `'''`)
+-   Press enter after opening docstring with triple quotes (configurable `"""` or `'''`)
 -   Keyboard shortcut: `ctrl+shift+2` or `cmd+shift+2` for mac
     -   Can be changed in Preferences -> Keyboard Shortcuts -> extension.generateDocstring
 -   Command: `Generate Docstring`
