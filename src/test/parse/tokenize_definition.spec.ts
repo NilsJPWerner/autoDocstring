@@ -67,6 +67,13 @@ describe("tokenizeDefinition()", () => {
         expect(result).to.have.ordered.members(["arg:string", "arg2:Callable[[], str]", "-> str"]);
     });
 
+    it("should tokenize pep604 parameter and return types", () => {
+        const functionDefinition = "def func(arg: int | float, arg2: dict[str, str]) -> str:";
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members(["arg:int | float", "arg2:dict[str, str]", "-> str"]);
+    });
+
     it("should tokenize pep484 return types", () => {
         const functionDefinition = "def func() -> str:";
         const result = tokenizeDefinition(functionDefinition);
