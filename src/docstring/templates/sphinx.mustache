@@ -3,6 +3,22 @@
 
 {{extendedSummaryPlaceholder}}
 
+{{#classesExist}}
+Classes
+-------
+{{#classes}}
+{{name}}
+{{/classes}}
+{{/classesExist}}
+
+{{#methodsExist}}
+Methods
+-------
+{{#methods}}
+{{name}}
+{{/methods}}
+{{/methodsExist}}
+
 {{#args}}
 :param {{var}}: {{descriptionPlaceholder}}
 :type {{var}}: {{typePlaceholder}}

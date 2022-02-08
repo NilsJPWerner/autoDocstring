@@ -43,11 +43,18 @@ describe("getDocstringIndentation()", () => {
         expect(result).to.equal("\t\t");
     });
 
-    it("should default to default indentation if no indentation is found", () => {
-        const result = getDocstringIndentation("", 0, " ".repeat(4));
+    it("should default to default indentation if no indentation is found and line position is not 0", () => {
+        const result = getDocstringIndentation(" \n \n", 1, " ".repeat(4));
 
         expect(result).to.equal(" ".repeat(4));
     });
+
+    it("should default to no space if no indentation is found and line position is 0", () => {
+        const result = getDocstringIndentation("", 0, " ".repeat(4));
+
+        expect(result).to.equal("");
+    });
+
 });
 
 const fourSpaceIndentation = `

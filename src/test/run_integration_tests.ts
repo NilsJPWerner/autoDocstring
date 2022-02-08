@@ -1,3 +1,4 @@
+
 import * as path from "path";
 import { runTests } from "vscode-test";
 
@@ -17,6 +18,7 @@ async function main() {
             launchArgs: ["--disable-extensions"],
         });
     } catch (err) {
+        console.error(err)
         console.error("Failed to run tests");
         process.exit(1);
     }

@@ -71,13 +71,14 @@
             "properties": {
                 "autoDocstring.docstringFormat": {
                     "type": "string",
-                    "default": "google",
+                    "default": "ncr",
                     "enum": [
                         "docblockr",
                         "google",
                         "google-notypes",
                         "sphinx",
-                        "numpy"
+                        "numpy",
+                        "ncr"
                     ],
                     "description": "Which docstring format to use."
                 },
@@ -146,6 +147,7 @@
     },
     "devDependencies": {
         "@types/chai": "^4.2.11",
+        "@types/glob": "^7.1.3",
         "@types/mocha": "^5.2.7",
         "@types/mustache": "^0.8.32",
         "@types/node": "^13.13.1",

@@ -5,6 +5,10 @@ export function getDocstringIndentation(
     linePosition: number,
     defaultIndentation: string,
 ): string {
+
+    if (linePosition === 0) {
+        return ""
+    }
     const lines = document.split("\n");
     const definitionPattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
 
