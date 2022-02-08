@@ -47,6 +47,13 @@ describe("guessType()", () => {
 
             expect(result2).to.equal("str");
         });
+
+        it("should get type from PEP 604 style type hint", () => {
+            const parameter = "arg: int | str";
+            const result = guessType(parameter);
+
+            expect(result).to.equal("int | str");
+        });
     });
 
     context("when the parameter is a kwarg", () => {

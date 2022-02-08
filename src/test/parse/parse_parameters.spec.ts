@@ -71,6 +71,15 @@ describe("parseParameters()", () => {
             });
         });
 
+        it("should parse PEP 604 type hint return types", () => {
+            const parameterTokens = ["-> int | float"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal({
+                type: "int | float",
+            });
+        });
+
         it("should parse return types wrapped in single quotes", () => {
             expect(
                 parseParameters(["-> 'List[Type]'"], [], "name").returns

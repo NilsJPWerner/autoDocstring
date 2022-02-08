@@ -167,6 +167,17 @@ describe("Basic Integration Tests", function () {
             });
         });
 
+        it("generates a docstring using PEP 604 style type hints in file 7", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_7_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_7.py"),
+                position: new vsc.Position(8, 0),
+            });
+        });
+
         it("generates a docstring for the starlark function", async function () {
             await testDocstringGeneration({
                 expectedOutputFilePath: path.resolve(
