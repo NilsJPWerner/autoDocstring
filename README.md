@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/NilsJPWerner/autoDocstring.svg?branch=master)](https://travis-ci.org/NilsJPWerner/autoDocstring)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
 [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
+[![Build Status](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test.yml/badge.svg)](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test.yml)
+[![Github Sponsorship](https://img.shields.io/badge/sponsor-5A5A5A?style=flat&logo=GitHub-Sponsors)](https://github.com/sponsors/NilsJPWerner)
 
 # VSCode Python Docstring Generator
 
