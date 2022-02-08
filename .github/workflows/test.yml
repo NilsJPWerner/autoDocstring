@@ -16,25 +16,19 @@ jobs:
                       node-version: 14
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
               with:
                   node-version: "${{ matrix.node-version }}"
                   cache: "npm"
             - run: npm install
             - run: npm run vscode:prepublish
-            - uses: actions/cache@v2
-              with:
-                  path: |-
-                      node_modules
-                      .vscode-test
-                  key: "${{ runner.os }}-${{ hashFiles('TODO') }}"
             - run: npm run unit_test
 
     integration_tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
               with:
                   node-version: "14"
                   cache: "npm"
