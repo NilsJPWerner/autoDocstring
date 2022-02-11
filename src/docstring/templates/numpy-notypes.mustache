@@ -1,0 +1,42 @@
+{{! Numpy Docstring Template without Types for Args, Returns or Yields }}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+{{#parametersExist}}
+
+Parameters
+----------
+{{#args}}
+{{var}}
+    {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+{{var}}, optional
+    {{descriptionPlaceholder}}, by default {{&default}}
+{{/kwargs}}
+{{/parametersExist}}
+{{#returnsExist}}
+
+Returns
+-------
+{{#returns}}
+    {{descriptionPlaceholder}}
+{{/returns}}
+{{/returnsExist}}
+{{#yieldsExist}}
+
+Yields
+------
+{{#yields}}
+    {{descriptionPlaceholder}}
+{{/yields}}
+{{/yieldsExist}}
+{{#exceptionsExist}}
+
+Raises
+------
+{{#exceptions}}
+{{type}}
+    {{descriptionPlaceholder}}
+{{/exceptions}}
+{{/exceptionsExist}}
