@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // Code borrowed from https://github.com/microsoft/vscode-python
 
-import { parse } from "stack-trace";
+import * as stackTrace from "stack-trace";
 import { basename as pathBasename, sep as pathSep } from "path";
 import { extensionRoot, debug } from "./constants";
 
@@ -10,7 +10,7 @@ export function getStackTrace(ex: Error): string {
     // We aren't showing the error message (ex.message) since it might
     // contain PII.
     let trace = "\t";
-    for (const frame of parse(ex)) {
+    for (const frame of stackTrace.parse(ex)) {
         let filename = frame.getFileName();
         if (filename) {
             if (!debug && !isExtensionFile(filename)) {
