@@ -2,8 +2,8 @@
 {{summaryPlaceholder}}
 
 {{extendedSummaryPlaceholder}}
-
 {{#parametersExist}}
+
 Args:
 {{#args}}
     {{var}}: {{descriptionPlaceholder}}
@@ -12,22 +12,22 @@ Args:
     {{var}}: {{descriptionPlaceholder}}. Defaults to {{&default}}.
 {{/kwargs}}
 {{/parametersExist}}
-
 {{#exceptionsExist}}
+
 Raises:
 {{#exceptions}}
     {{type}}: {{descriptionPlaceholder}}
 {{/exceptions}}
 {{/exceptionsExist}}
-
 {{#returnsExist}}
+
 Returns:
 {{#returns}}
     {{descriptionPlaceholder}}
 {{/returns}}
 {{/returnsExist}}
-
 {{#yieldsExist}}
+
 Yields:
 {{#yields}}
     {{descriptionPlaceholder}}

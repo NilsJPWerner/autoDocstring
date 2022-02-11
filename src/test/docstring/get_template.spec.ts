@@ -19,7 +19,9 @@ describe("getTemplate()", () => {
         it("should return the string containing the google mustache template", () => {
             const result = getTemplate("google-notypes");
 
-            expect(result).to.contain("Google Docstring Template without Types for Args, Returns or Yields");
+            expect(result).to.contain(
+                "Google Docstring Template without Types for Args, Returns or Yields",
+            );
         });
     });
 
@@ -31,11 +33,27 @@ describe("getTemplate()", () => {
         });
     });
 
+    context("when asked for sphinx template", () => {
+        it("should return the string containing the sphinx mustache template", () => {
+            const result = getTemplate("sphinx-notypes");
+
+            expect(result).to.contain("Sphinx Docstring Template without Types");
+        });
+    });
+
     context("when asked for numpy template", () => {
-        it("should return the string containing the numpy mustache template", () => {
+        it("should return the string containing the numpy-notypes mustache template", () => {
             const result = getTemplate("numpy");
 
             expect(result).to.contain("Numpy Docstring Template");
+        });
+    });
+
+    context("when asked for numpy template", () => {
+        it("should return the string containing the numpy-notypes mustache template", () => {
+            const result = getTemplate("numpy-notypes");
+
+            expect(result).to.contain("Numpy Docstring Template without Types");
         });
     });
 
@@ -48,12 +66,12 @@ describe("getTemplate()", () => {
     });
 
     context("when asked for anything else", () => {
-        it("should return the string containing the default mustache template", () => {
+        it("should return the string containing the docblockr mustache template", () => {
             const result = getTemplate("blah");
             const result2 = getTemplate("default");
 
-            expect(result).to.contain("Default Docstring Template");
-            expect(result2).to.contain("Default Docstring Template");
+            expect(result).to.contain("DocBlockr Docstring Template");
+            expect(result2).to.contain("DocBlockr Docstring Template");
         });
     });
 });

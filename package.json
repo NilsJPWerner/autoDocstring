@@ -74,11 +74,15 @@
                     "default": "google",
                     "enum": [
                         "docblockr",
+                        "pep257",
                         "google",
                         "google-notypes",
                         "sphinx",
+                        "sphinx-notypes",
                         "numpy",
-                        "oneline-rst"
+                        "numpy-notypes",
+                        "oneline-rst",
+                        "oneline-rst-notypes"
                     ],
                     "description": "Which docstring format to use."
                 },
