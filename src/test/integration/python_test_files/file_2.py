@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Union, List, Generator, Tuple, Dict
 
 
 def function(

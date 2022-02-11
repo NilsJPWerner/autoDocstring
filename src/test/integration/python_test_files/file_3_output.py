@@ -1,11 +1,11 @@
 
 def fun(arg1: int) -> str:  # comment
-    """[summary]
+    """_summary_
 
-    :param arg1: [description]
+    :param arg1: _description_
     :type arg1: int
-    :raises FileExistsError: [description]
-    :return: [description]
+    :raises FileExistsError: _description_
+    :return: _description_
     :rtype: str
     """
     if arg1 > 1:
