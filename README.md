@@ -56,7 +56,7 @@ This extension now supports custom templates. The extension uses the [mustache.j
 
 ```
 {{name}}                        - name of the function
-{{summaryPlaceholder}}          - [summary] placeholder
+{{summaryPlaceholder}}          - _summary_ placeholder
 {{extendedSummaryPlaceholder}}  - [extended_summary] placeholder
 ```
 
@@ -65,30 +65,30 @@ This extension now supports custom templates. The extension uses the [mustache.j
 ```
 {{#args}}                       - iterate over function arguments
     {{var}}                     - variable name
-    {{typePlaceholder}}         - [type] or guessed type  placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ or guessed type  placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/args}}
 
 {{#kwargs}}                     - iterate over function kwargs
     {{var}}                     - variable name
-    {{typePlaceholder}}         - [type] or guessed type placeholder
+    {{typePlaceholder}}         - _type_ or guessed type placeholder
     {{&default}}                - default value (& unescapes the variable)
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/kwargs}}
 
 {{#exceptions}}                 - iterate over exceptions
     {{type}}                    - exception type
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/exceptions}}
 
 {{#yields}}                     - iterate over yields
-    {{typePlaceholder}}         - [type] placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/yields}}
 
 {{#returns}}                    - iterate over returns
-    {{typePlaceholder}}         - [type] placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/returns}}
 ```
 

@@ -2,12 +2,12 @@ def func1(a):
 	pass
 
 def abc(a, b):
-	"""[summary]
+	"""_summary_
 
-	:param a: [description]
-	:type a: [type]
-	:param b: [description]
-	:type b: [type]
+	:param a: _description_
+	:type a: _type_
+	:param b: _description_
+	:type b: _type_
 	"""
 
 # force new line

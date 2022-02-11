@@ -53,7 +53,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item after triple single quotes", async function () {
@@ -68,7 +68,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item if using CRLF line endings", async function () {
@@ -82,7 +82,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
     });
 

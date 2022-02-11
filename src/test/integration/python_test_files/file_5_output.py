@@ -6,13 +6,13 @@ class abc():
         b: str,
         c = "abc",
     ):
-        """[summary]
+        """_summary_
 
-        :param a: [description]
+        :param a: _description_
         :type a: int
-        :param b: [description]
+        :param b: _description_
         :type b: str
-        :param c: [description], defaults to "abc"
+        :param c: _description_, defaults to "abc"
         :type c: str, optional
         """
 

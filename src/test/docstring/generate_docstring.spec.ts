@@ -54,7 +54,7 @@ describe("DocstringFactory", () => {
 
             const result = factory.generateDocstring(docstringComponents);
 
-            expect(result).to.equal('"""${1:[summary]}"""');
+            expect(result).to.equal('"""${1:_summary_}"""');
         });
 
         it("should use the docstring name if the template specifies it", () => {
@@ -166,7 +166,7 @@ describe("DocstringFactory", () => {
 
                 const result = factory.generateDocstring(docstringComponents);
 
-                expect(result).to.equal('"""arg_1 [type]\nkwarg_1 [type]\nreturns [type]"""');
+                expect(result).to.equal('"""arg_1 _type_\nkwarg_1 _type_\nreturns _type_"""');
             });
         });
 
@@ -205,7 +205,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(defaultDocstringComponents);
 
-                    expect(result).to.equal('"""Doc\n\n${1:[extended_summary]}\n\nHello"""');
+                    expect(result).to.equal('"""Doc\n\n${1:_extended_summary_}\n\nHello"""');
                 });
             });
 
@@ -237,7 +237,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal('"""\nFunction ${1:[summary]}"""');
+                    expect(result).to.equal('"""\nFunction ${1:_summary_}"""');
                 });
             });
 
@@ -255,7 +255,7 @@ describe("DocstringFactory", () => {
 
                     const result = factory.generateDocstring(docstringComponents);
 
-                    expect(result).to.equal('"""\n${1:[summary]}"""');
+                    expect(result).to.equal('"""\n${1:_summary_}"""');
                 });
             });
         });
