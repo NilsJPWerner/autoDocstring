@@ -6,7 +6,7 @@ export function getTemplate(docstringFormat: string): string {
 
     // Default to docblockr
     if (!existsSync(filePath)) {
-        readFileSync("docblockr.mustache", "utf8");
+        return readFileSync(__dirname + "/templates/" + "docblockr.mustache", "utf8");
     }
 
     return readFileSync(filePath, "utf8");

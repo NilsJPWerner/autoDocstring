@@ -19,7 +19,9 @@ describe("getTemplate()", () => {
         it("should return the string containing the google mustache template", () => {
             const result = getTemplate("google-notypes");
 
-            expect(result).to.contain("Google Docstring Template without Types for Args, Returns or Yields");
+            expect(result).to.contain(
+                "Google Docstring Template without Types for Args, Returns or Yields",
+            );
         });
     });
 
@@ -48,12 +50,12 @@ describe("getTemplate()", () => {
     });
 
     context("when asked for anything else", () => {
-        it("should return the string containing the default mustache template", () => {
+        it("should return the string containing the docblockr mustache template", () => {
             const result = getTemplate("blah");
             const result2 = getTemplate("default");
 
-            expect(result).to.contain("Default Docstring Template");
-            expect(result2).to.contain("Default Docstring Template");
+            expect(result).to.contain("DocBlockr Docstring Template");
+            expect(result2).to.contain("DocBlockr Docstring Template");
         });
     });
 });
