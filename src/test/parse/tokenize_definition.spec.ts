@@ -68,10 +68,15 @@ describe("tokenizeDefinition()", () => {
     });
 
     it("should tokenize pep604 parameter and return types", () => {
-        const functionDefinition = "def func(arg: int | float | str, arg2: dict[str, str] | list[str]) -> int | float | str:";
+        const functionDefinition =
+            "def func(arg: int | float | str, arg2: dict[str, str] | list[str]) -> int | float | str:";
         const result = tokenizeDefinition(functionDefinition);
 
-        expect(result).to.have.ordered.members(["arg:int | float | str", "arg2:dict[str, str] | list[str]", "-> int | float | str"]);
+        expect(result).to.have.ordered.members([
+            "arg:int | float | str",
+            "arg2:dict[str, str] | list[str]",
+            "-> int | float | str",
+        ]);
     });
 
     it("should tokenize pep484 return types", () => {
@@ -79,6 +84,13 @@ describe("tokenizeDefinition()", () => {
         const result = tokenizeDefinition(functionDefinition);
 
         expect(result).to.have.ordered.members(["-> str"]);
+    });
+
+    it.only("should tokenize Literal types", () => {
+        const functionDefinition = `def func(x: Literal["r", "w", "a"]) -> Literal[1, 2, 3]:`;
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members([`x:Literal["r", "w", "a"]`, `-> Literal[1, 2, 3]`]);
     });
 
     it("should split class definition arguments", () => {
