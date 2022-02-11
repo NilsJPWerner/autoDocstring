@@ -33,11 +33,27 @@ describe("getTemplate()", () => {
         });
     });
 
+    context("when asked for sphinx template", () => {
+        it("should return the string containing the sphinx mustache template", () => {
+            const result = getTemplate("sphinx-notypes");
+
+            expect(result).to.contain("Sphinx Docstring Template without Types");
+        });
+    });
+
     context("when asked for numpy template", () => {
-        it("should return the string containing the numpy mustache template", () => {
+        it("should return the string containing the numpy-notypes mustache template", () => {
             const result = getTemplate("numpy");
 
             expect(result).to.contain("Numpy Docstring Template");
+        });
+    });
+
+    context("when asked for numpy template", () => {
+        it("should return the string containing the numpy-notypes mustache template", () => {
+            const result = getTemplate("numpy-notypes");
+
+            expect(result).to.contain("Numpy Docstring Template without Types");
         });
     });
 
