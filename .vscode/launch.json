@@ -1,12 +1,14 @@
 {
     "version": "0.2.0",
-	"configurations": [{
+	"configurations": [
+		{
 			"name": "Run Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--trace-deprecation"
 			],
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
@@ -20,7 +22,8 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--extensionTestsPath=${workspaceFolder}/out/test"
+				"--extensionTestsPath=${workspaceFolder}/out/test",
+				"--trace-deprecation"
 			],
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
