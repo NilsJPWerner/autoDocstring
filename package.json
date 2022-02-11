@@ -146,6 +146,7 @@
         "compile": "npm run copy_templates && tsc -p ./",
         "watch": "npm run copy_templates && tsc -watch -p ./",
         "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\"",
+        "prepare_integration_tests": "npm run copy_python_test_files && npm run compile",
         "integration_test": "node out/test/run_integration_tests.js"
     },
     "devDependencies": {
