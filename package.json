@@ -1,7 +1,7 @@
 {
     "name": "autodocstring",
-    "displayName": "Python Docstring Generator",
-    "description": "Automatically generates detailed docstrings for python functions",
+    "displayName": "autoDocstring",
+    "description": "Generates python docstrings",
     "version": "0.5.4",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
@@ -30,6 +30,7 @@
         "generator",
         "autodocstring",
         "docblockr",
+        "documentation",
         "pydocstring"
     ],
     "galleryBanner": {},
@@ -165,6 +166,7 @@
     "dependencies": {
         "@types/stack-trace": "^0.0.29",
         "mustache": "^4.2.0",
-        "stack-trace": "^0.0.10"
+        "stack-trace": "^0.0.10",
+        "ts-dedent": "^2.2.0"
     }
 }

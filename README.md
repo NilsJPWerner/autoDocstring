@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test.yml/badge.svg)](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test.yml)
 [![Github Sponsorship](https://img.shields.io/badge/sponsor-5A5A5A?style=flat&logo=GitHub-Sponsors)](https://github.com/sponsors/NilsJPWerner)
 
-# VSCode Python Docstring Generator
+# autoDocstring: VSCode Python Docstring Generator
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
