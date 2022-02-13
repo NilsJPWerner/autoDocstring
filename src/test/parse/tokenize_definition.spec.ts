@@ -86,7 +86,7 @@ describe("tokenizeDefinition()", () => {
         expect(result).to.have.ordered.members(["-> str"]);
     });
 
-    it.only("should tokenize Literal types", () => {
+    it("should tokenize Literal types", () => {
         const functionDefinition = `def func(x: Literal["r", "w", "a"]) -> Literal[1, 2, 3]:`;
         const result = tokenizeDefinition(functionDefinition);
 

@@ -54,6 +54,20 @@ describe("guessType()", () => {
 
             expect(result).to.equal("int | str");
         });
+
+        it("should get type from args with Literal type hints", () => {
+            const parameter = `param1: Literal["foo"]`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Literal["foo"]`);
+        });
+
+        it("should get type from kwargs with Literal type hint", () => {
+            const parameter = `param2: Literal['bar'] = "bar"`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Literal['bar']`);
+        });
     });
 
     context("when the parameter is a kwarg", () => {
