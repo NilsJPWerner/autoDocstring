@@ -115,7 +115,7 @@ function parseYields(parameters: string[], body: string[]): Yields {
 }
 
 function parseReturnFromDefinition(parameters: string[]): Returns | null {
-    const pattern = /^->\s*(["']?)([\w\[\], |\.]*)\1/;
+    const pattern = /^->\s*(["']?)(['"\w\[\], |\.]*)\1/;
 
     for (const param of parameters) {
         const match = param.trim().match(pattern);

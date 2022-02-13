@@ -2,7 +2,7 @@ export function guessType(parameter: string): string {
     parameter = parameter.trim();
 
     if (hasTypeHint(parameter)) {
-        return getTypeFromTyping(parameter);
+        return getTypeFromTypeHint(parameter);
     }
 
     if (isKwarg(parameter)) {
@@ -12,15 +12,25 @@ export function guessType(parameter: string): string {
     return guessTypeFromName(parameter);
 }
 
-function getTypeFromTyping(parameter: string): string {
-    const pattern = /\w+\s*:\s*(['"]?\w[\w\[\], |\.]*['"]?)/;
-    const typeHint = pattern.exec(parameter);
+function getTypeFromTypeHint(parameter: string): string {
+    const sections = parameter.split(":");
+    if (sections.length !== 2) {
+        return undefined;
+    }
+    const typeHint = sections[1];
 
-    if (typeHint == null || typeHint.length !== 2) {
+    const pattern = /\s*(['"]?\w["'\w\[\], |\.]*['"]?)/;
+    const typeHintRegex = pattern.exec(typeHint);
+
+    if (typeHintRegex == null) {
         return undefined;
     }
 
-    return typeHint[1].replace(/['"]+/g, '').trim();
+    // Remove enclosing quotes
+    let type = typeHintRegex[0].trim();
+    type = type.replace(/^['"]|['"]$/g, "");
+
+    return type;
 }
 
 function guessTypeFromDefaultValue(parameter: string): string {
