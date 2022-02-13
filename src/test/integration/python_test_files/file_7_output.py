@@ -1,11 +1,11 @@
 from __future__ import annotations
-
+from typing import List, Dict
 
 def function(
     arg1: int,
-    arg2: list[str] | dict[str, int] | None,
+    arg2: List[str] | Dict[str, int] | None,
     kwarg1: int | float = 1
-) -> list[str] | dict[str, int] | None:
+) -> List[str] | Dict[str, int] | None:
     """_summary_
 
     :param arg1: _description_
