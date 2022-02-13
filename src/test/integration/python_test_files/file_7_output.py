@@ -3,9 +3,9 @@ from __future__ import annotations
 
 def function(
     arg1: int,
-    arg2: list[str] | dict[str, int] | Thing,
+    arg2: list[str] | dict[str, int] | None,
     kwarg1: int | float = 1
-) -> list[str] | dict[str, int] | Thing:
+) -> list[str] | dict[str, int] | None:
     """_summary_
 
     :param arg1: _description_
