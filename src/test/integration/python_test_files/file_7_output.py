@@ -11,10 +11,10 @@ def function(
     :param arg1: _description_
     :type arg1: int
     :param arg2: _description_
-    :type arg2: list[str] | dict[str, int] | Thing
+    :type arg2: List[str] | Dict[str, int] | None
     :param kwarg1: _description_, defaults to 1
     :type kwarg1: int | float, optional
     :return: _description_
-    :rtype: list[str] | dict[str, int] | Thing
+    :rtype: List[str] | Dict[str, int] | None
     """
     return arg2

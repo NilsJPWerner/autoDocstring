@@ -141,7 +141,7 @@ describe("Basic Integration Tests", function () {
                     "./python_test_files/file_4_output.py",
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_4.py"),
-                position: new vsc.Position(5, 0),
+                position: new vsc.Position(6, 0),
             });
         });
 
