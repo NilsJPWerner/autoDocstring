@@ -1,5 +1,20 @@
 # Change Log
 
+## [0.6.0] - 2022-02-13
+
+-   Added rst format support (@sam-hoffman @afarntrog)
+-   Switched to github actions (@s-weigand)
+-   Switched placeholder wrapper from square brackets to underscore
+-   Add untyped versions of docstring formats (@Lef-F)
+-   Updated javascript dependencies
+-   Added more extensive debug logging
+-   Added PEP 604 type hint support for pipes (@s-weigand)
+-   Fixed bug: Broken quoted type hint forward references (@IniasP)
+-   Fixed bug: Extra underscore in numpy template (@s-weigand)
+-   Fixed bug: Extra newlines between sections in some cases (@shaperilio)
+-   Fixed bug: Incorrectly parses Literal type hints
+-   Documentation clarification (@johschmitz)
+
 ## [0.5.4] - 2020-11-17
 
 -   Added Starlark support #139 (@UebelAndre)

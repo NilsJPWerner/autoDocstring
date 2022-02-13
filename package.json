@@ -2,7 +2,7 @@
     "name": "autodocstring",
     "displayName": "autoDocstring",
     "description": "Generates python docstrings",
-    "version": "0.5.4",
+    "version": "0.6.0",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
@@ -35,7 +35,7 @@
     ],
     "galleryBanner": {},
     "engines": {
-        "vscode": "^1.9.0"
+        "vscode": "^1.53.0"
     },
     "activationEvents": [
         "onLanguage:python",
@@ -155,7 +155,7 @@
         "@types/mocha": "^9.1.0",
         "@types/mustache": "^4.1.2",
         "@types/node": "^17.0.17",
-        "@types/vscode": "^1.64.0",
+        "@types/vscode": "^1.53.0",
         "@vscode/test-electron": "^2.1.2",
         "chai": "^4.3.6",
         "copyfiles": "^2.4.1",
