@@ -2,18 +2,18 @@
 
 ## [0.6.0] - 2022-02-13
 
--   Added rst format support (@sam-hoffman @afarntrog)
--   Switched to github actions (@s-weigand)
--   Switched placeholder wrapper from square brackets to underscore
--   Add untyped versions of docstring formats (@Lef-F)
--   Updated javascript dependencies
+-   Added one line sphinx format support #169 (@sam-hoffman @afarntrog)
+-   Switched to github actions #214 (@s-weigand)
+-   Switched placeholder wrapper from square brackets to underscore #220
+-   Add untyped versions of docstring formats #209 (@Lef-F)
+-   Updated javascript dependencies #222
 -   Added more extensive debug logging
--   Added PEP 604 type hint support for pipes (@s-weigand)
--   Fixed bug: Broken quoted type hint forward references (@IniasP)
--   Fixed bug: Extra underscore in numpy template (@s-weigand)
--   Fixed bug: Extra newlines between sections in some cases (@shaperilio)
--   Fixed bug: Incorrectly parses Literal type hints
--   Documentation clarification (@johschmitz)
+-   Added PEP 604 type hint support for pipes #218 (@s-weigand)
+-   Fixed bug: Broken quoted type hint forward references #157 (@IniasP)
+-   Fixed bug: Extra underscore in numpy template #216 (@s-weigand)
+-   Fixed bug: Extra newlines between sections in some cases #203 (@shaperilio)
+-   Fixed bug: Incorrectly parses Literal type hints #223
+-   Documentation clarification #211 (@johschmitz)
 
 ## [0.5.4] - 2020-11-17
 

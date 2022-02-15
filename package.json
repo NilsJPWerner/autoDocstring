@@ -1,7 +1,7 @@
 {
     "name": "autodocstring",
-    "displayName": "autoDocstring",
-    "description": "Generates python docstrings",
+    "displayName": "autoDocstring - Python Docstring Generator",
+    "description": "Generates python docstrings automatically",
     "version": "0.6.0",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
@@ -82,8 +82,7 @@
                         "sphinx-notypes",
                         "numpy",
                         "numpy-notypes",
-                        "one-line-sphinx",
-                        "one-line-sphinx-notypes"
+                        "one-line-sphinx"
                     ],
                     "description": "Which docstring format to use."
                 },
