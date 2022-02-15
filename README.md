@@ -24,7 +24,7 @@ To turn of type generation in docstrings use the `-notypes` template of the desi
 -   docBlockr
 -   Numpy
 -   Sphinx
--   oneline-rst
+-   one-line-sphinx
 -   PEP0257
 
 ## Usage

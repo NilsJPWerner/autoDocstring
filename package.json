@@ -82,8 +82,8 @@
                         "sphinx-notypes",
                         "numpy",
                         "numpy-notypes",
-                        "oneline-rst",
-                        "oneline-rst-notypes"
+                        "one-line-sphinx",
+                        "one-line-sphinx-notypes"
                     ],
                     "description": "Which docstring format to use."
                 },

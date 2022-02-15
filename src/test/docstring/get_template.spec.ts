@@ -57,9 +57,9 @@ describe("getTemplate()", () => {
         });
     });
 
-    context("when asked for oneline-rst template", () => {
-        it("should return the string containing the oneline-rst mustache template", () => {
-            const result = getTemplate("oneline-rst");
+    context("when asked for one-line-sphinx template", () => {
+        it("should return the string containing the one-line-sphinx mustache template", () => {
+            const result = getTemplate("one-line-sphinx");
 
             expect(result).to.contain("One-line RST Docstring Template");
         });
