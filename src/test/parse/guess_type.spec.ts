@@ -68,6 +68,20 @@ describe("guessType()", () => {
 
             expect(result).to.equal(`Literal['bar']`);
         });
+
+        it("should get type from hint containing nested square brackets", () => {
+            const parameter = `a: Callable[[NDArray[(Any,), float]], float]`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Callable[[NDArray[(Any,), float]], float]`);
+        });
+
+        it("should get type from hint with nested brackets and default value", () => {
+            const parameter = `a: NDArray[(Any,), float] = np.zeros(10,)`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`NDArray[(Any,), float]`);
+        });
     });
 
     context("when the parameter is a kwarg", () => {
