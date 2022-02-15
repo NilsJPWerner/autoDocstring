@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.6.1] - 2022-02-15
+
+-   Rename oneline-rst to one-line-sphinx
+-   Remove oneline-rst-notypes as provided format
+-   Documentation: Add examples of docstrings formats #224
+
 ## [0.6.0] - 2022-02-13
 
 -   Added one line sphinx format support #169 (@sam-hoffman @afarntrog)
@@ -13,7 +19,7 @@
 -   Fixed bug: Extra underscore in numpy template #216 (@s-weigand)
 -   Fixed bug: Extra newlines between sections in some cases #203 (@shaperilio)
 -   Fixed bug: Incorrectly parses Literal type hints #223
--   Documentation clarification #211 (@johschmitz)
+-   Documentation: Quotes clarification #211 (@johschmitz)
 
 ## [0.5.4] - 2020-11-17
 
