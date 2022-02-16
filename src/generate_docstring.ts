@@ -4,7 +4,8 @@ import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
 import { getDocstringIndentation, getDefaultIndentation, parse, getDocstring } from "./parse";
 import { extensionID } from "./constants";
-import { logInfo } from "./logger";
+import { logDebug, logInfo } from "./logger";
+import { docstringPartsToString } from "./docstring_parts";
 
 export class AutoDocstring {
     private editor: vs.TextEditor;
@@ -65,13 +66,17 @@ export class AutoDocstring {
             config.get("includeName") === true,
             config.get("guessTypes") === true,
         );
+        logDebug(docstringFactory.toString());
 
         const docstringParts = parse(document, position.line);
+        logDebug(docstringPartsToString(docstringParts));
         const defaultIndentation = getDefaultIndentation(
             this.editor.options.insertSpaces as boolean,
             this.editor.options.tabSize as number,
         );
+        logDebug(`Default indentation: "${defaultIndentation}"`);
         const indentation = getDocstringIndentation(document, position.line, defaultIndentation);
+        logDebug(`Indentation: "${indentation}"`);
         const docstring = docstringFactory.generateDocstring(docstringParts, indentation);
 
         return new vs.SnippetString(docstring);

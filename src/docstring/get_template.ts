@@ -1,24 +1,18 @@
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 
 export function getTemplate(docstringFormat: string): string {
-    switch (docstringFormat) {
-        case "google":
-            return getTemplateFile("google.mustache");
-        case "sphinx":
-            return getTemplateFile("sphinx.mustache");
-        case "numpy":
-            return getTemplateFile("numpy.mustache");
-        default:
-            return getTemplateFile("default.mustache");
+    const fileName = docstringFormat + ".mustache";
+    const filePath = __dirname + "/templates/" + fileName;
+
+    // Default to docblockr
+    if (!existsSync(filePath)) {
+        return readFileSync(__dirname + "/templates/" + "docblockr.mustache", "utf8");
     }
+
+    return readFileSync(filePath, "utf8");
 }
 
 // TODO: handle error case
 export function getCustomTemplate(templateFilePath: string): string {
     return readFileSync(templateFilePath, "utf8");
-}
-
-function getTemplateFile(fileName: string): string {
-    const filePath = __dirname + "/templates/" + fileName;
-    return readFileSync(filePath, "utf8");
 }

@@ -41,7 +41,7 @@ export class TemplateData {
             this.removeTypes();
         }
 
-        this.addDefaultTypePlaceholders("[type]");
+        this.addDefaultTypePlaceholders("_type_");
     }
 
     public placeholder() {
@@ -52,15 +52,15 @@ export class TemplateData {
 
     public summaryPlaceholder(): string {
         if (this.includeName) {
-            return this.name + " ${@@@:[summary]}";
+            return this.name + " ${@@@:_summary_}";
         }
 
-        return "${@@@:[summary]}";
+        return "${@@@:_summary_}";
     }
 
     public extendedSummaryPlaceholder(): string {
         if (this.includeExtendedSummary) {
-            return "${@@@:[extended_summary]}";
+            return "${@@@:_extended_summary_}";
         }
 
         return "";
@@ -72,7 +72,7 @@ export class TemplateData {
     }
 
     public descriptionPlaceholder(): string {
-        return "${@@@:[description]}";
+        return "${@@@:_description_}";
     }
 
     public argsExist(): boolean {

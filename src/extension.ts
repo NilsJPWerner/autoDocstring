@@ -56,6 +56,28 @@ export function activate(context: vs.ExtensionContext): void {
         ),
     );
 
+    ["python", "starlark"].map((language) => {
+        context.subscriptions.push(
+            vs.languages.registerCompletionItemProvider(
+                language,
+                {
+                    provideCompletionItems: (
+                        document: vs.TextDocument,
+                        position: vs.Position,
+                        _: vs.CancellationToken,
+                    ) => {
+                        if (validEnterActivation(document, position)) {
+                            return [new AutoDocstringCompletionItem(document, position)];
+                        }
+                    },
+                },
+                '"',
+                "'",
+                "#",
+            ),
+        );
+    });
+
     logInfo("autoDocstring was activated");
 }
 

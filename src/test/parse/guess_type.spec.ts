@@ -47,6 +47,41 @@ describe("guessType()", () => {
 
             expect(result2).to.equal("str");
         });
+
+        it("should get type from PEP 604 style type hint", () => {
+            const parameter = "arg: int | str";
+            const result = guessType(parameter);
+
+            expect(result).to.equal("int | str");
+        });
+
+        it("should get type from args with Literal type hints", () => {
+            const parameter = `param1: Literal["foo"]`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Literal["foo"]`);
+        });
+
+        it("should get type from kwargs with Literal type hint", () => {
+            const parameter = `param2: Literal['bar'] = "bar"`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Literal['bar']`);
+        });
+
+        it("should get type from hint containing nested square brackets", () => {
+            const parameter = `a: Callable[[NDArray[(Any,), float]], float]`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`Callable[[NDArray[(Any,), float]], float]`);
+        });
+
+        it("should get type from hint with nested brackets and default value", () => {
+            const parameter = `a: NDArray[(Any,), float] = np.zeros(10,)`;
+            const result = guessType(parameter);
+
+            expect(result).to.equal(`NDArray[(Any,), float]`);
+        });
     });
 
     context("when the parameter is a kwarg", () => {

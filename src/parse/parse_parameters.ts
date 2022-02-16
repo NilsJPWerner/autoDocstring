@@ -115,7 +115,7 @@ function parseYields(parameters: string[], body: string[]): Yields {
 }
 
 function parseReturnFromDefinition(parameters: string[]): Returns | null {
-    const pattern = /^->\s*([\w\[\], \.]*)/;
+    const pattern = /^->\s*(["']?)(['"\w\[\], |\.]*)\1/;
 
     for (const param of parameters) {
         const match = param.trim().match(pattern);
@@ -125,7 +125,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
         }
 
         // Skip "-> None" annotations
-        return match[1] === "None" ? null : { type: match[1] };
+        return match[2] === "None" ? null : { type: match[2] };
     }
 
     return null;
@@ -133,7 +133,7 @@ function parseReturnFromDefinition(parameters: string[]): Returns | null {
 
 function parseExceptions(body: string[]): Exception[] {
     const exceptions: Exception[] = [];
-    const pattern = /raise\s+([\w.]+)/;
+    const pattern = /(?<!#.*)raise\s+([\w.]+)/;
 
     for (const line of body) {
         const match = line.match(pattern);

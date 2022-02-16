@@ -9,3 +9,4 @@ test_*
 *.psd
 todo
 scratch
+autodocstring-*.vsix

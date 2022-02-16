@@ -26,6 +26,12 @@ describe("getBody()", () => {
         expect(result).to.have.deep.members(["print('HELLO WORLD')", "print('HELLO AGAIN')"]);
     });
 
+    it("should skip comment lines", () => {
+        const result = getBody(commentFunction, 5);
+
+        expect(result).to.have.deep.members(["print('HELLO AGAIN')"]);
+    });
+
     it("should handle multi line definitions", () => {
         const result = getBody(multiLineDefFunction, 4);
 
@@ -76,6 +82,16 @@ def gap_function():
 
     print('HELLO WORLD')
 
+    print('HELLO AGAIN')
+
+Something Else
+`;
+
+const commentFunction = `
+Something Else
+
+def gap_function():
+    # print('HELLO WORLD')
     print('HELLO AGAIN')
 
 Something Else

@@ -53,7 +53,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item after triple single quotes", async function () {
@@ -68,7 +68,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item if using CRLF line endings", async function () {
@@ -82,7 +82,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
     });
 
@@ -141,7 +141,7 @@ describe("Basic Integration Tests", function () {
                     "./python_test_files/file_4_output.py",
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_4.py"),
-                position: new vsc.Position(5, 0),
+                position: new vsc.Position(6, 0),
             });
         });
 
@@ -164,6 +164,39 @@ describe("Basic Integration Tests", function () {
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_6.py"),
                 position: new vsc.Position(4, 0),
+            });
+        });
+
+        it("generates a docstring using PEP 604 style type hints in file 7", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_7_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_7.py"),
+                position: new vsc.Position(8, 0),
+            });
+        });
+
+        it("generates a docstring for the starlark function", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_starlark_output.sky",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_starlark.sky"),
+                position: new vsc.Position(2, 0),
+            });
+        });
+
+        it("generates a docstring for the bazel macro", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_bazel_output.bzl",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_bazel.bzl"),
+                position: new vsc.Position(2, 0),
             });
         });
     });

@@ -51,6 +51,25 @@ describe("parseParameters()", () => {
         ]);
     });
 
+    it("should parse args, kwargs, and return with Literal type hints", () => {
+        const parameterTokens = [
+            `param1: Literal["foo"]`,
+            `param2: Literal['bar'] = "bar"`,
+            `-> Literal["baz"]`,
+        ];
+        const result = parseParameters(parameterTokens, [], "name");
+
+        expect(result).to.eql({
+            name: "name",
+            args: [{ var: "param1", type: `Literal["foo"]` }],
+            kwargs: [{ var: "param2", default: `"bar"`, type: `Literal['bar']` }],
+            returns: { type: `Literal["baz"]` },
+            decorators: [],
+            exceptions: [],
+            yields: undefined,
+        });
+    });
+
     it("should parse kwargs with and without type hints", () => {
         const parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
         const result = parseParameters(parameterTokens, [], "name");
@@ -68,6 +87,27 @@ describe("parseParameters()", () => {
 
             expect(result.returns).to.deep.equal({
                 type: "List[int]",
+            });
+        });
+
+        it("should parse PEP 604 type hint return types", () => {
+            const parameterTokens = ["-> int | float"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal({
+                type: "int | float",
+            });
+        });
+
+        it("should parse return types wrapped in single quotes", () => {
+            expect(parseParameters(["-> 'List[Type]'"], [], "name").returns).to.deep.equal({
+                type: "List[Type]",
+            });
+        });
+
+        it("should parse return types wrapped in double quotes", () => {
+            expect(parseParameters(['-> "List[Type]"'], [], "name").returns).to.deep.equal({
+                type: "List[Type]",
             });
         });
 
@@ -190,6 +230,13 @@ describe("parseParameters()", () => {
             { type: "RiskyException" },
             { type: "AlwaysCrapsOut" },
         ]);
+    });
+
+    it("should not parse exception after inline comment", () => {
+        const functionContent = ["arg1 + arg2 # todo: raise an error"];
+        const result = parseParameters([], functionContent, "");
+
+        expect(result.exceptions).to.eql([]);
     });
 
     context("when the parameters have strange spacing", () => {

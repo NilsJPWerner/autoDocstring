@@ -1,8 +1,8 @@
 {
     "name": "autodocstring",
-    "displayName": "Python Docstring Generator",
-    "description": "Automatically generates detailed docstrings for python functions",
-    "version": "0.5.3",
+    "displayName": "autoDocstring - Python Docstring Generator",
+    "description": "Generates python docstrings automatically",
+    "version": "0.6.1",
     "publisher": "njpwerner",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
@@ -30,14 +30,16 @@
         "generator",
         "autodocstring",
         "docblockr",
+        "documentation",
         "pydocstring"
     ],
     "galleryBanner": {},
     "engines": {
-        "vscode": "^1.9.0"
+        "vscode": "^1.53.0"
     },
     "activationEvents": [
-        "onLanguage:python"
+        "onLanguage:python",
+        "onLanguage:starlark"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -77,9 +79,14 @@
                     "default": "google",
                     "enum": [
                         "docblockr",
+                        "pep257",
                         "google",
+                        "google-notypes",
                         "sphinx",
-                        "numpy"
+                        "sphinx-notypes",
+                        "numpy",
+                        "numpy-notypes",
+                        "one-line-sphinx"
                     ],
                     "description": "Which docstring format to use."
                 },
@@ -142,26 +149,27 @@
         "copy_python_test_files": "copyfiles --up 1 \"src/test/integration/python_test_files/*\" out/",
         "compile": "npm run copy_templates && tsc -p ./",
         "watch": "npm run copy_templates && tsc -watch -p ./",
-        "preintegration_test": "npm run copy_python_test_files && npm run compile",
         "unit_test": "mocha -r ts-node/register \"src/test/**/*.spec.ts\"",
+        "prepare_integration_tests": "npm run copy_python_test_files && npm run compile",
         "integration_test": "node out/test/run_integration_tests.js"
     },
     "devDependencies": {
-        "@types/chai": "^4.2.11",
-        "@types/mocha": "^5.2.7",
-        "@types/mustache": "^0.8.32",
-        "@types/node": "^13.13.1",
-        "@types/vscode": "^1.9.0",
-        "chai": "^4.2.0",
-        "copyfiles": "^2.2.0",
-        "mocha": "^6.2.3",
-        "ts-node": "^8.9.0",
-        "typescript": "^3.8.3",
-        "vscode-test": "^1.3.0"
+        "@types/chai": "^4.3.0",
+        "@types/mocha": "^9.1.0",
+        "@types/mustache": "^4.1.2",
+        "@types/node": "^17.0.17",
+        "@types/vscode": "^1.53.0",
+        "@vscode/test-electron": "^2.1.2",
+        "chai": "^4.3.6",
+        "copyfiles": "^2.4.1",
+        "mocha": "^9.2.0",
+        "ts-node": "^10.5.0",
+        "typescript": "^4.5.5"
     },
     "dependencies": {
-        "@types/stack-trace": "0.0.29",
-        "mustache": "^3.2.1",
-        "stack-trace": "0.0.10"
+        "@types/stack-trace": "^0.0.29",
+        "mustache": "^4.2.0",
+        "stack-trace": "^0.0.10",
+        "ts-dedent": "^2.2.0"
     }
 }

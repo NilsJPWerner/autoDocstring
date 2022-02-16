@@ -1,0 +1,40 @@
+{{! PEP257  Docstring Template }}
+{{=<% %>=}}
+<%summaryPlaceholder%>
+
+<%extendedSummaryPlaceholder%>
+<%#argsExist%>
+
+Arguments:
+<%#args%>
+    <%var%> -- <%descriptionPlaceholder%>
+<%/args%>
+<%/argsExist%>
+<%#kwargsExist%>
+
+Keyword Arguments:
+<%#kwargs%>
+    <%var%> -- <%descriptionPlaceholder%> (default: {<%&default%>})
+<%/kwargs%>
+<%/kwargsExist%>
+<%#exceptionsExist%>
+
+Raises:
+<%#exceptions%>
+    <%type%>: <%descriptionPlaceholder%>
+<%/exceptions%>
+<%/exceptionsExist%>
+<%#returnsExist%>
+
+Returns:
+<%#returns%>
+    <%descriptionPlaceholder%>
+<%/returns%>
+<%/returnsExist%>
+<%#yieldsExist%>
+
+Yields:
+<%#yields%>
+    <%descriptionPlaceholder%>
+<%/yields%>
+<%/yieldsExist%>

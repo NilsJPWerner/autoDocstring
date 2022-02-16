@@ -1,4 +1,4 @@
-import { blankLine } from "./utilities";
+import { blankLine, preprocessLines } from "./utilities";
 
 export function getDefinition(document: string, linePosition: number): string {
     const precedingLines = getPrecedingLines(document, linePosition);
@@ -28,10 +28,9 @@ export function getDefinition(document: string, linePosition: number): string {
 
 function getPrecedingLines(document: string, linePosition: number): string[] {
     const lines = document.split("\n");
-    let precedingLines = lines.slice(0, linePosition);
+    const rawPrecedingLines = lines.slice(0, linePosition);
 
-    precedingLines = precedingLines.map((line) => line.trim());
-    precedingLines = precedingLines.filter((line) => !line.startsWith("#"));
+    const precedingLines = preprocessLines(rawPrecedingLines);
 
     return precedingLines;
 }

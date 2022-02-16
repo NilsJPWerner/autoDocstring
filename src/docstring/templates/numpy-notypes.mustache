@@ -1,4 +1,4 @@
-{{! Numpy Docstring Template }}
+{{! Numpy Docstring Template without Types for Args, Returns or Yields }}
 {{summaryPlaceholder}}
 
 {{extendedSummaryPlaceholder}}
@@ -7,11 +7,11 @@
 Parameters
 ----------
 {{#args}}
-{{var}} : {{typePlaceholder}}
+{{var}}
     {{descriptionPlaceholder}}
 {{/args}}
 {{#kwargs}}
-{{var}} : {{typePlaceholder}}, optional
+{{var}}, optional
     {{descriptionPlaceholder}}, by default {{&default}}
 {{/kwargs}}
 {{/parametersExist}}
@@ -20,7 +20,6 @@ Parameters
 Returns
 -------
 {{#returns}}
-{{typePlaceholder}}
     {{descriptionPlaceholder}}
 {{/returns}}
 {{/returnsExist}}
@@ -29,7 +28,6 @@ Returns
 Yields
 ------
 {{#yields}}
-{{typePlaceholder}}
     {{descriptionPlaceholder}}
 {{/yields}}
 {{/yieldsExist}}
