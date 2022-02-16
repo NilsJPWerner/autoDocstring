@@ -1,3 +1,4 @@
+/* eslint-disable */
 //
 // PLEASE DO NOT MODIFY / DELETE UNLESS YOU KNOW WHAT YOU ARE DOING
 //

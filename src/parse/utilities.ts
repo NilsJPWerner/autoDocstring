@@ -11,12 +11,11 @@ export function getIndentation(line: string): string {
 /**
  * Preprocess an array of lines.
  * For example trim spaces and discard comments
+ *
  * @param lines The lines to preprocess.
  */
 export function preprocessLines(lines: string[]): string[] {
-    return lines
-        .map(line => line.trim())
-        .filter((line) => !line.startsWith("#"));
+    return lines.map((line) => line.trim()).filter((line) => !line.startsWith("#"));
 }
 
 export function indentationOf(line: string): number {

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     Argument,
     Decorator,
@@ -45,7 +47,7 @@ export class TemplateData {
     }
 
     public placeholder() {
-        return (text: string, render: (text: string) => string) => {
+        return (text: string, render: (_: string) => string): string => {
             return "${@@@:" + render(text) + "}";
         };
     }
@@ -67,6 +69,8 @@ export class TemplateData {
     }
 
     public typePlaceholder(): string {
+        // Need to ignore rules because this.type only works in
+        // the context of mustache applying a template
         // @ts-ignore
         return "${@@@:" + this.type + "}";
     }
