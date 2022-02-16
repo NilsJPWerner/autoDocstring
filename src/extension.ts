@@ -1,4 +1,3 @@
-"use strict";
 import * as vs from "vscode";
 import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
@@ -17,26 +16,31 @@ export function activate(context: vs.ExtensionContext): void {
             try {
                 return autoDocstring.generateDocstring();
             } catch (error) {
-                logError(error + "\n\t" + getStackTrace(error));
+                const errorString = JSON.stringify(error);
+                let stackTrace = "";
+                if (error instanceof Error) {
+                    stackTrace = "\n\t" + getStackTrace(error);
+                }
+                return logError(errorString + stackTrace);
             }
         }),
     );
 
-    ['python', 'starlark'].map((language) => {
+    ["python", "starlark"].map((language) => {
         context.subscriptions.push(
             vs.languages.registerCompletionItemProvider(
                 language,
                 {
-                    provideCompletionItems: (document: vs.TextDocument, position: vs.Position, _: vs.CancellationToken) => {
+                    provideCompletionItems: (document: vs.TextDocument, position: vs.Position) => {
                         if (validEnterActivation(document, position)) {
                             return [new AutoDocstringCompletionItem(document, position)];
                         }
                     },
                 },
-                "\"",
+                '"',
                 "'",
                 "#",
-            )
+            ),
         );
     });
 
@@ -46,7 +50,9 @@ export function activate(context: vs.ExtensionContext): void {
 /**
  * This method is called when the extension is deactivated
  */
-export function deactivate() { }
+export function deactivate() {
+    return;
+}
 
 /**
  * Checks that the preceding characters of the position is a valid docstring prefix

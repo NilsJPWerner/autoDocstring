@@ -6,7 +6,7 @@ import * as vscode from "vscode";
 import { extensionID } from "./constants";
 
 let outLogChannel: vscode.OutputChannel;
-const logLevel = vscode.workspace.getConfiguration(extensionID).get("logLevel") as string;
+const logLevel = vscode.workspace.getConfiguration(extensionID).get("logLevel");
 
 export function getLogChannel() {
     if (outLogChannel === undefined) {
@@ -16,9 +16,9 @@ export function getLogChannel() {
 }
 
 export function logError(error: any) {
-    getLogChannel().appendLine(`[ERROR ${getTimeAndMs()}] ${error.toString()}`);
+    getLogChannel().appendLine(`[ERROR ${getTimeAndMs()}] ${String(error)}`);
     getLogChannel().show();
-    vscode.window.showErrorMessage(
+    return vscode.window.showErrorMessage(
         "AutoDocstring encountered an error. Please view details in the 'autoDocstring' output window",
     );
 }

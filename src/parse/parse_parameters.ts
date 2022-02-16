@@ -166,10 +166,6 @@ function parseFromBody(body: string[], pattern: RegExp): Returns | Yields {
     return undefined;
 }
 
-/**
- * Check whether the annotated type is an iterator.
- * @param type The annotated type
- */
 function isIterator(type: string): boolean {
     return type.startsWith("Generator") || type.startsWith("Iterator");
 }

@@ -136,7 +136,7 @@ describe("parseParameters()", () => {
     describe("parseYields", () => {
         it("should use the signature return type if it is an Iterator", () => {
             const parameterTokens = ["-> Iterator[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
@@ -146,7 +146,7 @@ describe("parseParameters()", () => {
 
         it("should use the signature return type if it is an Generator", () => {
             const parameterTokens = ["-> Generator[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
@@ -176,7 +176,7 @@ describe("parseParameters()", () => {
 
         it("Should return undefined if no yield exists in the signature or body", () => {
             const parameterTokens = ["-> List[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.eql(undefined);

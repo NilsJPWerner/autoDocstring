@@ -104,7 +104,7 @@ describe("tokenizeDefinition()", () => {
         const functionDefinition = "garbage";
         const result = tokenizeDefinition(functionDefinition);
 
-        expect(result).to.be.empty;
+        expect(result).to.have.lengthOf(0);
     });
 
     it("should ignore comments at the end of the definition", () => {

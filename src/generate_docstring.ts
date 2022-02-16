@@ -36,7 +36,7 @@ export class AutoDocstring {
         success.then(
             () => logInfo("Successfully inserted docstring"),
             (reason) => {
-                throw new Error("Could not insert docstring: " + reason.toString());
+                throw new Error("Could not insert docstring: " + JSON.stringify(reason));
             },
         );
 
