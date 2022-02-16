@@ -15,9 +15,9 @@ const settingsIdentifier = "autoDocstring";
 describe("Basic Integration Tests", function () {
     this.timeout(30000);
 
-    this.beforeAll(async function () {
-        await vsc.window.showInformationMessage("Start all tests.");
-    });
+    // this.beforeAll(async function () {
+    //     await vsc.window.showInformationMessage("Start all tests.");
+    // });
 
     it("should have installed successfully", () => {
         expect(vsc.extensions.getExtension(identifier)).to.not.equal(undefined);
