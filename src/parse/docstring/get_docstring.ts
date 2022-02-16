@@ -1,3 +1,5 @@
+import { getDocstringStartIndex, getDocstringEndIndex } from "./get_docstring_range";
+
 export function getDocstring(document: string, lineNum: number): string {
     const lines = document.split("\n");
 

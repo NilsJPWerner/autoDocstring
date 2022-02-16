@@ -6,7 +6,7 @@ import { normalizeDocstring } from "../../../parse/docstring/normalize_docstring
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
-describe.only("normalizeDocstring()", () => {
+describe("normalizeDocstring()", () => {
     it("should remove indentation and quotes of a one line docstring", () => {
         const result = normalizeDocstring(oneLineDocstring);
 

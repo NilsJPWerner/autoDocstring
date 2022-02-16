@@ -3,8 +3,13 @@
 import { diffLines } from "Diff";
 import { Argument, DocstringParts } from "../docstring_parts";
 
-// Need to deal with 1. multiline regex 2. indentation 3. description 4. check crlf
-// 5. sections in different orders 6. A section is not there
+// Need to deal with
+// 1. multiline regex
+// 2. indentation
+// 3. description
+// 4. check crlf
+// 5. sections in different orders
+// 6. A section is not there
 
 export function parseDocstring(oldDocstring: string, template: string) {
     const docstringLines = oldDocstring.split("\n");

@@ -1,20 +1,63 @@
 import chai = require("chai");
 import "mocha";
+import dedent from "ts-dedent";
 
 import { parseDocstring, getTemplate } from "../../docstring";
 
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
-it("Full google docstring", () => {
+it.only("Full google docstring", () => {
+    const fullGoogleDocstring = dedent`
+    Args:
+        arg1 ([type]): An argument. It is named arg1
+        arg2 (Dict[str, int]): This is also an argument => a good one!
+        kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
+
+    Raises:
+        FileExistsError: Oh nej!
+        KeyError: bad things!
+
+    Returns:
+        [type]: [description]
+
+    Yields:
+        [type]: [description]
+    """`;
+
     // const template = getTemplate("google");
     // parseDocstring(googleDocstring, template);
 
     // parseDocstring("world", "{{#place}}{{name}}{{/place}}");
-    parseDocstring(fullGoogleDocstring, googleTemplate);
+    const docstring = parseDocstring(fullGoogleDocstring, googleTemplate);
+
+    expect(docstring).to.eql({
+        name: "",
+        args: [{ var: "arg1", type: "[type]" }, { var: "arg2" }],
+        kwargs: [{ var: "kwarg1", type: "int", default: "1" }],
+        decorators: [],
+        exceptions: [{ type: "FileExistsError" }, { type: "KeyError" }],
+        yields: { type: "[type]" },
+        returns: { type: "[type]" },
+    });
 });
 
 it("parses a google docstring with no args", () => {
+    const noArgsGoogleDocstring = dedent`
+    Args:
+        kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
+
+    Raises:
+        FileExistsError: Oh nej!
+        KeyError: bad things!
+
+    Returns:
+        [type]: [description]
+
+    Yields:
+        [type]: [description]
+    """`;
+
     const docstring = parseDocstring(noArgsGoogleDocstring, googleTemplate);
 
     expect(docstring).to.eql({
@@ -35,38 +78,6 @@ it("sphinx", () => {
     // parseDocstring("world", "{{#place}}{{name}}{{/place}}");
     parseDocstring(fullSphinxDocstring, sphinxTemplate);
 });
-
-const fullGoogleDocstring = `
-Args:
-    arg1 ([type]): An argument. It is named arg1
-    arg2 (Dict[str, int]): This is also an argument => a good one!
-    kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
-
-Raises:
-    FileExistsError: Oh nej!
-    KeyError: bad things!
-
-Returns:
-    [type]: [description]
-
-Yields:
-    [type]: [description]
-"""`;
-
-const noArgsGoogleDocstring = `
-Args:
-    kwarg1 (int, optional): a kwarg this time. A really good one. Defaults to 1.
-
-Raises:
-    FileExistsError: Oh nej!
-    KeyError: bad things!
-
-Returns:
-    [type]: [description]
-
-Yields:
-    [type]: [description]
-"""`;
 
 const googleTemplate = `
 {{#parametersExist}}

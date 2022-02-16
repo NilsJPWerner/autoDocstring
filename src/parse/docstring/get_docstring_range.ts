@@ -1,4 +1,4 @@
-export function getDocstringRange(document: string, lineNum: number): ;
+// export function getDocstringRange(document: string, lineNum: number): ;
 
 export function getDocstringStartIndex(lines: string[], lineNum: number) {
     const docstringStartPattern = /^\s*("""|''')/;
@@ -25,7 +25,7 @@ export function getDocstringStartIndex(lines: string[], lineNum: number) {
     return undefined;
 }
 
-function getDocstringEndIndex(lines: string[], lineNum: number) {
+export function getDocstringEndIndex(lines: string[], lineNum: number) {
     const docstringEndPattern = /("""|''')\s*$/;
 
     if (lineNum >= lines.length - 1) {

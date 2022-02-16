@@ -6,7 +6,7 @@ import { getDocstring } from "../../../parse/docstring/get_docstring";
 chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
-describe.only("getDocstring()", () => {
+describe("getDocstring()", () => {
     it("should return the lines with the docstring the linePosition is focused on with quotes removed", () => {
         const result = getDocstring(oneLineDocstring, 4);
 
