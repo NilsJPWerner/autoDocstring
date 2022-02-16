@@ -22,6 +22,5 @@ async function main() {
     }
 }
 
-main().catch((err) => {
-    console.log(err);
-});
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+main();
