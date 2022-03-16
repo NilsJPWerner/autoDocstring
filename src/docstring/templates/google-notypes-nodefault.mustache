@@ -1,0 +1,35 @@
+{{! Google Docstring Template without Types for Args, Returns or Yields and without naming the default for kwargs}}
+{{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+{{#parametersExist}}
+
+Args:
+{{#args}}
+    {{var}}: {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+    {{var}}: {{descriptionPlaceholder}}
+{{/kwargs}}
+{{/parametersExist}}
+{{#exceptionsExist}}
+
+Raises:
+{{#exceptions}}
+    {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{/exceptionsExist}}
+{{#returnsExist}}
+
+Returns:
+{{#returns}}
+    {{descriptionPlaceholder}}
+{{/returns}}
+{{/returnsExist}}
+{{#yieldsExist}}
+
+Yields:
+{{#yields}}
+    {{descriptionPlaceholder}}
+{{/yields}}
+{{/yieldsExist}}

@@ -78,6 +78,7 @@
                         "pep257",
                         "google",
                         "google-notypes",
+                        "google-notypes-nodefault",
                         "sphinx",
                         "sphinx-notypes",
                         "numpy",
