@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     Argument,
     Decorator,
@@ -41,38 +43,40 @@ export class TemplateData {
             this.removeTypes();
         }
 
-        this.addDefaultTypePlaceholders("[type]");
+        this.addDefaultTypePlaceholders("_type_");
     }
 
     public placeholder() {
-        return (text: string, render: (text: string) => string) => {
+        return (text: string, render: (_: string) => string): string => {
             return "${@@@:" + render(text) + "}";
         };
     }
 
     public summaryPlaceholder(): string {
         if (this.includeName) {
-            return this.name + " ${@@@:[summary]}";
+            return this.name + " ${@@@:_summary_}";
         }
 
-        return "${@@@:[summary]}";
+        return "${@@@:_summary_}";
     }
 
     public extendedSummaryPlaceholder(): string {
         if (this.includeExtendedSummary) {
-            return "${@@@:[extended_summary]}";
+            return "${@@@:_extended_summary_}";
         }
 
         return "";
     }
 
     public typePlaceholder(): string {
+        // Need to ignore rules because this.type only works in
+        // the context of mustache applying a template
         // @ts-ignore
         return "${@@@:" + this.type + "}";
     }
 
     public descriptionPlaceholder(): string {
-        return "${@@@:[description]}";
+        return "${@@@:_description_}";
     }
 
     public argsExist(): boolean {

@@ -67,11 +67,30 @@ describe("tokenizeDefinition()", () => {
         expect(result).to.have.ordered.members(["arg:string", "arg2:Callable[[], str]", "-> str"]);
     });
 
+    it("should tokenize pep604 parameter and return types", () => {
+        const functionDefinition =
+            "def func(arg: int | float | str, arg2: dict[str, str] | list[str]) -> int | float | str:";
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members([
+            "arg:int | float | str",
+            "arg2:dict[str, str] | list[str]",
+            "-> int | float | str",
+        ]);
+    });
+
     it("should tokenize pep484 return types", () => {
         const functionDefinition = "def func() -> str:";
         const result = tokenizeDefinition(functionDefinition);
 
         expect(result).to.have.ordered.members(["-> str"]);
+    });
+
+    it("should tokenize Literal types", () => {
+        const functionDefinition = `def func(x: Literal["r", "w", "a"]) -> Literal[1, 2, 3]:`;
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members([`x:Literal["r", "w", "a"]`, `-> Literal[1, 2, 3]`]);
     });
 
     it("should split class definition arguments", () => {
@@ -85,7 +104,7 @@ describe("tokenizeDefinition()", () => {
         const functionDefinition = "garbage";
         const result = tokenizeDefinition(functionDefinition);
 
-        expect(result).to.be.empty;
+        expect(result).to.have.lengthOf(0);
     });
 
     it("should ignore comments at the end of the definition", () => {

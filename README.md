@@ -1,8 +1,9 @@
-[![Build Status](https://travis-ci.org/NilsJPWerner/autoDocstring.svg?branch=master)](https://travis-ci.org/NilsJPWerner/autoDocstring)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
 [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
+[![Build Status](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml/badge.svg)](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml)
+[![Github Sponsorship](https://img.shields.io/badge/sponsor-5A5A5A?style=flat&logo=GitHub-Sponsors)](https://github.com/sponsors/NilsJPWerner)
 
-# VSCode Python Docstring Generator
+# autoDocstring: VSCode Python Docstring Generator
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
 
@@ -17,17 +18,20 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 ## Docstring Formats
 
--   Google (default)
--   docBlockr
--   Numpy
--   Sphinx
--   PEP0257 (coming soon)
+To turn off type generation in docstrings use the `-notypes` template of the desired format. The docBlockr format is a typed version of PEP0257.
+
+-   [google](docs/google.md)
+-   [sphinx](docs/sphinx.md)
+-   [numpy](docs/numpy.md)
+-   [docBlockr](docs/docblockr.md)
+-   [one-line-sphinx](docs/one-line-sphinx.md)
+-   [pep257](docs/pep257.md)
 
 ## Usage
 
 Cursor must be on the line directly below the definition to generate full auto-populated docstring
 
--   Press enter after opening docstring with triple quotes (`"""` or `'''`)
+-   Press enter after opening docstring with triple quotes (configurable `"""` or `'''`)
 -   Keyboard shortcut: `ctrl+shift+2` or `cmd+shift+2` for mac
     -   Can be changed in Preferences -> Keyboard Shortcuts -> extension.generateDocstring
 -   Command: `Generate Docstring`
@@ -54,7 +58,7 @@ This extension now supports custom templates. The extension uses the [mustache.j
 
 ```
 {{name}}                        - name of the function
-{{summaryPlaceholder}}          - [summary] placeholder
+{{summaryPlaceholder}}          - _summary_ placeholder
 {{extendedSummaryPlaceholder}}  - [extended_summary] placeholder
 ```
 
@@ -63,30 +67,30 @@ This extension now supports custom templates. The extension uses the [mustache.j
 ```
 {{#args}}                       - iterate over function arguments
     {{var}}                     - variable name
-    {{typePlaceholder}}         - [type] or guessed type  placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ or guessed type  placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/args}}
 
 {{#kwargs}}                     - iterate over function kwargs
     {{var}}                     - variable name
-    {{typePlaceholder}}         - [type] or guessed type placeholder
+    {{typePlaceholder}}         - _type_ or guessed type placeholder
     {{&default}}                - default value (& unescapes the variable)
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/kwargs}}
 
 {{#exceptions}}                 - iterate over exceptions
     {{type}}                    - exception type
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/exceptions}}
 
 {{#yields}}                     - iterate over yields
-    {{typePlaceholder}}         - [type] placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/yields}}
 
 {{#returns}}                    - iterate over returns
-    {{typePlaceholder}}         - [type] placeholder
-    {{descriptionPlaceholder}}  - [description] placeholder
+    {{typePlaceholder}}         - _type_ placeholder
+    {{descriptionPlaceholder}}  - _description_ placeholder
 {{/returns}}
 ```
 

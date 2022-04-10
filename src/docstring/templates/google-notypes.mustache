@@ -1,4 +1,4 @@
-{{! Google Docstring Template }}
+{{! Google Docstring Template without Types for Args, Returns or Yields }}
 {{summaryPlaceholder}}
 
 {{extendedSummaryPlaceholder}}
@@ -6,10 +6,10 @@
 
 Args:
 {{#args}}
-    {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
+    {{var}}: {{descriptionPlaceholder}}
 {{/args}}
 {{#kwargs}}
-    {{var}} ({{typePlaceholder}}, optional): {{descriptionPlaceholder}}. Defaults to {{&default}}.
+    {{var}}: {{descriptionPlaceholder}}. Defaults to {{&default}}.
 {{/kwargs}}
 {{/parametersExist}}
 {{#exceptionsExist}}
@@ -23,13 +23,13 @@ Raises:
 
 Returns:
 {{#returns}}
-    {{typePlaceholder}}: {{descriptionPlaceholder}}
+    {{descriptionPlaceholder}}
 {{/returns}}
 {{/returnsExist}}
 {{#yieldsExist}}
 
 Yields:
 {{#yields}}
-    {{typePlaceholder}}: {{descriptionPlaceholder}}
+    {{descriptionPlaceholder}}
 {{/yields}}
 {{/yieldsExist}}

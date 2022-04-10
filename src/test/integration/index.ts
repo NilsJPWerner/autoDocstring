@@ -7,12 +7,12 @@ export function run(): Promise<void> {
     const mocha = new Mocha({
         ui: "bdd",
     });
-    mocha.useColors(true);
+    mocha.options.color = true;
 
     const testsRoot = path.resolve(__dirname, "..");
 
     return new Promise((c, e) => {
-        glob("**/**.test.js", { cwd: testsRoot }, (err, files) => {
+        glob("**/**.test.js", { cwd: testsRoot }, (err: Error, files: string[]) => {
             if (err) {
                 return e(err);
             }
@@ -29,9 +29,9 @@ export function run(): Promise<void> {
                         c();
                     }
                 });
-            } catch (err) {
-                console.error(err);
-                e(err);
+            } catch (err2) {
+                console.error(err2);
+                e(err2);
             }
         });
     });

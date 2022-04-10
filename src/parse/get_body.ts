@@ -2,7 +2,7 @@ import { blankLine, indentationOf, preprocessLines } from "./utilities";
 
 export function getBody(document: string, linePosition: number): string[] {
     const lines = document.split("\n");
-    const body = [];
+    const body: string[] = [];
 
     let currentLineNum = linePosition;
     const originalIndentation = getBodyBaseIndentation(lines, linePosition);

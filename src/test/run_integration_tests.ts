@@ -1,5 +1,5 @@
 import * as path from "path";
-import { runTests } from "vscode-test";
+import { runTests } from "@vscode/test-electron";
 
 async function main() {
     console.log("Running Integration tests");
@@ -22,4 +22,5 @@ async function main() {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 main();

@@ -1,5 +1,6 @@
 export function tokenizeDefinition(functionDefinition: string): string[] {
-    const definitionPattern = /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(->\s*(["']?)[\w\[\], \.]*\3)?:\s*(?:#.*)?$/;
+    const definitionPattern =
+        /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(->\s*(["']?)[\w\[\], |\.]*\3)?:\s*(?:#.*)?$/;
 
     const match = definitionPattern.exec(functionDefinition);
     if (match == undefined || match[1] == undefined) {
@@ -16,15 +17,15 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
 }
 
 function tokenizeParameterString(parameterString: string): string[] {
-    const stack = [];
-    const parameters = [];
+    const stack: string[] = [];
+    const parameters: string[] = [];
     let arg = "";
 
     let position = parameterString.length - 1;
 
     while (position >= 0) {
         const top = stack[stack.length - 1];
-        const char = parameterString.charAt(position);
+        let char = parameterString.charAt(position);
 
         /* todo
             '<' char,
@@ -81,6 +82,12 @@ function tokenizeParameterString(parameterString: string): string[] {
             case char === "\t" && stack.length === 0:
                 position -= 1;
                 continue;
+
+            // 9. Surround pipe character with whitespace
+            case char === "|":
+                char = ` ${char}`;
+                arg = ` ${arg}`;
+                break;
         }
 
         arg = char + arg;

@@ -14,7 +14,10 @@ const settingsIdentifier = "autoDocstring";
 
 describe("Basic Integration Tests", function () {
     this.timeout(30000);
-    vsc.window.showInformationMessage("Start all tests.");
+
+    this.beforeAll(function () {
+        expect(vsc.window.showInformationMessage("Start all tests."));
+    });
 
     it("should have installed successfully", () => {
         expect(vsc.extensions.getExtension(identifier)).to.not.equal(undefined);
@@ -53,7 +56,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item after triple single quotes", async function () {
@@ -68,7 +71,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
 
         it("will activate the Generate Docstring completion item if using CRLF line endings", async function () {
@@ -82,7 +85,7 @@ describe("Basic Integration Tests", function () {
             await delay(200);
             await vsc.commands.executeCommand("acceptSelectedSuggestion");
             await delay(600);
-            expect(document.getText()).to.contain("[summary]");
+            expect(document.getText()).to.contain("_summary_");
         });
     });
 
@@ -141,7 +144,7 @@ describe("Basic Integration Tests", function () {
                     "./python_test_files/file_4_output.py",
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_4.py"),
-                position: new vsc.Position(5, 0),
+                position: new vsc.Position(6, 0),
             });
         });
 
@@ -164,6 +167,17 @@ describe("Basic Integration Tests", function () {
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_6.py"),
                 position: new vsc.Position(4, 0),
+            });
+        });
+
+        it("generates a docstring using PEP 604 style type hints in file 7", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_7_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_7.py"),
+                position: new vsc.Position(8, 0),
             });
         });
 
@@ -211,7 +225,7 @@ interface TestCase {
     expectedOutputFilePath: string;
 }
 
-function delay(timeout) {
+function delay(timeout: number) {
     return new Promise<void>((resolve) => {
         setTimeout(resolve, timeout);
     });

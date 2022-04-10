@@ -51,6 +51,25 @@ describe("parseParameters()", () => {
         ]);
     });
 
+    it("should parse args, kwargs, and return with Literal type hints", () => {
+        const parameterTokens = [
+            `param1: Literal["foo"]`,
+            `param2: Literal['bar'] = "bar"`,
+            `-> Literal["baz"]`,
+        ];
+        const result = parseParameters(parameterTokens, [], "name");
+
+        expect(result).to.eql({
+            name: "name",
+            args: [{ var: "param1", type: `Literal["foo"]` }],
+            kwargs: [{ var: "param2", default: `"bar"`, type: `Literal['bar']` }],
+            returns: { type: `Literal["baz"]` },
+            decorators: [],
+            exceptions: [],
+            yields: undefined,
+        });
+    });
+
     it("should parse kwargs with and without type hints", () => {
         const parameterTokens = ["param1: List[int] = [1,2]", "param2 = 'abc'"];
         const result = parseParameters(parameterTokens, [], "name");
@@ -71,19 +90,24 @@ describe("parseParameters()", () => {
             });
         });
 
+        it("should parse PEP 604 type hint return types", () => {
+            const parameterTokens = ["-> int | float"];
+            const result = parseParameters(parameterTokens, [], "name");
+
+            expect(result.returns).to.deep.equal({
+                type: "int | float",
+            });
+        });
+
         it("should parse return types wrapped in single quotes", () => {
-            expect(
-                parseParameters(["-> 'List[Type]'"], [], "name").returns
-            ).to.deep.equal({
-                type: "List[Type]"
+            expect(parseParameters(["-> 'List[Type]'"], [], "name").returns).to.deep.equal({
+                type: "List[Type]",
             });
         });
 
         it("should parse return types wrapped in double quotes", () => {
-            expect(
-                parseParameters(['-> "List[Type]"'], [], "name").returns
-            ).to.deep.equal({
-                type: "List[Type]"
+            expect(parseParameters(['-> "List[Type]"'], [], "name").returns).to.deep.equal({
+                type: "List[Type]",
             });
         });
 
@@ -112,7 +136,7 @@ describe("parseParameters()", () => {
     describe("parseYields", () => {
         it("should use the signature return type if it is an Iterator", () => {
             const parameterTokens = ["-> Iterator[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
@@ -122,7 +146,7 @@ describe("parseParameters()", () => {
 
         it("should use the signature return type if it is an Generator", () => {
             const parameterTokens = ["-> Generator[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.deep.equal({
@@ -152,7 +176,7 @@ describe("parseParameters()", () => {
 
         it("Should return undefined if no yield exists in the signature or body", () => {
             const parameterTokens = ["-> List[int]"];
-            const body = [];
+            const body: string[] = [];
             const result = parseParameters(parameterTokens, body, "name");
 
             expect(result.yields).to.eql(undefined);

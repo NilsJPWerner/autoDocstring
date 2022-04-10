@@ -1,6 +1,7 @@
 import { render } from "mustache";
 import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
+import { dedent } from "ts-dedent";
 
 export class DocstringFactory {
     private template: string;
@@ -48,6 +49,24 @@ export class DocstringFactory {
         return docstring;
     }
 
+    public toString(): string {
+        return dedent`
+        DocstringFactory Configuration
+        quoteStyle:
+            ${this.quoteStyle}
+        startOnNewLine:
+            ${this.startOnNewLine}
+        guessTypes:
+            ${this.guessTypes}
+        includeName:
+            ${this.includeName}
+        includeDescription:
+            ${this.includeDescription}
+        template:
+        ${this.template}
+        `;
+    }
+
     private addSnippetPlaceholders(snippetString: string): string {
         let placeholderNumber = 0;
         snippetString = snippetString.replace(/@@@/g, () => {
@@ -73,7 +92,7 @@ export class DocstringFactory {
         return this.quoteStyle + snippet + this.quoteStyle;
     }
 
-    private indentDocstring(snippet: string, indentation): string {
+    private indentDocstring(snippet: string, indentation: string): string {
         const snippetLines = snippet.split("\n");
 
         snippetLines.forEach((line, index) => {
