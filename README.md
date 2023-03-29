@@ -26,6 +26,7 @@ To turn off type generation in docstrings use the `-notypes` template of the des
 -   [docBlockr](docs/docblockr.md)
 -   [one-line-sphinx](docs/one-line-sphinx.md)
 -   [pep257](docs/pep257.md)
+-   [mkdocs](docs/mkdocs.md)
 
 ## Usage
 
