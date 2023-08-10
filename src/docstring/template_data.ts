@@ -76,7 +76,7 @@ export class TemplateData {
     }
 
     public descriptionPlaceholder(): string {
-        return "${@@@:_description_}";
+        return "- " + "${@@@:_description_}";
     }
 
     public argsExist(): boolean {
