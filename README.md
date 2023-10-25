@@ -20,12 +20,13 @@ Visual Studio Code extension to quickly generate docstrings for python functions
 
 To turn off type generation in docstrings use the `-notypes` template of the desired format. The docBlockr format is a typed version of PEP0257.
 
--   [google](docs/google.md)
--   [sphinx](docs/sphinx.md)
--   [numpy](docs/numpy.md)
 -   [docBlockr](docs/docblockr.md)
+-   [doxygen](docs/doxygen.md)
+-   [google](docs/google.md)
+-   [numpy](docs/numpy.md)
 -   [one-line-sphinx](docs/one-line-sphinx.md)
 -   [pep257](docs/pep257.md)
+-   [sphinx](docs/sphinx.md)
 
 ## Usage
 

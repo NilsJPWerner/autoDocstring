@@ -24,14 +24,15 @@
     "keywords": [
         "python",
         "docstring",
-        "google",
-        "numpy",
-        "sphinx",
         "generator",
         "autodocstring",
-        "docblockr",
         "documentation",
-        "pydocstring"
+        "pydocstring",
+        "docblockr",
+        "doxygen",
+        "google",
+        "numpy",
+        "sphinx"
     ],
     "galleryBanner": {},
     "engines": {
@@ -75,14 +76,16 @@
                     "default": "google",
                     "enum": [
                         "docblockr",
-                        "pep257",
+                        "doxygen",
+                        "doxygen-notypes",
                         "google",
                         "google-notypes",
-                        "sphinx",
-                        "sphinx-notypes",
                         "numpy",
                         "numpy-notypes",
-                        "one-line-sphinx"
+                        "one-line-sphinx",
+                        "pep257",
+                        "sphinx",
+                        "sphinx-notypes"
                     ],
                     "description": "Which docstring format to use."
                 },

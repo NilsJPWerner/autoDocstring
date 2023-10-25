@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+-   Added doxygen format support ([#120](https://github.com/NilsJPWerner/autoDocstring/issues/120)) (@daluar @PhilipNelson5)
+
 [All Changes](https://github.com/NilsJPWerner/autoDocstring/compare/v0.6.1...master)
 
 ## [0.6.1](https://github.com/NilsJPWerner/autoDocstring/tree/v0.6.1) - 2022-02-15
