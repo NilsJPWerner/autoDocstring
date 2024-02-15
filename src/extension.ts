@@ -11,10 +11,10 @@ export function activate(context: vs.ExtensionContext): void {
     context.subscriptions.push(
         vs.commands.registerCommand(generateDocstringCommand, () => {
             const editor = vs.window.activeTextEditor;
-            const autoDocstring = new AutoDocstring(editor);
+            const autoDocstringPy = new AutoDocstring(editor);
 
             try {
-                return autoDocstring.generateDocstring();
+                return autoDocstringPy.generateDocstring();
             } catch (error) {
                 const errorString = JSON.stringify(error);
                 let stackTrace = "";

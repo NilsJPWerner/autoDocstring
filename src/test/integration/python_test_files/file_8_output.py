@@ -9,13 +9,13 @@ def function(arg1, arg2, kwarg1=1):
     :param kwarg1: _description_, defaults to 1
     :type kwarg1: int, optional
     :raises FileExistsError: _description_
-    :asserts arg1 == 1
+    :asserts arg1 <= 1
     :return: _description_
     :rtype: _type_
     :yield: _description_
     :rtype: _type_
     """
-    assert arg1 == 1
+    assert arg1 <= 1
     if arg2 > 1:
         raise FileExistsError()
 

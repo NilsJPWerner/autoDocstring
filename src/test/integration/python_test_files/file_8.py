@@ -1,7 +1,7 @@
 
 def function(arg1, arg2, kwarg1=1):
 
-    assert arg1 == 1
+    assert arg1 <= 1
     if arg2 > 1:
         raise FileExistsError()
 

@@ -9,8 +9,8 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 /** Extension identifier. */
-const identifier = "njpwerner.autodocstring";
-const settingsIdentifier = "autoDocstring";
+const identifier = "sunipkm.autodocstringpy";
+const settingsIdentifier = "autoDocstringPy";
 
 describe("Basic Integration Tests", function () {
     this.timeout(30000);
