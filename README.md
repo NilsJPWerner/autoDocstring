@@ -83,6 +83,10 @@ This extension now supports custom templates. The extension uses the [mustache.j
     {{descriptionPlaceholder}}  - _description_ placeholder
 {{/exceptions}}
 
+{{#assertions}}                 - iterate over assertions
+    {{stmt}}                    - assertion statement
+{{/assertions}}
+
 {{#yields}}                     - iterate over yields
     {{typePlaceholder}}         - _type_ placeholder
     {{descriptionPlaceholder}}  - _description_ placeholder
@@ -108,6 +112,9 @@ This extension now supports custom templates. The extension uses the [mustache.j
 
 {{#exceptionsExist}}    - display contents if exceptions exist
 {{/exceptionsExist}}
+
+{{#assertionsExist}}    - display contents if assertions exist
+{{/assertionsExist}}
 
 {{#yieldsExist}}        - display contents if returns exist
 {{/yieldsExist}}

@@ -118,6 +118,17 @@ describe("DocstringFactory", () => {
             expect(result).to.equal('"""Error_1\nError_2\n"""');
         });
 
+        it("should iterate over docstring assertions components", () => {
+            const template = "{{#assertions}}\n{{type}}\n{{/assertions}}";
+            const docstringComponents = defaultDocstringComponents;
+            docstringComponents.assertions = [{ stmt: "assertion_1" }, { stmt: "assertion_2" }];
+            const factory = new DocstringFactory(template);
+
+            const result = factory.generateDocstring(docstringComponents);
+
+            expect(result).to.equal('"""assertion_1\nassertion_2\n"""');
+        });
+
         it("should use the docstring returns if the template specifies it", () => {
             const template = "{{returns.type}} yay";
             const docstringComponents = defaultDocstringComponents;
@@ -399,6 +410,34 @@ describe("DocstringFactory", () => {
             });
         });
 
+        context("when the assertionsExist tag is used", () => {
+            const template = "{{#assertionsExist}}Assertions Exist!{{/assertionsExist}}";
+
+            context("and there are assertions", () => {
+                it("should include the content inside the tag", () => {
+                    const docstringComponents = defaultDocstringComponents;
+                    docstringComponents.assertions = [{ stmt: "assertion_1" }, { stmt: "assertion_2" }];
+                    const factory = new DocstringFactory(template);
+
+                    const result = factory.generateDocstring(docstringComponents);
+
+                    expect(result).to.equal('"""Assertions Exist!"""');
+                });
+            });
+
+            context("and there are no assertions", () => {
+                it("should not include the content inside the tag", () => {
+                    const docstringComponents = defaultDocstringComponents;
+                    docstringComponents.assertions = [];
+                    const factory = new DocstringFactory(template);
+
+                    const result = factory.generateDocstring(docstringComponents);
+
+                    expect(result).to.equal('""""""');
+                });
+            });
+        });
+
         context("when the returnsExist tag is used", () => {
             const template = "{{#returnsExist}}Returns Exist!{{/returnsExist}}";
 
@@ -461,6 +500,7 @@ const defaultDocstringComponents: DocstringParts = {
     returns: { type: "" },
     yields: { type: "" },
     exceptions: [],
+    assertions: [],
 };
 
 const noTypesTemplate = `{{#args}}{{var}} {{type}}{{/args}}

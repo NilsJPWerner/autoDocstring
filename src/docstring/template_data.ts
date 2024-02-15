@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     Argument,
+    Assertion,
     Decorator,
     DocstringParts,
     Exception,
@@ -16,6 +17,7 @@ export class TemplateData {
     public args: Argument[];
     public kwargs: KeywordArgument[];
     public exceptions: Exception[];
+    public assertions: Assertion[];
     public returns: Returns;
     public yields: Yields;
 
@@ -33,6 +35,7 @@ export class TemplateData {
         this.args = docstringParts.args;
         this.kwargs = docstringParts.kwargs;
         this.exceptions = docstringParts.exceptions;
+        this.assertions = docstringParts.assertions;
         this.returns = docstringParts.returns;
         this.yields = docstringParts.yields;
 
@@ -93,6 +96,10 @@ export class TemplateData {
 
     public exceptionsExist(): boolean {
         return this.exceptions.length > 0;
+    }
+
+    public assertionsExist(): boolean {
+        return this.assertions.length > 0;
     }
 
     public returnsExist(): boolean {

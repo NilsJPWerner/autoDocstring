@@ -6,6 +6,7 @@ export interface DocstringParts {
     args: Argument[];
     kwargs: KeywordArgument[];
     exceptions: Exception[];
+    assertions: Assertion[];
     returns: Returns;
     yields: Yields;
 }
@@ -29,6 +30,10 @@ export interface Exception {
     type: string;
 }
 
+export interface Assertion {
+    stmt: string;
+}
+
 export interface Returns {
     type: string;
 }
@@ -50,6 +55,9 @@ export function docstringPartsToString(docstringParts: DocstringParts): string {
     const exceptionsText = docstringParts.exceptions.length
         ? docstringParts.exceptions.map((exception) => `${exception.type}`).join("\n")
         : "N/A";
+    const assertionsText = docstringParts.assertions.length
+        ? docstringParts.assertions.map((assertion) => `${assertion.stmt}`).join("\n")
+        : "N/A";
     const returnsText = `${docstringParts.returns?.type ?? "N/A"}`;
     const yieldsText = `${docstringParts.yields?.type ?? "N/A"}`;
 
@@ -65,6 +73,8 @@ export function docstringPartsToString(docstringParts: DocstringParts): string {
             ${kwargsText}
         Exceptions:
             ${exceptionsText}
+        Assertions:
+            ${assertionsText}
         Returns:
             ${returnsText}
         Yields:

@@ -2,6 +2,7 @@ import { render } from "mustache";
 import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
 import { dedent } from "ts-dedent";
+import { unescape } from "querystring";
 
 export class DocstringFactory {
     private template: string;
@@ -45,6 +46,9 @@ export class DocstringFactory {
         docstring = this.condenseTrailingNewLines(docstring);
         docstring = this.commentText(docstring);
         docstring = this.indentDocstring(docstring, indentation);
+
+        docstring = docstring.replace(/&#x(\w+);/g, "%$1");
+        docstring = unescape(docstring);
 
         return docstring;
     }
