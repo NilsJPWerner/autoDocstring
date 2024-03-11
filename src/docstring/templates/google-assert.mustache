@@ -1,15 +1,15 @@
 {{! Google Docstring Template with Asserts}}
-{{summaryPlaceholder}}
+## {{summaryPlaceholder}}
 
 {{extendedSummaryPlaceholder}}
 {{#parametersExist}}
 
-Args:
+### Args:
 {{#args}}
-    {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
+    - `{{var}} ({{typePlaceholder}})`: {{descriptionPlaceholder}}
 {{/args}}
 {{#kwargs}}
-    {{var}} ({{typePlaceholder}}, optional): {{descriptionPlaceholder}}. Defaults to {{&default}}.
+    - `{{var}} ({{typePlaceholder}}, optional)`: {{descriptionPlaceholder}}. Defaults to {{&default}}.
 {{/kwargs}}
 {{/parametersExist}}
 {{#assertionsExist}}
@@ -21,22 +21,22 @@ Args:
 {{/assertionsExist}}
 {{#exceptionsExist}}
 
-Raises:
+### Raises:
 {{#exceptions}}
-    {{type}}: {{descriptionPlaceholder}}
+    - `{{type}}`: {{descriptionPlaceholder}}
 {{/exceptions}}
 {{/exceptionsExist}}
 {{#returnsExist}}
 
-Returns:
+### Returns:
 {{#returns}}
-    {{typePlaceholder}}: {{descriptionPlaceholder}}
+    - `{{typePlaceholder}}`: {{descriptionPlaceholder}}
 {{/returns}}
 {{/returnsExist}}
 {{#yieldsExist}}
 
-Yields:
+### Yields:
 {{#yields}}
-    {{typePlaceholder}}: {{descriptionPlaceholder}}
+    - `{{typePlaceholder}}`: {{descriptionPlaceholder}}
 {{/yields}}
 {{/yieldsExist}}
