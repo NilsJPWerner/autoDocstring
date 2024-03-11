@@ -1,9 +1,9 @@
 {
-    "name": "autodocstring",
-    "displayName": "autoDocstring - Python Docstring Generator",
+    "name": "autodocstringpy",
+    "displayName": "autoDocstringPy - Python Docstring Generator",
     "description": "Generates python docstrings automatically",
-    "version": "0.6.1",
-    "publisher": "njpwerner",
+    "version": "0.6.4",
+    "publisher": "sunipkm",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
     "extensionKind": [
@@ -11,10 +11,10 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/NilsJPWerner/autoDocstring"
+        "url": "https://github.com/sunipkm/autoDocstring"
     },
     "bugs": {
-        "url": "https://github.com/NilsJPWerner/autoDocstring/issues"
+        "url": "https://github.com/sunipkm/autoDocstring/issues"
     },
     "categories": [
         "Snippets",
@@ -45,13 +45,13 @@
     "contributes": {
         "commands": [
             {
-                "command": "autoDocstring.generateDocstring",
+                "command": "autoDocstringPy.generateDocstring",
                 "title": "Generate Docstring"
             }
         ],
         "keybindings": [
             {
-                "command": "autoDocstring.generateDocstring",
+                "command": "autoDocstringPy.generateDocstring",
                 "key": "ctrl+shift+2",
                 "mac": "cmd+shift+2",
                 "when": "editorTextFocus"
@@ -61,23 +61,24 @@
             "editor/context": [
                 {
                     "when": "resourceLangId == python",
-                    "command": "autoDocstring.generateDocstring",
+                    "command": "autoDocstringPy.generateDocstring",
                     "group": "1_modification"
                 }
             ]
         },
         "configuration": {
             "type": "object",
-            "title": "Python Docstring Generator configuration",
+            "title": "PyDocstring Generator configuration",
             "properties": {
-                "autoDocstring.docstringFormat": {
+                "autoDocstringPy.docstringFormat": {
                     "type": "string",
-                    "default": "google",
+                    "default": "google-assert",
                     "enum": [
                         "docblockr",
                         "pep257",
                         "google",
                         "google-notypes",
+                        "google-assert",
                         "sphinx",
                         "sphinx-notypes",
                         "numpy",
@@ -86,37 +87,37 @@
                     ],
                     "description": "Which docstring format to use."
                 },
-                "autoDocstring.customTemplatePath": {
+                "autoDocstringPy.customTemplatePath": {
                     "type": "string",
                     "default": "",
                     "description": "Path to custom docstring template (overrides docstringFormat). Path can be absolute or relative to the project root."
                 },
-                "autoDocstring.generateDocstringOnEnter": {
+                "autoDocstringPy.generateDocstringOnEnter": {
                     "type": "boolean",
                     "default": true,
                     "description": "Generate docstring on pressing enter after opening a docstring (use quoteStyle)"
                 },
-                "autoDocstring.includeExtendedSummary": {
+                "autoDocstringPy.includeExtendedSummary": {
                     "type": "boolean",
                     "default": false,
                     "description": "Include [extended_summary] tag"
                 },
-                "autoDocstring.includeName": {
+                "autoDocstringPy.includeName": {
                     "type": "boolean",
                     "default": false,
                     "description": "Include function names at the start of docstrings"
                 },
-                "autoDocstring.startOnNewLine": {
+                "autoDocstringPy.startOnNewLine": {
                     "type": "boolean",
                     "default": false,
                     "description": "Start docstring on new line"
                 },
-                "autoDocstring.guessTypes": {
+                "autoDocstringPy.guessTypes": {
                     "type": "boolean",
                     "default": true,
                     "description": "Guess the type of parameters and return values"
                 },
-                "autoDocstring.quoteStyle": {
+                "autoDocstringPy.quoteStyle": {
                     "type": "string",
                     "default": "\"\"\"",
                     "enum": [
@@ -125,7 +126,7 @@
                     ],
                     "description": "Style of quote used with generate docstring command"
                 },
-                "autoDocstring.logLevel": {
+                "autoDocstringPy.logLevel": {
                     "type": "string",
                     "default": "Info",
                     "enum": [

@@ -1,11 +1,9 @@
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
-[![Build Status](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml/badge.svg)](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml)
-[![Github Sponsorship](https://img.shields.io/badge/sponsor-5A5A5A?style=flat&logo=GitHub-Sponsors)](https://github.com/sponsors/NilsJPWerner)
-
-# autoDocstring: VSCode Python Docstring Generator
+# autoDocstringPy: VSCode Python Docstring Generator
 
 Visual Studio Code extension to quickly generate docstrings for python functions.
+This is a fork of the [autoDocstring](https://github.com/NilsJPWerner/autoDocstring) since the original does not appear to be accepting
+pull requests, and I really wanted to document `assert` statements used in Python functions.
+
 
 ![Auto Generate Docstrings](images/demo.gif)
 
@@ -83,6 +81,10 @@ This extension now supports custom templates. The extension uses the [mustache.j
     {{descriptionPlaceholder}}  - _description_ placeholder
 {{/exceptions}}
 
+{{#assertions}}                 - iterate over assertions
+    {{stmt}}                    - assertion statement
+{{/assertions}}
+
 {{#yields}}                     - iterate over yields
     {{typePlaceholder}}         - _type_ placeholder
     {{descriptionPlaceholder}}  - _description_ placeholder
@@ -108,6 +110,9 @@ This extension now supports custom templates. The extension uses the [mustache.j
 
 {{#exceptionsExist}}    - display contents if exceptions exist
 {{/exceptionsExist}}
+
+{{#assertionsExist}}    - display contents if assertions exist
+{{/assertionsExist}}
 
 {{#yieldsExist}}        - display contents if returns exist
 {{/yieldsExist}}

@@ -18,7 +18,7 @@ describe("parseParameters()", () => {
             "-> int",
         ];
 
-        const body = ["   raise Exception", "raise Exception2"];
+        const body = ["   raise Exception", "raise Exception2", "assert(True)"];
 
         const functionName = "function";
 
@@ -38,6 +38,7 @@ describe("parseParameters()", () => {
             returns: { type: "int" },
             yields: undefined,
             exceptions: [{ type: "Exception" }, { type: "Exception2" }],
+            assertions: [{ type: "True" }],
         });
     });
 

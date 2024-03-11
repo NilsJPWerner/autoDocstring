@@ -25,6 +25,14 @@ describe("getTemplate()", () => {
         });
     });
 
+    context("when asked for google-assert template", () => {
+        it("should return the string containing the google-assert mustache template", () => {
+            const result = getTemplate("google-assert");
+
+            expect(result).to.contain("Google Docstring Template with Asserts");
+        });
+    });
+
     context("when asked for sphinx template", () => {
         it("should return the string containing the sphinx mustache template", () => {
             const result = getTemplate("sphinx");

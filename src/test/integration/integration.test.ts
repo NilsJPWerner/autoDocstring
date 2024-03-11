@@ -9,8 +9,8 @@ chai.config.truncateThreshold = 0;
 const expect = chai.expect;
 
 /** Extension identifier. */
-const identifier = "njpwerner.autodocstring";
-const settingsIdentifier = "autoDocstring";
+const identifier = "sunipkm.autodocstringpy";
+const settingsIdentifier = "autoDocstringPy";
 
 describe("Basic Integration Tests", function () {
     this.timeout(30000);
@@ -95,7 +95,7 @@ describe("Basic Integration Tests", function () {
         before(async function () {
             const settings = vsc.workspace.getConfiguration(settingsIdentifier);
             await Promise.all([
-                settings.update("docstringFormat", "sphinx", true),
+                settings.update("docstringFormat", "sphinx-assert", true),
                 settings.update("includeExtendedSummary", false, true),
                 settings.update("guessTypes", true, true),
                 settings.update("quoteStyle", '"""', true),
@@ -178,6 +178,17 @@ describe("Basic Integration Tests", function () {
                 ),
                 inputFilePath: path.resolve(__dirname, "./python_test_files/file_7.py"),
                 position: new vsc.Position(8, 0),
+            });
+        });
+
+        it("generates a docstring for the function in file 8", async function () {
+            await testDocstringGeneration({
+                expectedOutputFilePath: path.resolve(
+                    __dirname,
+                    "./python_test_files/file_8_output.py",
+                ),
+                inputFilePath: path.resolve(__dirname, "./python_test_files/file_8.py"),
+                position: new vsc.Position(2, 0),
             });
         });
 

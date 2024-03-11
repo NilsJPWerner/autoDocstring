@@ -4,6 +4,7 @@ import {
     Decorator,
     DocstringParts,
     Exception,
+    Assertion,
     KeywordArgument,
     Returns,
     Yields,
@@ -22,6 +23,7 @@ export function parseParameters(
         returns: parseReturn(parameterTokens, body),
         yields: parseYields(parameterTokens, body),
         exceptions: parseExceptions(body),
+        assertions: parseAssertions(body),
     };
 }
 
@@ -146,6 +148,23 @@ function parseExceptions(body: string[]): Exception[] {
     }
 
     return exceptions;
+}
+
+function parseAssertions(body: string[]): Assertion[] {
+    const assertions: Assertion[] = [];
+    const pattern = /(?<!#.*)assert\s*([\w\.\-\(].*)/;
+
+    for (const line of body) {
+        const match = line.match(pattern);
+
+        if (match == null) {
+            continue;
+        }
+
+        assertions.push({ stmt: match[1] });
+    }
+
+    return assertions;
 }
 
 export function inArray<type>(item: type, array: type[]) {

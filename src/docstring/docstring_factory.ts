@@ -2,6 +2,15 @@ import { render } from "mustache";
 import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
 import { dedent } from "ts-dedent";
+import { unescape } from "querystring";
+
+enum HTMLUnEscapeChars {
+    "&amp;" = "&",
+    "&lt;" = "<",
+    "&gt;" = ">",
+    "&#39;" = "'",
+    "&quot;" = '"',
+  };
 
 export class DocstringFactory {
     private template: string;
@@ -45,6 +54,35 @@ export class DocstringFactory {
         docstring = this.condenseTrailingNewLines(docstring);
         docstring = this.commentText(docstring);
         docstring = this.indentDocstring(docstring, indentation);
+
+        docstring = docstring.replace(/&#x?(\w+);/g, (inp: string) => {
+            const pattern = /&#x(\w*);/;
+            const match = inp.match(pattern);
+            if (match == null || match.length < 2) {
+                return "<" + inp + ">";
+            }
+            return unescape("%" + match[1]);
+        }); // get all the number encoded ones
+        docstring = docstring.replace(/&([a-zA-Z]+);/g, (inp: string) => {
+            /**
+             * Unescapes escaped HTML characters.
+             *
+             * Use `String.prototype.replace()` with a regex that matches the characters that need to be unescaped, using a callback function to replace each escaped character instance with its associated unescaped character using a dictionary (object).
+             * @param str
+             */
+            const unescapeHTML = (str: string) => {
+            type StringMap<T = string> = { [key: string]: T };
+              const htmlUnEscapeReg = new RegExp(
+                `${Object.keys(HTMLUnEscapeChars).join("|")}`,
+                "g"
+              );
+              return str.replace(
+                htmlUnEscapeReg,
+                (tag: string) => (HTMLUnEscapeChars as StringMap<string>)[tag] || tag
+              )};
+            
+            return unescapeHTML(inp);
+        }); // get all the name encoded ones
 
         return docstring;
     }
