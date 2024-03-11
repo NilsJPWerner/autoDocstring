@@ -8,4 +8,4 @@ test_*
 .vscode/settings.json
 *.psd
 todo
-autodocstring-*.vsix
+autodocstring*.vsix

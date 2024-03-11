@@ -72,7 +72,7 @@
             "properties": {
                 "autoDocstringPy.docstringFormat": {
                     "type": "string",
-                    "default": "google",
+                    "default": "google-assert",
                     "enum": [
                         "docblockr",
                         "pep257",

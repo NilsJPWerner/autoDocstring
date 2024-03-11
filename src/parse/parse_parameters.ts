@@ -152,7 +152,7 @@ function parseExceptions(body: string[]): Exception[] {
 
 function parseAssertions(body: string[]): Assertion[] {
     const assertions: Assertion[] = [];
-    const pattern = /(?<!#.*)assert\s+([\w\.\-].*)/;
+    const pattern = /(?<!#.*)assert\s*([\w\.\-\(].*)/;
 
     for (const line of body) {
         const match = line.match(pattern);
