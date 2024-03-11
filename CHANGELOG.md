@@ -4,6 +4,11 @@
 
 [All Changes](https://github.com/NilsJPWerner/autoDocstring/compare/v0.6.1...master)
 
+## [0.6.4](https://github.com/sunipkm/autoDocstring/tree/v0.6.4) - 2024-03-11
+- Added the `google-assert` style file and made it default.
+- `google-assert` adds markdown for subgroups (e.g. args, returns) as Heading 3, and lists arguments, returns etc.
+- Assertions now support statements starting with parenthesis.
+
 ## [0.6.1](https://github.com/NilsJPWerner/autoDocstring/tree/v0.6.1) - 2022-02-15
 
 -   Rename oneline-rst to one-line-sphinx
