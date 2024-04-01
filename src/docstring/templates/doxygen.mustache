@@ -1,0 +1,32 @@
+{{! Doxygen Docstring Template }}
+!
+@brief {{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+{{#parametersExist}}
+
+{{#args}}
+@param {{var}} ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+@param {{var}} ({{typePlaceholder}}, optional): {{descriptionPlaceholder}}. Defaults to {{&default}}.
+{{/kwargs}}
+{{/parametersExist}}
+{{#returnsExist}}
+
+{{#returns}}
+@return ({{typePlaceholder}}): {{descriptionPlaceholder}}
+{{/returns}}
+{{/returnsExist}}
+{{#exceptionsExist}}
+
+{{#exceptions}}
+@exception {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{/exceptionsExist}}
+{{#yieldsExist}}
+
+{{#yields}}
+@returns {{typePlaceholder}}: {{descriptionPlaceholder}}
+{{/yields}}
+{{/yieldsExist}}
