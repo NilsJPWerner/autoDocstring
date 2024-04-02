@@ -2,6 +2,10 @@ import { render } from "mustache";
 import { DocstringParts } from "../docstring_parts";
 import { TemplateData } from "./template_data";
 import { dedent } from "ts-dedent";
+import Mustache = require("mustache");
+
+// Disable HTML-escaping behavior globally
+Mustache.escape = (text: string) => text;
 
 export class DocstringFactory {
     private template: string;
