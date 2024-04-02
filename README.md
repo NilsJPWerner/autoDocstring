@@ -1,5 +1,5 @@
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
+[![Installs](https://vsmarketplacebadges.dev/installs-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
+[![Rating](https://vsmarketplacebadges.dev/rating-short/njpwerner.autodocstring.svg)](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring&ssr=false#review-details)
 [![Build Status](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml/badge.svg)](https://github.com/NilsJPWerner/autoDocstring/actions/workflows/test_and_publish.yml)
 [![Github Sponsorship](https://img.shields.io/badge/sponsor-5A5A5A?style=flat&logo=GitHub-Sponsors)](https://github.com/sponsors/NilsJPWerner)
 
