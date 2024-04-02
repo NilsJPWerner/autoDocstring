@@ -113,4 +113,24 @@ describe("tokenizeDefinition()", () => {
 
         expect(result).to.have.ordered.members(["arg", "arg_2"]);
     });
+
+    it("should ignore comments in the middle of the function definition", () => {
+        const functionDefinition = `def abc_c(
+    arg, # comment
+    arg_2, # comment, comment
+    arg_3 # comment with special characters "'"({[]})
+    ):`;
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members(["arg", "arg_2", "arg_3"]);
+    });
+    it("should ignore comments in the middle of the class definition", () => {
+        const functionDefinition = `class abc_c(
+    arg, # comment,
+    arg_2 # comment with special characters "'"({[]})
+    ):`;
+        const result = tokenizeDefinition(functionDefinition);
+
+        expect(result).to.have.ordered.members(["arg", "arg_2"]);
+    });
 });
