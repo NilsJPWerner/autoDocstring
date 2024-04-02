@@ -14,6 +14,12 @@ describe("getDefinition()", () => {
             expect(result).to.equal("def basic_function(param1, param2 = abc):");
         });
 
+        it("should get a function definition that uses reserved words as default arguments", () => {
+            const result = getDefinition(functionWithReservedWordDefaults, 10);
+
+            expect(result).to.equal('def function_with_reserved_word_defaults( a: int, b="def", c="class" ) -> None:');
+        });
+
         it("should get an indented function definition", () => {
             const result = getDefinition(indentedFunction, 4);
 
@@ -82,6 +88,20 @@ def basic_function(param1, param2 = abc):
     return 3
 
 def something_else():
+`;
+
+const functionWithReservedWordDefaults = `
+def another_func(a: str = "class, b: int): -> str
+    return a
+
+class Foo(object):
+    pass
+
+def function_with_reserved_word_defaults(
+    a: int, b="def", c="class"
+) -> None:
+    """
+    pass
 `;
 
 const indentedFunction = `
