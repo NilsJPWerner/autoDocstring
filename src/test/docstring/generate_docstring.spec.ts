@@ -260,6 +260,22 @@ describe("DocstringFactory", () => {
             });
         });
 
+        context("when there are args", () => {
+            const template = "{{#args}}{{var}}:{{typePlaceholder}}{{/args}}";
+
+            it("should format Literals correctly", () => {
+                const docstringComponents = defaultDocstringComponents;
+                docstringComponents.args = [
+                    { var: "var_a", type: 'Literal["A", "B"]' },
+                ];
+                const factory = new DocstringFactory(template);
+
+                const result = factory.generateDocstring(docstringComponents);
+
+                expect(result).to.equal('"""var_a:${1:Literal["A", "B"]}"""');
+            });
+        });
+
         context("when the argsExist tag is used", () => {
             const template = "{{#argsExist}}Args Exist!{{/argsExist}}";
 
