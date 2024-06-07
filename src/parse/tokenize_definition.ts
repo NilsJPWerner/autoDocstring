@@ -7,13 +7,29 @@ export function tokenizeDefinition(functionDefinition: string): string[] {
         return [];
     }
 
-    const tokens = tokenizeParameterString(match[1]);
+    const tokens = tokenizeParameterString(stripComments(match[1]));
 
     if (match[2] != undefined) {
         tokens.push(match[2]);
     }
 
     return tokens;
+}
+
+function stripComments(parameterString: string): string {
+    let cleanString = "";
+    let position = 0;
+
+    while (position < parameterString.length) {
+        // When a comment is encountered, skip ahead to the end of the line
+        if (parameterString[position] === "#") {
+            position = parameterString.indexOf("\n", position);
+        }
+
+        cleanString += parameterString[position++];
+    }
+
+    return cleanString;
 }
 
 function tokenizeParameterString(parameterString: string): string[] {
