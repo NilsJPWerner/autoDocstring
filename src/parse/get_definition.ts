@@ -10,12 +10,15 @@ export function getDefinition(document: string, linePosition: number): string {
         return "";
     }
 
-    const pattern = /\b(((async\s+)?\s*def)|\s*class)\b/g;
+    // Match (async)? def name (...) and class name (...)
+    const pattern = /\b(((async\s+)?\s*def)|\s*class)\s+\w+\s*\(.*?\)/g;
 
-    // Get starting index of last def match in the preceding text
+    // Get starting index of last def or class match in the preceding text
     let index: number;
-    while (pattern.test(precedingText)) {
-        index = pattern.lastIndex - RegExp.lastMatch.length;
+    let match = pattern.exec(precedingText);
+    while (match) {
+        index = match.index;
+        match = pattern.exec(precedingText);
     }
 
     if (index == undefined) {

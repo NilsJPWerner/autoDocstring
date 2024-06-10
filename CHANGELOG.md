@@ -4,6 +4,7 @@
 
 -   Added doxygen format support ([#120](https://github.com/NilsJPWerner/autoDocstring/issues/120)) (@daluar @PhilipNelson5)
 -   Disable HTML-escaping behavior globally ([#235](https://github.com/NilsJPWerner/autoDocstring/issues/235)) (@PhilipNelson5)
+-   Improve definition detection to allow reserved words in the default arguments ([#190](https://github.com/NilsJPWerner/autoDocstring/issues/190)) (@ylfzq @PhilipNelson5)
 
 [All Changes](https://github.com/NilsJPWerner/autoDocstring/compare/v0.6.1...master)
 
