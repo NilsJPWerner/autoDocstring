@@ -1,35 +1,35 @@
 {{! Google Docstring Template without Types for Args, Returns or Yields }}
-{{summaryPlaceholder}}
+{{summaryPlaceholder}}.
 
 {{extendedSummaryPlaceholder}}
 {{#parametersExist}}
 
 Args:
 {{#args}}
-    {{var}}: {{descriptionPlaceholder}}
+    {{var}}: {{descriptionPlaceholder}}.
 {{/args}}
 {{#kwargs}}
     {{var}}: {{descriptionPlaceholder}}. Defaults to {{&default}}.
 {{/kwargs}}
 {{/parametersExist}}
-{{#exceptionsExist}}
-
-Raises:
-{{#exceptions}}
-    {{type}}: {{descriptionPlaceholder}}
-{{/exceptions}}
-{{/exceptionsExist}}
 {{#returnsExist}}
 
 Returns:
 {{#returns}}
-    {{descriptionPlaceholder}}
+    {{descriptionPlaceholder}}.
 {{/returns}}
 {{/returnsExist}}
+{{#exceptionsExist}}
+
+Raises:
+{{#exceptions}}
+    {{type}}: {{descriptionPlaceholder}}.
+{{/exceptions}}
+{{/exceptionsExist}}
 {{#yieldsExist}}
 
 Yields:
 {{#yields}}
-    {{descriptionPlaceholder}}
+    {{descriptionPlaceholder}}.
 {{/yields}}
 {{/yieldsExist}}
