@@ -1,6 +1,6 @@
 export function tokenizeDefinition(functionDefinition: string): string[] {
     const definitionPattern =
-        /(?:def|class)\s+\w+\s*\(([\s\S]*)\)\s*(->\s*(["']?)[\w\[\], |\.]*\3)?:\s*(?:#.*)?$/;
+        /(?:def|class)\s+\w+\s*(?:\[[\w\s,:'"|=\[\]\(\)]+\])?\s*\(([\s\S]*)\)\s*(->\s*(["']?)[\w\[\], |\.]*\3)?:\s*(?:#.*)?$/;
 
     const match = definitionPattern.exec(functionDefinition);
     if (match == undefined || match[1] == undefined) {
