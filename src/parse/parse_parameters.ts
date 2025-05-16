@@ -90,7 +90,7 @@ function parseReturn(parameters: string[], body: string[]): Returns {
     const returnType = parseReturnFromDefinition(parameters);
 
     if (returnType == null || isIterator(returnType.type)) {
-        return parseFromBody(body, /return /);
+        return parseFromBody(body, /(?:^|\W)return /);
     }
 
     return returnType;
@@ -105,7 +105,7 @@ function parseYields(parameters: string[], body: string[]): Yields {
 
     // To account for functions that yield but don't have a yield signature
     const yieldType = returnType ? returnType.type : undefined;
-    const yieldInBody = parseFromBody(body, /yield /);
+    const yieldInBody = parseFromBody(body, /(?:^|\W)yield /);
 
     if (yieldInBody != null && yieldType != undefined) {
         yieldInBody.type = `Iterator[${yieldType}]`;
