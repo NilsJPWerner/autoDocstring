@@ -2,7 +2,7 @@ import * as path from "path";
 import * as vs from "vscode";
 import { DocstringFactory } from "./docstring/docstring_factory";
 import { getCustomTemplate, getTemplate } from "./docstring/get_template";
-import { getDocstringIndentation, getDefaultIndentation, parse } from "./parse";
+import { getDocstringIndentation, getDefaultIndentation, parse, getDocstring } from "./parse";
 import { extensionID } from "./constants";
 import { logDebug, logInfo } from "./logger";
 import { docstringPartsToString } from "./docstring_parts";
@@ -41,6 +41,18 @@ export class AutoDocstring {
         );
 
         return success;
+    }
+
+    public updateDocstring() {
+        const position = this.editor.selection.active;
+        const document = this.editor.document.getText();
+        logInfo(`Updating Docstring at line: ${position.line}`);
+
+        let existingDocstring = getDocstring(document, position.line);
+
+        // existingDocstring = normalize;
+
+        logInfo(existingDocstring);
     }
 
     private generateDocstringSnippet(document: string, position: vs.Position): vs.SnippetString {

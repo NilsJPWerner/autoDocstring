@@ -8,4 +8,5 @@ test_*
 .vscode/settings.json
 *.psd
 todo
+scratch
 autodocstring-*.vsix

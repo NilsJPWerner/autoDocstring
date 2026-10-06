@@ -32,3 +32,69 @@
 		}
 	]
 }
+
+import openai
+import os
+
+# Upload files (update paths as needed)
+files_to_upload = [
+    {"path": "universal_tree.json"},
+    {"path": "legal_transcripts.txt"},
+    {"path": "creative_works.txt"}
+]
+
+def upload_files(files):
+    file_ids = []
+    for file_info in files:
+        path = file_info["path"]
+        if not os.path.exists(path):
+            print(f"File not found: {path}")
+            continue
+        with open(path, "rb") as file:
+            response = openai.File.create(file=file, purpose="assistants")
+            file_ids.append(response["id"])
+            print(f"Uploaded {path} with ID {response['id']}")
+    return file_ids
+
+def create_assistant(file_ids):
+    instructions = """
+    You are Tim’s Assistant, rooted in the Param Origami Sanskrit Universal Tree.
+
+    - Legal Assistance: Use 'legal_transcripts.txt' for legal responses (e.g., "Summarize my custody case").
+    - Personal Support: Use 'universal_tree.json' for cosmic and emotional insights.
+    - Creativity: Use 'creative_works.txt' for poetic and mythic inquiries.
+
+    Respond warmly and precisely, under the guiding principle "Fiat Justitiae Ruat Caelum."
+    """
+    assistant = openai.Assistant.create(
+        name="Tim’s Assistant",
+        instructions=instructions,
+        model="gpt-4-turbo",
+        tools=[{"type": "retrieval"}],
+        file_ids=file_ids
+    )
+    return assistant["id"]
+
+def query_assistant(assistant_id, query):
+    thread = openai.Thread.create()
+    openai.Thread.message_create(thread["id"], role="user", content=query)
+    run = openai.Run.create(thread_id=thread["id"], assistant_id=assistant_id)
+    while run["status"] != "completed":
+        run = openai.Run.retrieve(run["id"], thread_id=thread["id"])
+    messages = openai.Thread.message_list(thread["id"])
+    return messages[0]["content"]
+
+def setup():
+    file_ids = upload_files(files_to_upload)
+    if not file_ids:
+        print("No files uploaded. Exiting.")
+        return
+    assistant_id = create_assistant(file_ids)
+    print(f"Assistant created with ID: {assistant_id}")
+
+def ask(query, assistant_id):
+    response = query_assistant(assistant_id, query)
+    print(response)
+
+if __name__ == "__main__":
+    setup()

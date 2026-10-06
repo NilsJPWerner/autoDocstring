@@ -1,7 +1,12 @@
 import * as vs from "vscode";
 import { AutoDocstring } from "./generate_docstring";
 import { docstringIsClosed, validDocstringPrefix } from "./parse";
-import { extensionRoot, generateDocstringCommand, extensionID } from "./constants";
+import {
+    extensionRoot,
+    generateDocstringCommand,
+    extensionID,
+    updateDocstringCommand,
+} from "./constants";
 import { getStackTrace } from "./telemetry";
 import { logInfo, logError } from "./logger";
 
@@ -24,14 +29,29 @@ export function activate(context: vs.ExtensionContext): void {
                 return logError(errorString + stackTrace);
             }
         }),
-    );
+
+        vs.commands.registerCommand(updateDocstringCommand, () => {
+            const editor = vs.window.activeTextEditor;
+            const autoDocstring = new AutoDocstring(editor);
+
+            try {
+                return autoDocstring.updateDocstring();
+            } catch (error) {
+                logError(error + "\n\t" + getStackTrace(error));
+            }
+        }),
+
 
     ["python", "starlark"].map((language) => {
         context.subscriptions.push(
             vs.languages.registerCompletionItemProvider(
                 language,
                 {
-                    provideCompletionItems: (document: vs.TextDocument, position: vs.Position) => {
+                    provideCompletionItems: (
+                        document: vs.TextDocument,
+                        position: vs.Position,
+                        _: vs.CancellationToken,
+                    ) => {
                         if (validEnterActivation(document, position)) {
                             return [new AutoDocstringCompletionItem(document, position)];
                         }
@@ -50,9 +70,7 @@ export function activate(context: vs.ExtensionContext): void {
 /**
  * This method is called when the extension is deactivated
  */
-export function deactivate() {
-    return;
-}
+export function deactivate() {}
 
 /**
  * Checks that the preceding characters of the position is a valid docstring prefix
